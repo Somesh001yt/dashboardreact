@@ -9,6 +9,9 @@ import Profile from "./auth/profile/reducer";
 // Front
 import Layout from "./layout/reducer";
 
+//jobs
+import JobReducer from "./jobs/reducer";
+
 //Dasboard saas
 import DashboardSaas from "./dashboard-saas/reducer";
 
@@ -21,6 +24,7 @@ const rootReducer = combineReducers({
   Profile,
   DashboardSaas,
   Layout,
+  JobReducer,
 });
 
 export default rootReducer;

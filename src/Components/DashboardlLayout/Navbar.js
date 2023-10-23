@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import { Row, Col, Collapse } from "reactstrap";
 import { Link } from "react-router-dom";
- import withRouter from "../../Components/Common/withRouter";
+ import withRouter from "../Common/withRouter";
 import classname from "classnames";
 
 //i18n
@@ -108,23 +108,24 @@ const Navbar = props => {
               id="topnav-menu-content"
             >
               <ul className="navbar-nav">
-                <li className="nav-item dropdown">
+                <li className="nav-item ">
                   <Link
-                    className="nav-link dropdown-toggle arrow-none"
-                    onClick={e => {
-                      e.preventDefault();
-                      setdashboard(!dashboard);
-                    }}
+                    className="nav-link "
+                    // onClick={e => {
+                    //   e.preventDefault();
+                    //   setdashboard(!dashboard);
+                    // }}
                     to="/dashboard"
                   >
-                    <i className="bx bx-home-circle me-2"></i>
+                    Dasboard
+                    {/* <i className="bx bx-home-circle me-2"></i>
                     {("Dashboard")} {props.menuOpen}
-                    <div className="arrow-down"></div>
+                    <div className="arrow-down"></div> */}
                   </Link>
-                  <div
+                  {/* <div
                     className={classname("dropdown-menu", { show: dashboard })}
-                  >
-                    <Link to="/dashboard" className="dropdown-item">
+                  > */}
+                    {/* <Link to="/dashboard" className="dropdown-item">
                       {("Default")}
                     </Link>
                     <Link to="/dashboard-saas" className="dropdown-item">
@@ -138,8 +139,8 @@ const Navbar = props => {
                     </Link>
                     <Link to="/dashboard-job" className="dropdown-item">
                       {("Jobs")}
-                    </Link>
-                  </div>
+                    </Link> */}
+                  {/* </div> */}
                 </li>
 
                 <li className="nav-item dropdown">

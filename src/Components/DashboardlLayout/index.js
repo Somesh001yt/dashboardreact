@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
- import withRouter from '../../Components/Common/withRouter';
+ import withRouter from '../Common/withRouter';
 import PropTypes from "prop-types";
 
 
@@ -21,7 +21,7 @@ import { createSelector } from "reselect";
 import Navbar from "./Navbar";
 import Header from "./Header";
 import Footer from "./Footer";
-import RightSidebar from "../CommonForBoth/RightSidebar";
+import RightSidebar from "../DropdownFolder/RightSidebar";
 
 const Layout = (props) => {
 

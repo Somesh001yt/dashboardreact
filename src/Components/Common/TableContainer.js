@@ -9,7 +9,7 @@ import {
   usePagination,
 } from "react-table"
 import { Table, Row, Col, Button } from "reactstrap"
-import JobListGlobalFilter from "../../components/Common/GlobalSearchFilter"
+import JobListGlobalFilter from "../../Components/Common/GlobalSearchFilter"
 import { Link } from "react-router-dom"
 
 // Define a default UI for filtering

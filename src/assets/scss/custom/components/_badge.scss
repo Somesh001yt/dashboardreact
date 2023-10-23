@@ -20,7 +20,7 @@
   &[href] {
     &:hover,
     &:focus {
-      color: $bg;
+      color: $bg !important;
       text-decoration: none;
       background-color: rgba($bg, 0.4);
     }

@@ -29,7 +29,6 @@
             }
             &:focus, &:hover{
                 color: var(--#{$prefix}menu-item-active-color);
-                background-color: transparent;
             }
         }
         
@@ -37,6 +36,7 @@
             color: var(--#{$prefix}menu-item-color);
             &.active, &:hover{
                 color: var(--#{$prefix}menu-item-active-color);
+                background-color: #f3f3f9;
             }
         }
         

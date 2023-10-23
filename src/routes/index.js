@@ -7,8 +7,13 @@ import ConfirmMail from "../pages/confirmMail";
 import EmailVerification from "../pages/emailVerification";
 import UserProfile from "../pages/userProfile";
 import Dashboard from "../pages/Dashboard";
-import HorizontalLayout from "../Components/HorizontalLayout";
+import HorizontalLayout from "../Components/DashboardlLayout";
 import './module.index.scss'
+import JobList from "../pages/JobPages/JobList";
+import Pages404 from "../pages/Errors/pages-404";
+import Pages500 from "../pages/Errors/pages-500";
+import PagesMaintenance from "../pages/Errors/pages-maintenance";
+import FormAdvanced from "../pages/Forms/FormAdvanced";
 
 const MainRoutes = () => {
   const nonHeaderPages = [
@@ -17,6 +22,9 @@ const MainRoutes = () => {
     "/forgot-password",
     "/confirm-email",
     "/verify-email",
+    "/pages-404",
+    "/pages-500",
+    "/pages-maintenance"
   ];
   const location = useLocation();
 
@@ -34,6 +42,12 @@ const MainRoutes = () => {
           <Route path="/verify-email" element={<EmailVerification />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<UserProfile />} />
+          <Route path="/job-list" element={<JobList />} />
+          <Route path="/pages-404" element={<Pages404 />} />
+          <Route path="/pages-500" element={<Pages500 />} />
+          <Route path="/pages-maintenance" element={<PagesMaintenance/>} />
+          <Route path="/form-advanced" element={<FormAdvanced/>} />
+          
         </Routes>
       </div>
     </React.Fragment>

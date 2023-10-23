@@ -86,6 +86,7 @@ const Layout = (state = INIT_STATE, action) => {
       return {
         ...state,
         showRightSidebar: action.payload,
+       
       }
     case SHOW_SIDEBAR:
       return {

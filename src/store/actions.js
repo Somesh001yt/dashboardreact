@@ -11,3 +11,5 @@ export * from "./auth/profile/actions";
 //dashboard-saas
 export * from "./dashboard-saas/actions";
 
+//jobs
+export * from "./jobs/actions";
