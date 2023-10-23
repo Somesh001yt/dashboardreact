@@ -111,10 +111,10 @@ const Navbar = props => {
                 <li className="nav-item ">
                   <Link
                     className="nav-link "
-                    // onClick={e => {
-                    //   e.preventDefault();
-                    //   setdashboard(!dashboard);
-                    // }}
+                    onClick={e => {
+                      e.preventDefault();
+                      setdashboard(!dashboard);
+                    }}
                     to="/dashboard"
                   >
                     Dasboard
