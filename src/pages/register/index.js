@@ -65,7 +65,7 @@ const Register = () => {
                       <div>
                         <h5 className="text-primary">Register account</h5>
                         <p className="text-muted">
-                          Get your free Skote account now.
+                          Get your free Faags account now.
                         </p>
                       </div>
 
@@ -154,7 +154,7 @@ const Register = () => {
                         </Form>
 
 
-                        <Form action="dashboard">
+                        {/* <Form action="dashboard">
 
                           <div className="mt-4 text-center">
                             <h5 className="font-size-14 mb-3">Sign up using</h5>
@@ -186,7 +186,7 @@ const Register = () => {
                               </li>
                             </ul>
                           </div>
-                        </Form>
+                        </Form> */}
 
                         <div className="mt-5 text-center">
                           <p>
@@ -207,9 +207,9 @@ const Register = () => {
                       <p className="mb-0">
                         ©{" "}
                         { new Date().getFullYear()}
-                        Skote. Crafted with{" "}
+                        Faags. Crafted with{" "}
                         <i className="mdi mdi-heart text-danger"></i> by
-                        Themesbrand
+                        Eitbiz
                       </p>
                     </div>
                   </div>

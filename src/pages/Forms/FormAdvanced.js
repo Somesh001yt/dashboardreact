@@ -403,6 +403,7 @@ const FormAdvanced = () => {
 
   return (
     <React.Fragment>
+      <div className="main-content">
       <div className="page-content">
         <Container fluid={true}>
           <Breadcrumbs title="Forms" breadcrumbItem="Form Advanced" />
@@ -1493,6 +1494,7 @@ const FormAdvanced = () => {
             </Col>
           </Row>
         </Container>
+      </div>
       </div>
     </React.Fragment>
   );

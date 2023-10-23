@@ -290,6 +290,7 @@ function JobList() {
                 onDeleteClick={handleDeletejob}
                 onCloseClick={() => setDeleteModal(false)}
             />
+            <div className="main-content">
             <div className="page-content">
                 <div className="container-fluid">
                     <Breadcrumbs title="Jobs" breadcrumbItem="Jobs Lists" />
@@ -527,6 +528,7 @@ function JobList() {
                         </ModalBody>
                     </Modal>
                 </div>
+            </div>
             </div>
             <ToastContainer />
         </React.Fragment>

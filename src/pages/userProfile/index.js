@@ -75,6 +75,7 @@ const UserProfile = () => {
 
   return (
     <React.Fragment>
+      <div className="main-content">
       <div className="page-content">
         <Container fluid>
           {/* Render Breadcrumb */}
@@ -149,6 +150,7 @@ const UserProfile = () => {
             </CardBody>
           </Card>
         </Container>
+        </div>
       </div>
     </React.Fragment>
   );

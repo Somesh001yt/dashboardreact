@@ -47,7 +47,8 @@ const Dashboard = props => {
 
   return (
     <React.Fragment>
-      <div className="page-content">
+      <div className="main-content">
+        <div className="page-content">
         <Container fluid>
           {/* Render Breadcrumb */}
           <Breadcrumbs title="Dashboards" breadcrumbItem="Saas" />
@@ -86,6 +87,7 @@ const Dashboard = props => {
             <ChatBox />
           </Row>
         </Container>
+      </div>
       </div>
     </React.Fragment>
   )

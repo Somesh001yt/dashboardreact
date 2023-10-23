@@ -3,8 +3,8 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Col } from "reactstrap";
 
-// img 
-import authOverlay from "../assets/images/bg-auth-overlay.png"
+// img
+import authOverlay from "../assets/images/bg-auth-overlay.png";
 
 const CarouselPage = () => {
   return (
@@ -12,7 +12,15 @@ const CarouselPage = () => {
       <Col xl={9}>
         <div className="auth-full-bg pt-lg-5 p-4">
           <div className="w-100">
-            <div className="bg-overlay" style={{ background: `url(${authOverlay})`, backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPosition: "center", }}></div>
+            <div
+              className="bg-overlay"
+              style={{
+                background: `url(${authOverlay})`,
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center",
+              }}
+            ></div>
             <div className="d-flex h-100 flex-column">
               <div className="p-4 mt-auto">
                 <div className="row justify-content-center">
@@ -24,27 +32,31 @@ const CarouselPage = () => {
                         clients
                       </h4>
                       <div dir="ltr">
-                        <Carousel className="owl-carousel owl-theme auth-review-carousel slider_css" id="auth-review-carousel"
-                          showThumbs={false}>
+                        <Carousel
+                          className="owl-carousel owl-theme auth-review-carousel slider_css"
+                          id="auth-review-carousel"
+                          showThumbs={false}
+                        >
                           <div>
                             <div className="item">
                               <div className="pb-5 pt-3">
                                 <p className="font-size-16 mb-4">
-                                  &quot;Fantastic theme with a ton of options. If
-                                  you just want the HTML to integrate with your
-                                  project, then this is the package. You can
-                                  find the files in the &apos;dist&lsquo; folder...no need
-                                  to install git and all the other stuff the
-                                  documentation talks about. &ldquo;
+                                  &quot;Lorem ipsum dolor sit amet, consectetur
+                                  adipiscing elit. Nulla facilisi. Sed eget urna
+                                  at libero vulputate convallis. Maecenas eget
+                                  tortor at nunc sollicitudin feugiat. In sit
+                                  amet bibendum quam. Sed gravida elit at
+                                  bibendum blandit. Suspendisse potenti. Integer
+                                  vitae posuere elit. Sed hendrerit ultricies
+                                  diam. Vestibulum nec orci ac turpis convallis
+                                  cursus.&ldquo;
                                 </p>
 
                                 <div>
                                   <h4 className="font-size-16 text-primary">
-                                    Abs1981
+                                    User1
                                   </h4>
-                                  <p className="font-size-14 mb-0">
-                                    - Skote User
-                                  </p>
+                                  <p className="font-size-14 mb-0">- Faags User</p>
                                 </div>
                               </div>
                             </div>
@@ -53,18 +65,20 @@ const CarouselPage = () => {
                             <div className="item">
                               <div className="pb-5 pt-3">
                                 <p className="font-size-16 mb-4">
-                                  &quot;If Every Vendor on Envato are as supportive
-                                  as Themesbrand, Development with be a nice
-                                  experience. You guys are Wonderful. Keep us
-                                  the good work. &ldquo;
+                                  &quot;Lorem ipsum dolor sit amet, consectetur
+                                  adipiscing elit. Nulla facilisi. Sed eget urna
+                                  at libero vulputate convallis. Maecenas eget
+                                  tortor at nunc sollicitudin feugiat. In sit
+                                  amet bibendum quam. Sed gravida elit at
+                                  bibendum blandit. &ldquo;
                                 </p>
 
                                 <div>
                                   <h4 className="font-size-16 text-primary">
-                                    Abs1981
+                                    User2
                                   </h4>
                                   <p className="font-size-14 mb-0">
-                                    - Skote User
+                                    - Faags User
                                   </p>
                                 </div>
                               </div>
@@ -81,6 +95,6 @@ const CarouselPage = () => {
         </div>
       </Col>
     </React.Fragment>
-  )
-}
-export default CarouselPage
+  );
+};
+export default CarouselPage;

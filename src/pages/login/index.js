@@ -17,7 +17,7 @@ const Login = () => {
   const navigate = useNavigate()
 
   //meta title
-  document.title = "Login  | Skote - React Admin & Dashboard Template";
+  document.title = "Login  | Faags ";
 
   // Form validation 
   const validation = useFormik({
@@ -68,7 +68,7 @@ const Login = () => {
                      <div>
                        <h5 className="text-primary">Welcome Back !</h5>
                        <p className="text-muted">
-                         Sign in to continue to Skote.
+                         Sign in to continue to Faags.
                        </p>
                      </div>
 
@@ -81,7 +81,7 @@ const Login = () => {
                          }}
                        >
                          <div className="mb-3">
-                           <Label className="form-label">Username</Label>
+                           <Label className="form-label">Email</Label>
                            <Input
                              name="username"
                              className="form-control"
@@ -149,7 +149,7 @@ const Login = () => {
 
                        </Form>
 
-                       <Form action="dashboard">
+                       {/* <Form action="dashboard">
                          <div className="mt-4 text-center">
                            <h5 className="font-size-14 mb-3">
                              Sign in with
@@ -182,7 +182,7 @@ const Login = () => {
                              </li>
                            </ul>
                          </div>
-                       </Form>
+                       </Form> */}
                        <div className="mt-5 text-center">
                          <p>
                            Don&apos;t have an account ?
@@ -199,9 +199,9 @@ const Login = () => {
 
                    <div className="mt-4 mt-md-5 text-center">
                      <p className="mb-0">
-                       © {new Date().getFullYear()} Skote. Crafted with{" "}
+                       © {new Date().getFullYear()} Faags. Crafted with{" "}
                        <i className="mdi mdi-heart text-danger"></i> by
-                       Themesbrand
+                       Eitbiz
                      </p>
                    </div>
                  </div>

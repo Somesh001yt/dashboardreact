@@ -1,7 +1,7 @@
 import logo from "./logo.svg";
 import React from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
-import { BrowserRouter } from "react-router-dom";
+
 import { layoutTypes } from "./constants/layout";
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
@@ -17,9 +17,9 @@ function App() {
 
   return (
     <React.Fragment>
-      <BrowserRouter>
+     
         <MainRoutes />
-      </BrowserRouter>
+    
     </React.Fragment>
   );
 }

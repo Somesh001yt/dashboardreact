@@ -26,8 +26,8 @@ import {
 
 const INIT_STATE = {
   layoutType: layoutTypes.HORIZONTAL,
-  layoutModeType: layoutModeTypes.DARK,
-  layoutWidth: layoutWidthTypes.FLUID,
+  layoutModeType: layoutModeTypes.LIGHT,
+  layoutWidth: layoutWidthTypes.SCROLLABLE,
   leftSideBarTheme: leftSideBarThemeTypes.DARK,
   leftSideBarThemeImage: leftBarThemeImageTypes.NONE,
   leftSideBarType: leftSidebarTypes.DEFAULT,

@@ -7,13 +7,32 @@ import ConfirmMail from "../pages/confirmMail";
 import EmailVerification from "../pages/emailVerification";
 import UserProfile from "../pages/userProfile";
 import Dashboard from "../pages/Dashboard";
-import HorizontalLayout from "../Components/DashboardlLayout";
-import './module.index.scss'
 import JobList from "../pages/JobPages/JobList";
 import Pages404 from "../pages/Errors/pages-404";
 import Pages500 from "../pages/Errors/pages-500";
 import PagesMaintenance from "../pages/Errors/pages-maintenance";
 import FormAdvanced from "../pages/Forms/FormAdvanced";
+import VerticalLayout from "../Components/VerticalLayout";
+import HorizontalLayout from "../Components/DashboardlLayout";
+import { layoutTypes } from "../constants/layout";
+import { useSelector } from "react-redux";
+import { createSelector } from "reselect";
+
+
+const getLayout = (layoutType) => {
+  let Layout = VerticalLayout;
+  switch (layoutType) {
+    case layoutTypes.VERTICAL:
+      Layout = VerticalLayout;
+      break;
+    case layoutTypes.HORIZONTAL:
+      Layout = HorizontalLayout;
+      break;
+    default:
+      break;
+  }
+  return Layout;
+};
 
 const MainRoutes = () => {
   const nonHeaderPages = [
@@ -28,12 +47,32 @@ const MainRoutes = () => {
   ];
   const location = useLocation();
 
+
+  const selectLayoutState = (state) => state.Layout;
+  const LayoutProperties = createSelector(
+    selectLayoutState,
+      (layout) => ({
+        layoutType: layout.layoutType,
+      })
+  );
+
+    const {
+      layoutType
+  } = useSelector(LayoutProperties);
+
+  const Layout = getLayout(layoutType);
+
+  // Define the layout type based on your project's requirements
+  // const layoutType = location.pathname === "/dashboard" ? "horizontal" : "vertical";
+
+
+  
+
   return (
     <React.Fragment>
-
       <div>
-      {!nonHeaderPages?.includes(location?.pathname) && <HorizontalLayout />}
-
+        {!nonHeaderPages.includes(location.pathname) &&
+          (layoutType === "horizontal" ? <HorizontalLayout /> : <VerticalLayout />)}
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -45,9 +84,8 @@ const MainRoutes = () => {
           <Route path="/job-list" element={<JobList />} />
           <Route path="/pages-404" element={<Pages404 />} />
           <Route path="/pages-500" element={<Pages500 />} />
-          <Route path="/pages-maintenance" element={<PagesMaintenance/>} />
-          <Route path="/form-advanced" element={<FormAdvanced/>} />
-          
+          <Route path="/pages-maintenance" element={<PagesMaintenance />} />
+          <Route path="/form-advanced" element={<FormAdvanced />} />
         </Routes>
       </div>
     </React.Fragment>

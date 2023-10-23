@@ -21,6 +21,12 @@ body {
   }
 }
 
+body[data-layout=":vertical"] {
+  .container-fluid {
+      left: 250px!important;
+  }  
+}
+
 #sidebar-menu {
   ul {
     li {
