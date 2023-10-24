@@ -1,0 +1,105 @@
+// # Max Media Query Breakdowns
+$xs: 380px;
+$sm: 575px;
+$md: 767px;
+$lg: 991px;
+$xl: 1199px;
+//Desktop Media Query Breakdowns
+$desktop-1366: 1366px;
+$desktop-1400: 1400px;
+$desktop-1500: 1500px;
+$desktop-1600: 1600px;
+$desktop-1700: 1700px;
+$desktop-1800: 1800px;
+$desktop-1920: 1920px;
+
+// extra Small devices
+@mixin xs {
+	@media (max-width: #{$xs}) {
+		@content;
+	}
+}
+
+// Small devices
+@mixin sm {
+    @media (max-width: #{$sm}) {
+        @content;
+    }
+}
+ 
+// Medium devices
+@mixin md {
+    @media (max-width: #{$md}) {
+        @content;
+    }
+}
+
+// Large devices
+@mixin lg {
+    @media (max-width: #{$lg}) {
+        @content;
+    }
+}
+ 
+// Extra large devices
+@mixin xl {
+    @media (max-width: #{$xl}) {
+        @content;
+    }
+}
+
+// Desktop 1366px
+@mixin desktop-1366 {
+    @media (max-width: #{$desktop-1366}) {
+        @content;
+    }
+}
+
+// Desktop 1400px
+@mixin desktop-1400 {
+    @media (max-width: #{$desktop-1400}) {
+        @content;
+    }
+}
+
+// Desktop 1500px
+@mixin desktop-1500 {
+    @media (max-width: #{$desktop-1500}) {
+        @content;
+    }
+}
+
+// Desktop 1600
+@mixin desktop-1600 {
+    @media (max-width: #{$desktop-1600}) {
+        @content;
+    }
+}
+
+// Desktop 1700px
+@mixin desktop-1700 {
+    @media (max-width: #{$desktop-1700}) {
+        @content;
+    }
+}
+
+// Desktop 1800px
+@mixin desktop-1800 {
+    @media (max-width: #{$desktop-1800}) {
+        @content;
+    }
+}
+
+// Desktop 1920px
+@mixin desktop-1920 {
+    @media (max-width: #{$desktop-1920}) {
+        @content;
+    }
+}
+
+//Custom Max Width Media Query
+@mixin custom-max($width) {
+    @media (max-width: #{$width}) {
+        @content;
+    }
+}

@@ -9,15 +9,50 @@ import { useNavigate } from "react-router-dom";
 
 // import images
 import logodark from "../../assets/images/logo-dark.png";
-import logolight from "../../assets/images/logo-light.png";
-import CarouselPage from "../CarouselPage";
+import logolight from "../../assets/images/logo-light.png"; 
+import trackLogo from "../../assets/images/logo.png"
+import CarouselPage from "../CarouselPage"; 
+import { toast } from "react-toastify"; 
+import {API} from "../../Api/Api" 
+import Spinner from "../../Components/Common/Spinner";
+
 
 const Login = () => {
-  const [passwordShow, setPasswordShow] = useState(false);
+  const [passwordShow, setPasswordShow] = useState(false); 
+  const [loading,setLoader] = useState(false)
   const navigate = useNavigate()
 
   //meta title
-  document.title = "Login  | Faags ";
+  document.title = "Login  | The Track Pilot ";  
+
+  const login = async(data) =>{  
+    setLoader(true)
+     const vals = {
+      email:data.username,
+      password:data.password
+     }
+     
+    try{
+      // setLoading(true)
+    const response = await API.getUserLogin(vals)
+    console.log(response)
+    if(response?.success){
+      const data=response?.data
+      toast.success(response?.message);
+      localStorage.setItem('token', data?.token)
+      navigate('/dashboard')
+    }else {
+      console.log({response});
+      toast.error(response?.message );
+    }
+    }catch(error){
+      toast.error('Network Error' );
+
+      console.log(error)
+    }finally{
+      setLoader(false)
+    }
+   }
 
   // Form validation 
   const validation = useFormik({
@@ -29,12 +64,17 @@ const Login = () => {
       password: '',
     },
     validationSchema: Yup.object({
-      username: Yup.string().required("Please Enter Your Username"),
-      password: Yup.string().required("Please Enter Your Password"),
+      username: Yup.string().matches(
+        /^[A-Za-z0-9_%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+      "Invalid email format"
+      ).required("Please Enter Your Username"),
+      password: Yup.string().matches(
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-\/:-@\[-`{-~]).{8,}$/,
+        "Invalid password format"
+      ).required("Please Enter Your Password"),
     }),
-    onSubmit: (values) => {
-      console.log(values)
-   navigate('/dashboard')
+    onSubmit: (values) => { 
+      login(values)
     }
   });
   return (
@@ -51,15 +91,15 @@ const Login = () => {
                    <div className="mb-4 mb-md-5">
                      <Link to="/dashboard" className="d-block card-logo">
                        <img
-                         src={logodark}
+                         src={trackLogo}
                          alt=""
-                         height="18"
+                         height="100"
                          className="logo-dark-element"
                        />
                        <img
-                         src={logolight}
+                         src={trackLogo}
                          alt=""
-                         height="18"
+                         height="100"
                          className="logo-light-element"
                        />
                      </Link>
@@ -68,7 +108,7 @@ const Login = () => {
                      <div>
                        <h5 className="text-primary">Welcome Back !</h5>
                        <p className="text-muted">
-                         Sign in to continue to Faags.
+                         Sign in to continue to The Track Pilot.
                        </p>
                      </div>
 
@@ -81,7 +121,7 @@ const Login = () => {
                          }}
                        >
                          <div className="mb-3">
-                           <Label className="form-label">Email</Label>
+                           <Label className="form-label">User name or Email</Label>
                            <Input
                              name="username"
                              className="form-control"
@@ -139,11 +179,17 @@ const Login = () => {
                          </div>
 
                          <div className="mt-3 d-grid">
-                           <button
+                         
+                         
+                         <button
                              className="btn btn-primary btn-block "
                              type="submit"
                            >
-                             Log In
+                            {    
+                         loading?
+                          <div >
+                         <Spinner  size={"sm"} color={"ffff"} /> 
+                         </div> : 'Log In'  }
                            </button>
                          </div>
 
@@ -187,7 +233,7 @@ const Login = () => {
                          <p>
                            Don&apos;t have an account ?
                            <Link
-                             to="register"
+                             to="/register"
                              className="fw-medium text-primary"
                            >
                              Signup now
@@ -199,7 +245,7 @@ const Login = () => {
 
                    <div className="mt-4 mt-md-5 text-center">
                      <p className="mb-0">
-                       © {new Date().getFullYear()} Faags. Crafted with{" "}
+                       © {new Date().getFullYear()} The Track Pilot. Crafted with{" "}
                        <i className="mdi mdi-heart text-danger"></i> by
                        Eitbiz
                      </p>

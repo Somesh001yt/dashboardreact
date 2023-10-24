@@ -4,7 +4,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Col } from "reactstrap";
 
 // img
-import authOverlay from "../assets/images/bg-auth-overlay.png";
+import authOverlay from "../assets/images/bg-auth-overlay2.png";
 
 const CarouselPage = () => {
   return (
@@ -56,7 +56,7 @@ const CarouselPage = () => {
                                   <h4 className="font-size-16 text-primary">
                                     User1
                                   </h4>
-                                  <p className="font-size-14 mb-0">- Faags User</p>
+                                  <p className="font-size-14 mb-0">- The Track Pilot User</p>
                                 </div>
                               </div>
                             </div>
@@ -78,7 +78,7 @@ const CarouselPage = () => {
                                     User2
                                   </h4>
                                   <p className="font-size-14 mb-0">
-                                    - Faags User
+                                    - The Track Pilot User
                                   </p>
                                 </div>
                               </div>

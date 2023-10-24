@@ -1,0 +1,38 @@
+@import '../../stylesheets/main';
+
+.ourPartner {
+    padding: 40px 0;
+    @include lg {
+        padding: 30px 0;
+    }
+    h2 {
+        text-align: center;
+        margin-bottom: 29px;
+        @include font(32px, $color-primary);
+        @include lg {
+            font-size: 26px;
+        }
+    }
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: -10px;
+        margin-right: -10px;
+        justify-content: space-between;
+        @include md {
+            justify-content: center;
+        }
+    }
+    .box {
+        padding-left: 10px;
+        padding-right: 10px;
+        @include md {
+            margin: 5px 0;
+        }
+        img {
+            @include lg {
+                max-width: 100px;
+            }
+        }
+    }
+}

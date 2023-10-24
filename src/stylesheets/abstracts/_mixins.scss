@@ -1,0 +1,60 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass mixins.
+// -----------------------------------------------------------------------------
+
+// box shadow mixin
+@mixin box-shadow($boxShadow) {
+    box-shadow: $boxShadow;
+}
+// border radius mixin
+@mixin border-radius($radius) {
+    border-radius: $radius;
+}
+// transition mixin
+@mixin transition($time) {
+    transition: (all $time ease-in-out);
+}
+
+// input appearance mixin
+@mixin appearance {
+    appearance: none;
+}
+// fontAwesome
+@mixin fontAwesome {
+    font-family: 'fontAwesome';
+}
+// UL,OL Default style remove
+@mixin listStyle($value: 0) {
+    list-style: none;
+    padding-left: 0;
+    margin: $value;
+}
+// Set Font size & color
+@mixin font($size, $color) {
+    font-size: $size;
+    color: $color;
+}
+// Set Source Sans Pro font family & weight
+@mixin inter($weight) {
+    @if $weight == 300 {
+        font-family: 'Inter', sans-serif;
+        font-weight: $weight;
+    } @else if $weight == 400 {
+        font-family: 'Inter', sans-serif;
+        font-weight: $weight;
+    } @else if $weight == 500 {
+        font-family: 'Inter', sans-serif;
+        font-weight: $weight;
+    } @else if $weight == 600 {
+        font-family: 'Inter', sans-serif;
+        font-weight: $weight;
+    } @else if $weight == 700 {
+        font-family: 'Inter', sans-serif;
+        font-weight: $weight;
+    } @else if $weight == 800 {
+        font-family: 'Inter', sans-serif;
+        font-weight: $weight;
+    } @else {
+        @error "Unknown font family #{$weight}.";
+    }
+}

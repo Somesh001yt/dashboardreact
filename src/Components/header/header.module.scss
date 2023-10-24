@@ -1,0 +1,219 @@
+@import '../../stylesheets/main';
+
+.header {
+    z-index: 1;
+    width: 100%;
+    position: relative;
+    padding: 12px 0 17px;
+    background-color: $color-white;
+    @include box-shadow(0px 4px 10px 0px rgba(0, 0, 0, 0.25));
+    &.homePage {
+        top: 0;
+        left: 0;
+        position: absolute;
+        @include box-shadow(none);
+        background-color: transparent;
+    }
+    @include lg {
+        top: 0;
+        left: 0;
+        z-index: 9;
+        position: fixed !important;
+        background-color: $color-white !important;
+        @include box-shadow(0px 4px 10px 0px rgba(0, 0, 0, 0.25) !important);
+    }
+    .nav {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    .logo {
+        img {
+            display: block;
+            @include lg {
+                max-width: 100px;
+            }
+        }
+    }
+    .menuBtn {
+        border: 0;
+        outline: 0;
+        width: 40px;
+        height: 40px;
+        display: none;
+        color: $color-white;
+        align-items: center;
+        justify-content: center;
+        @include border-radius(5px);
+        margin-left: auto;
+        background-color: $color-secondary;
+        @include lg {
+            display: flex;
+        }
+        &:after {
+            position: fixed;
+            top: 0;
+            left: 300px;
+            width: 100%;
+            height: 100%;
+            content: '';
+            display: none;
+            z-index: -1;
+            background-color: rgba($color: $color-black, $alpha: 0.5);
+        }
+        &.active:after {
+            display: block;
+        }
+    }
+    .menu {
+        margin-left: auto;
+        @include lg {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 300px;
+            height: 100%;
+            @include transition(.3s);
+            background-color: $color-white;
+            &.openMainMenu {
+                left: 0;
+            }
+        }
+        .mobileLogo {
+            display: none;
+            @include lg {
+                display: block;
+                width: 100%;
+                text-align: center;
+                padding: 25px;
+            }
+            img {
+                width: 100px;
+            }
+        }
+        ul {
+            display: flex;
+            @include listStyle(0);
+            @include lg {
+                display: block;
+            }
+            > li {
+                cursor: pointer;
+                line-height: 40px;
+                position: relative;
+                @include inter(600);
+                @include transition(.3s);
+                @include font(16px, $color-primary);
+                @include lg {
+                    padding: 0 15px;
+                }
+                &:not(:last-child) {
+                    margin-right: 50px;
+                    @include lg {
+                        margin-right: 0;
+                    }
+                }
+                > span {
+                    @include lg {
+                        width: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                    }
+                }
+                &.hasSubMenu {
+                    position: relative;
+                    .caret {
+                        @include lg {
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            width: 100%;
+                            display: flex;
+                            justify-content: flex-end;
+                            padding: 0 15px;
+                            &.active {
+                                transform: rotateX(180deg);
+                            }
+                        }
+                        &:after {
+                            content: '\f107';
+                            margin-left: 4px;
+                            @include fontAwesome;
+                        }
+                    }
+                }
+                > ol {
+                    left: 0;
+                    top: 100%;
+                    opacity: 0;
+                    min-width: 150px;
+                    position: absolute;
+                    visibility: hidden;
+                    @include listStyle(0);
+                    padding: 5px 0;
+                    @include transition(.3s);
+                    @include border-radius(5px);
+                    background-color: $color-primary;
+                    @include lg {
+                        top: 0;
+                        left: 0;
+                        opacity: 1;
+                        width: 100%;
+                        min-width: 100%;
+                        position: relative;
+                        visibility: visible;
+                        background-color: transparent;
+                        display: none;
+                        &.openMenu {
+                            display: block;
+                        }
+                    }
+                    > li {
+                        @include inter(500);
+                        padding: 10px 15px;
+                        line-height: normal;
+                        @include font(16px, $color-white);
+                        @include lg {
+                            color: $color-primary;
+                        }
+                        &:not(:last-child){
+                            border-bottom: 1px solid #f7f7f7;
+                        }
+                        &:hover {
+                            color: $color-secondary;
+                        }
+                    }
+                }
+                &:hover {
+                    font-weight: 800;
+                    color: $color-secondary;
+                    > ol {
+                        opacity: 1;
+                        visibility: visible;
+                    }
+                }
+                &.active {
+                    font-weight: 800;
+                    color: $color-secondary;
+                }
+                &:last-child {
+                    padding: 0 32px;
+                    font-weight: 600;
+                    color: $color-primary;
+                    @include border-radius(32px);
+                    background-color: $color-secondary;
+                    @include lg {
+                        padding: 0 15px;
+                        background-color: transparent !important;
+                    }
+                    &:hover,
+                    &.active {
+                        color: $color-white;
+                        background-color: $color-primary;
+                    }
+                }
+            }
+        }
+    }
+}

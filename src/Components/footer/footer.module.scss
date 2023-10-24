@@ -1,0 +1,76 @@
+@import '../../stylesheets/main';
+
+.footer {
+    padding: 12px 0;
+    background-color: $color-primary;
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        @include sm {
+            display: block;
+        }
+    }
+    .logo {
+        img {
+            max-width: 104px;
+            display: block;
+            @include lg {
+                max-width: 84px;
+            }
+            @include sm {
+                margin: 0 auto;
+            }
+        }
+    }
+    .menu {
+        @include sm {
+            padding: 10px 0; 
+        }
+        ul {
+            @include listStyle(0);
+            display: flex;
+            flex-wrap: wrap;
+            @include sm {
+                justify-content: center;
+            }
+            li {
+                margin: 0 25px;
+                cursor: pointer;
+                @include inter(700);
+                @include font($base-font-size, $color-white);
+                @include lg {
+                    margin: 0 5px;
+                }
+                @include sm {
+                    margin: 10px;
+                }
+            }
+        }
+    }
+    .social {
+        ul {
+            display: flex;
+            align-items: center;
+            @include listStyle(0);
+            @include sm {
+                justify-content: center;
+            }
+            li {
+                &:not(:last-child){
+                    margin-right: 11px;
+                }
+                img {
+                    width: 40px;
+                    height: 40px;
+                    display: block;
+                    @include lg {
+                        width: 30px;
+                        height: 30px;
+                    }
+                }
+            }
+        }
+    }
+}

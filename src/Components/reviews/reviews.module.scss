@@ -1,0 +1,96 @@
+@import '../../stylesheets/main';
+
+.reviews {
+    display: flex;
+    padding: 40px 0;
+    min-height: 658px;
+    align-items: center;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url(../../assets/images/revieew-bg.png);
+    @include lg {
+        padding: 30px 0;
+    }
+    h2 {
+        margin-bottom: 0;
+        text-align: center;
+        @include font(32px, $color-primary);
+        @include lg {
+            font-size: 26px;
+        }
+        &:before {
+            display: block;
+            margin-bottom: 10px;
+            content: attr(data-title);
+            @include font(18px, $color-secondary);
+            @include lg {
+                font-size: 16px;
+            }
+        }
+    }
+    .item {
+        padding-left: 15px;
+        padding-right: 15px;
+        @include lg {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+        .cover {
+            padding: 15px;
+            @include border-radius(10px);
+            background-color: $color-white;
+            border: 1px solid rgba(0, 57, 92, 0.50);
+            @include box-shadow(10px 10px 15px 0px rgba(0, 0, 0, 0.25));
+            h3 {
+                margin-bottom: 10px;
+                line-height: 26px;
+                @include font(18px, $color-primary);
+                @include lg {
+                    font-size: 16px;
+                }
+            }
+            p {
+                line-height: 26px;
+                margin-bottom: 21px;
+                @include font($base-font-size, $color-secondary);
+            }
+            .info {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                &__img {
+                    flex: 0 0 60px;
+                    img {
+                        width: 100%;
+                        min-height: 60px;
+                        @include border-radius(50%);
+                    }
+                }
+                &__text {
+                    padding-left: 10px;
+                    flex: 1;
+                    .name {
+                        display: block;
+                        line-height: 30px;
+                        margin-bottom: 0px;
+                        @include inter(600);
+                        @include font(16px, $color-primary);
+                    }
+                    ul {
+                        display: flex;
+                        flex-wrap: wrap;
+                        @include listStyle(0);
+                        li {
+                            &:not(:last-child) {
+                                margin-right: 2px;
+                            }
+                            img {
+                                width: 20px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

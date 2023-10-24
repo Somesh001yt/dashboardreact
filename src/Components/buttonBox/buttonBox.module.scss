@@ -1,0 +1,37 @@
+@import '../../stylesheets/main';
+
+.btn {
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    box-shadow: none;
+    @include inter(600);
+    @include transition(.3s);
+    background-color: transparent;
+    @include font(16px, $color-primary);
+    &.disabled {
+        opacity: 0.5;
+    }
+    &.btnOutline {
+        padding: 0 22px;
+        line-height: 40px;
+        @include border-radius(32px);
+        border: 1px solid $color-primary;
+        &:hover {
+            color: $color-white;
+            background-color: $color-primary;
+        }
+    }
+    &.btnPrimary {
+        padding: 0 22px;
+        line-height: 40px;
+        @include border-radius(32px);
+        border: 1px solid $color-secondary;
+        background-color: $color-secondary;
+        &:hover {
+            color: $color-white;
+            border-color: $color-primary;
+            background-color: $color-primary;
+        }
+    }
+}

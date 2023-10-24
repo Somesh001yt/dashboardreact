@@ -1,0 +1,180 @@
+@import '../../stylesheets/main';
+
+.blog {
+    padding: 40px 0;
+    overflow: hidden;
+    background-color: $color-white;
+    @include lg {
+        padding: 30px 0;
+    }
+    .blogTitleWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-bottom: 22px;
+        .left {
+            width: 100%;
+            flex: 0 0 50%;
+            max-width: 50%;
+            @include lg {
+                flex: 1;
+                max-width: 100%;
+                padding-right: 10px;
+            }
+            @include md {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+            h2 {
+                margin-bottom: 10px;
+                @include font(32px, $color-primary);
+                @include lg {
+                    font-size: 26px;
+                }
+                &::before {
+                    display: block;
+                    margin-bottom: 7px;
+                    content: attr(data-title);
+                    @include font(18px, $color-secondary);
+                    @include lg {
+                        font-size: $base-font-size;
+                    }
+                }
+            }
+            p {
+                margin-bottom: 0;
+                line-height: 26px;
+                @include inter(600);
+                @include font(16px, $color-secondary);
+            }
+        }
+        .right {
+            margin-left: auto;
+            @include md {
+                flex: 0 0 100%;
+                max-width: 100%;
+                margin-top: 20px;
+            }
+        }
+    }
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: -45px;
+        margin-right: -45px;
+        @include lg {
+            margin-left: -10px;
+            margin-right: -10px;
+        }
+    }
+    .box {
+        flex: 0 0 33.33%;
+        max-width: 33.33%;
+        width: 100%;
+        padding-left: 45px;
+        padding-right: 45px;
+        @include lg {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        @include md {
+            flex: 0 0 50%;
+            max-width: 50%;
+            &:not(:last-child) {
+                margin-bottom: 20px;
+            }
+        }
+        @include sm {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+        .over {
+            width: 100%;
+            padding: 18px;
+            @include border-radius(10px);
+            border: 1px solid rgba(0, 57, 92, 0.50);
+            @include lg {
+                padding: 10px;
+            }
+            .cover {
+                width: 100%;
+                overflow: hidden;
+                position: relative;
+                @include border-radius(10px);
+                img {
+                    width: 100%;
+                    display: block;
+                }
+                .text {
+                    left: 0;
+                    bottom: 0;
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    padding: 16px;
+                    position: absolute;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    justify-content: flex-end;
+                    background: linear-gradient(0deg, rgba(0, 0, 0, 0.79) 0%, rgba(0, 0, 0, 0.00) 73.96%);
+                    @include lg {
+                        padding: 10px;
+                    }
+                    span {
+                        width: 147px;
+                        padding: 0 10px;
+                        line-height: 34px;
+                        text-align: center;
+                        @include inter(600);
+                        margin-bottom: 12px;
+                        display: inline-block;
+                        @include border-radius(100px);
+                        background-color: $color-secondary;
+                        @include font(16px, $color-primary);
+                    }
+                    p {
+                        line-height: 24px;
+                        margin-bottom: 12px;
+                        @include font(16px, $color-white);
+                    }
+                    ul {
+                        width: 100%;
+                        display: flex;
+                        flex-wrap: wrap;
+                        align-items: center;
+                        @include listStyle(0);
+                        li {
+                            display: flex;
+                            align-items: center;
+                            @include inter(500);
+                            @include font(14px, $color-white);
+                            &:before {
+                                width: 30px;
+                                height: 30px;
+                                content: '';
+                                flex: 0 0 30px;
+                                margin-right: 8px;
+                                background-size: cover;
+                                background-repeat: no-repeat;
+                                background-position: center center;
+                                background-image: url(../../assets/images/user-icon.png);
+                                @include lg {
+                                    width: 20px;
+                                    height: 20px;
+                                    flex: 0 0 20px;
+                                    margin-right: 5px;
+                                }
+                            }
+                            &:last-child {
+                                margin-left: auto;
+                                &:before {
+                                    background-image: url(../../assets/images/calendar-icon.png);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

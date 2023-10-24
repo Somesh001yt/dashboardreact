@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import Login from "../pages/login";
 import Register from "../pages/register";
@@ -13,7 +13,11 @@ import Pages500 from "../pages/Errors/pages-500";
 import PagesMaintenance from "../pages/Errors/pages-maintenance";
 import FormAdvanced from "../pages/Forms/FormAdvanced";
 import VerticalLayout from "../Components/VerticalLayout";
-import HorizontalLayout from "../Components/DashboardlLayout";
+import HorizontalLayout from "../Components/DashboardlLayout"; 
+import HomePage from "../pages/home"; 
+import Header from "../Components/header/index";
+import OurPartner  from "../Components/ourPartner/index";
+import Footer from "../Components/footer/index";
 import { layoutTypes } from "../constants/layout";
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
@@ -37,6 +41,7 @@ const getLayout = (layoutType) => {
 const MainRoutes = () => {
   const nonHeaderPages = [
     "/",
+    "/login",
     "/register",
     "/forgot-password",
     "/confirm-email",
@@ -44,7 +49,11 @@ const MainRoutes = () => {
     "/pages-404",
     "/pages-500",
     "/pages-maintenance"
-  ];
+  ];  
+
+  const allowedHeaderPages =[
+    "/"
+  ]
   const location = useLocation();
 
 
@@ -66,15 +75,20 @@ const MainRoutes = () => {
   // const layoutType = location.pathname === "/dashboard" ? "horizontal" : "vertical";
 
 
-  
+  // const location = useLocation();
+    const onBoardingPages = ["/dashboard"];
+    const hideHeader = onBoardingPages.includes(location.pathname) ? true : false;
+    const [openMenu, setOpenMenu] = useState();
 
   return (
     <React.Fragment>
       <div>
         {!nonHeaderPages.includes(location.pathname) &&
-          (layoutType === "horizontal" ? <HorizontalLayout /> : <VerticalLayout />)}
+          (layoutType === "horizontal" ? <HorizontalLayout /> : <VerticalLayout />)} 
+          {allowedHeaderPages.includes(location.pathname) &&<Header onMenuBtn={()=> setOpenMenu(!openMenu)} showMenu={openMenu} currentLoc={location} />}
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<HomePage />} /> 
+          <Route path="/login" element={<Login/>} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<RecoverPassword />} />
           <Route path="/confirm-email" element={<ConfirmMail />} />
@@ -87,6 +101,8 @@ const MainRoutes = () => {
           <Route path="/pages-maintenance" element={<PagesMaintenance />} />
           <Route path="/form-advanced" element={<FormAdvanced />} />
         </Routes>
+       {allowedHeaderPages.includes(location.pathname) && <OurPartner/> }
+       {allowedHeaderPages.includes(location.pathname) && <Footer/>}
       </div>
     </React.Fragment>
   );

@@ -1,16 +1,12 @@
 import React, { useEffect } from "react"
 import { Spinner } from "reactstrap";
 
-const Spinners = ({ setLoading }) => {
+const Spinners = ({size,color}) => {
 
-    useEffect(() => {
-        setTimeout(() => {
-            setLoading(false)
-        }, 1000)
-    }, [setLoading]);
+    
     return (
         <React.Fragment>
-            <Spinner color="primary" className='position-absolute top-50 start-50' />
+            <Spinner color={color}  size={size} />
         </React.Fragment>
     )
 }
