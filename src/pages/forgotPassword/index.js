@@ -1,18 +1,47 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Col, Container, Form, FormFeedback, Input, Label, Row } from "reactstrap";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Col, Container, Form, FormFeedback, Input, Label, Row, Spinner } from "reactstrap";
 // Formik Validation
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import {  toast } from "react-toastify";
 
-import logodark from "../../assets/images/logo-dark.png";
-import logolight from "../../assets/images/logo-light.png";
+
+import trackLogo from "../../assets/images/logo.png"
 import CarouselPage from "../CarouselPage";
+import { API } from "../../Api/Api";
 
 const RecoverPassword = () => {
 
+  const navigate = useNavigate();
+  const [loading , setLoading] = useState(false)
+
   //meta title
   document.title="Recover Password  | Skote - React Admin & Dashboard Template";
+
+
+  const forgotPassword = async (data) => {
+    try{
+      setLoading(true);
+    const response = await API.forgotPassword(data);
+    console.log(response)
+    
+    if(response?.success){
+      localStorage.setItem('forgotToken', response?.token)
+      toast.success(response?.message); 
+      navigate("/reset-password");
+    }else {
+      console.log({response});
+      toast.error(response?.message );
+    }
+    } catch(error){
+      toast.error('Network Error' );
+      console.log(error)
+    }finally{
+      setLoading(false)
+    }
+  }
+
 
   const validation = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
@@ -22,10 +51,13 @@ const RecoverPassword = () => {
       email: '',
     },
     validationSchema: Yup.object({
-      email: Yup.string().required("Please Enter Your Email"),
+      email: Yup.string().matches(
+        /^[A-Za-z0-9_%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+        "Invalid email format"
+      ).required("Please Enter Your Email"),
     }),
-    onSubmit: (values) => {
-        
+    onSubmit: async (vals) => {
+      forgotPassword(vals)
     }
   });
   return (
@@ -41,16 +73,15 @@ const RecoverPassword = () => {
                     <div className="mb-4 mb-md-5">
                       <a href="/" className="d-block auth-logo">
                         <img
-                          src={logodark}
+                            src={trackLogo}
                           alt=""
-                          height="18"
-                          className="logo-dark-element"
+                          height="100"
+                          className="logo-dark-element object-container"
                         />
                         <img
-                          src={logolight}
-                          alt=""
-                          height="18"
-                          className="logo-light-element"
+                         src={trackLogo}  alt=""
+                         height="100"
+                          className="logo-light-element object-container"
                         />
                       </a>
                     </div>
@@ -98,7 +129,12 @@ const RecoverPassword = () => {
                             <button
                               className="btn btn-primary w-md "
                               type="submit"
-                            >Reset</button>
+                            > {    
+                              loading?
+                               <div >
+                              <Spinner  size={"sm"} color={"ffff"} /> 
+                              </div> : 'Reset'  }
+                            </button>
                           </div>
                         </Form>
 
@@ -106,7 +142,7 @@ const RecoverPassword = () => {
                           <p>
                             Remember It ?{" "}
                             <Link
-                              to="/"
+                              to="/login"
                               className="fw-medium text-primary"
                             >
                               {" "}

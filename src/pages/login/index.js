@@ -38,6 +38,8 @@ const Login = () => {
     console.log(response)
     if(response?.success){
       const data=response?.data
+      const userDataJSON = JSON.stringify(data);
+      localStorage.setItem('userData' ,userDataJSON)
       toast.success(response?.message);
       localStorage.setItem('token', data?.token)
       navigate('/dashboard')
@@ -53,6 +55,8 @@ const Login = () => {
       setLoader(false)
     }
    }
+
+   
 
   // Form validation 
   const validation = useFormik({
