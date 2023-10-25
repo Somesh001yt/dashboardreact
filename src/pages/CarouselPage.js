@@ -10,7 +10,7 @@ const CarouselPage = () => {
   return (
     <React.Fragment>
       <Col xl={9}>
-        <div className="auth-full-bg pt-lg-5 p-4">
+        <div className="auth-full-bg pt-lg-5 p-4 h-100">
           <div className="w-100">
             <div
               className="bg-overlay"
@@ -22,7 +22,7 @@ const CarouselPage = () => {
               }}
             ></div>
             <div className="d-flex h-100 flex-column">
-              <div className="p-4 mt-auto">
+              <div style={{margin:'15%'}} className="p-4">
                 <div className="row justify-content-center">
                   <div className="col-lg-7">
                     <div className="text-center">

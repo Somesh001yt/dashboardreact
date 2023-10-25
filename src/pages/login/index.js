@@ -156,12 +156,13 @@ const Login = () => {
                                  validation.touched.password && validation.errors.password ? true : false
                                }
                              />
+                              {validation.touched.password && validation.errors.password ? (
+                             <FormFeedback type="invalid">{validation.errors.password}</FormFeedback>
+                           ) : null}
                              <button onClick={() => setPasswordShow(!passwordShow)} className="btn btn-light " type="button" id="password-addon">
                                <i className="mdi mdi-eye-outline"></i></button>
                            </div>
-                           {validation.touched.password && validation.errors.password ? (
-                             <FormFeedback type="invalid">{validation.errors.password}</FormFeedback>
-                           ) : null}
+                          
                          </div>
 
                          <div className="form-check">

@@ -15,12 +15,23 @@ export const API = {
     }
   },
 
+  async userRegisteration(params) {
+    try {
+      const response = await instance.post("auth/register", {
+        ...params,
+      });
+      return response?.data;
+    } catch (error) {
+      console.log("error", error);
+      return error.data;
+    }
+  },
+
   async registerUserType(params) {
     try {
       const response = await instance.post("auth/register", {
         ...params,
       });
-      console.log(response);
       return response?.data;
     } catch (error) {
       console.log(error);

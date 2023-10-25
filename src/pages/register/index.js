@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Col,
   Container,
@@ -27,13 +27,23 @@ import Breadcrumbs from "../../Components/Common/Breadcrumb";
 
 // import images
 import logodark from "../../assets/images/logo-dark.png";
-import logolight from "../../assets/images/logo-light.png"; 
-import trackLogo from "../../assets/images/logo.png"
+import logolight from "../../assets/images/logo-light.png";
+import trackLogo from "../../assets/images/logo.png";
 import CarouselPage from "../CarouselPage";
+import { toast } from "react-toastify";
+import { API } from "../../Api/Api";
 
 const Register = () => {
   const [activeTab, setactiveTab] = useState(1);
   const [passedSteps, setPassedSteps] = useState([1]);
+  const navigate = useNavigate()
+  const [userType, setUserType] = useState("education");
+
+  const selectedUser = {
+    corporate: "Corporate",
+    parent: "Parent's",
+    education: "Education",
+  };
 
   function toggleTab(tab) {
     if (activeTab !== tab) {
@@ -48,23 +58,71 @@ const Register = () => {
   //meta title
   document.title = "Register  | Skote - React Admin & Dashboard Template";
 
+  const form1Schema = Yup.object({});
+  const form2Schema = Yup.object({
+    username: Yup.string().required("This field is required."),
+    email: Yup.string()
+      .email("Please enter valid email")
+      .required("This field is required."),
+    address: Yup.string().required("This field is required."),
+    // noOfMember: Yup.string().required("This field is required."),
+    phone: Yup.number().required("This field is required."),
+    password: Yup.string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password"), null], "Passwords must match.")
+      .required("This field is required."),
+  });
+
   //form validation
   const validation = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
 
     initialValues: {
-      email: "",
+      userType: "",
       username: "",
+      email: "",
+      address: "",
+      noOfMember: "",
+      phone: "",
       password: "",
+      confirmPassword: "",
     },
-    validationSchema: Yup.object({
-      email: Yup.string().required("Please Enter Your Email"),
-      username: Yup.string().required("Please Enter Your Username"),
-      password: Yup.string().required("Please Enter Your Password"),
-    }),
-    onSubmit: (values) => {},
+    validationSchema: activeTab === 1 ? form1Schema : form2Schema,
+
+    onSubmit: (values) => {
+      console.log(activeTab);
+      activeTab === 2 ? userRegistration(values) : toggleTab(activeTab + 1);
+    },
   });
+
+  const userRegistration = async (data) => {
+    console.log(data);
+    let param = {
+      username: data?.username,
+      email: data?.email,
+      password: data?.password,
+      address: data?.address,
+      phone: data?.phone,
+      userType: userType,
+    };
+    try {
+      let response = await API.userRegisteration(param);
+      console.log(response);
+      if (response?.success) {
+        toast.success(response.message);
+        toggleTab(activeTab + 1);
+        setTimeout(()=>{navigate("/login") } , 3000)
+      } else {
+        toast.error(response.message);
+      }
+    } catch (error) {
+      toast.error("Network Error");
+    }
+  };
+
   return (
     <React.Fragment>
       <div>
@@ -121,168 +179,317 @@ const Register = () => {
                                     className="body"
                                   >
                                     <TabPane tabId={1}>
-                                      <Form>
+                                      <div>
                                         <Row>
-                                          <Col lg="12">
-                                            <div className="mb-3">
-                                              <Label for="basicpill-firstname-input1">
-                                                First name
-                                              </Label>
-                                              <Input
-                                                type="text"
-                                                className="form-control"
-                                                id="basicpill-firstname-input1"
-                                                placeholder="Enter Your First Name"
-                                              />
+                                          <Col>
+                                            <div className="mt-4">
+                                              <h5 className="font-size-14 mb-4">
+                                                Which type of user you are?
+                                                We'll fit the experience to your
+                                                needs. Let's get you all set up
+                                                so you can select your category
+                                                and begin setting up your
+                                                profile.
+                                              </h5>
+                                              <div className="form-check mb-3">
+                                                <input
+                                                  className="form-check-input"
+                                                  type="radio"
+                                                  name="userType"
+                                                  id="education"
+                                                  value="education"
+                                                  defaultChecked
+                                                  onClick={() =>
+                                                    setUserType("education")
+                                                  }
+                                                />
+                                                <label
+                                                  className="form-check-label"
+                                                  htmlFor="exampleRadios1"
+                                                >
+                                                  For Education Purpose
+                                                </label>
+                                              </div>
+                                              <div className="form-check mb-3">
+                                                <input
+                                                  className="form-check-input"
+                                                  type="radio"
+                                                  name="userType"
+                                                  id="corporate"
+                                                  value="corporate"
+                                                  onClick={() =>
+                                                    setUserType("corporate")
+                                                  }
+                                                />
+                                                <label
+                                                  className="form-check-label"
+                                                  htmlFor="exampleRadios2"
+                                                >
+                                                  For Corporate Use
+                                                </label>
+                                              </div>
+                                              <div className="form-check mb-3">
+                                                <input
+                                                  className="form-check-input"
+                                                  type="radio"
+                                                  name="userType"
+                                                  id="parent"
+                                                  value="parent"
+                                                  onClick={() =>
+                                                    setUserType("parent")
+                                                  }
+                                                />
+                                                <label
+                                                  className="form-check-label"
+                                                  htmlFor="exampleRadios2"
+                                                >
+                                                  For Parents
+                                                </label>
+                                              </div>
                                             </div>
                                           </Col>
-                                          
                                         </Row>
-
-                                        <Row>
-                                         
-                                          <Col lg="12">
-                                            <div className="mb-3">
-                                              <Label for="basicpill-email-input4">
-                                                Email
-                                              </Label>
-                                              <Input
-                                                type="email"
-                                                className="form-control"
-                                                id="basicpill-email-input4"
-                                                placeholder="Enter Your Email ID"
-                                              />
-                                            </div>
-                                          </Col>
-                                        </Row>
-                                        <Row>
-                                          <Col lg="12">
-                                            <div className="mb-3">
-                                              <Label for="basicpill-address-input1">
-                                                Address
-                                              </Label>
-                                              <textarea
-                                                id="basicpill-address-input1"
-                                                className="form-control"
-                                                rows="2"
-                                                placeholder="Enter Your Address"
-                                              />
-                                            </div>
-                                          </Col>
-                                        </Row>
-                                      </Form>
+                                      </div>
                                     </TabPane>
                                     <TabPane tabId={2}>
                                       <div>
-                                        <Form>
-                                          <Row>
-                                            <Col lg="12">
-                                              <div className="mb-3">
-                                                <Label for="basicpill-pancard-input5">
-                                                  PAN Card
-                                                </Label>
-                                                <Input
-                                                  type="text"
-                                                  className="form-control"
-                                                  id="basicpill-pancard-input5"
-                                                  placeholder="Enter Your PAN No."
-                                                />
-                                              </div>
-                                            </Col>
+                                        <Row>
+                                          <Col lg="12">
+                                            <div className="mb-3">
+                                              <Label for="basicpill-pancard-input5">
+                                                {selectedUser[userType]} Name *
+                                              </Label>
+                                              <Input
+                                                name="username"
+                                                type="text"
+                                                className="form-control"
+                                                id="basicpill-pancard-input5"
+                                                placeholder="Enter here"
+                                                onChange={
+                                                  validation.handleChange
+                                                }
+                                                onBlur={validation.handleBlur}
+                                                // value={validation.values.username || ""}
+                                                invalid={
+                                                  validation.touched.username &&
+                                                  validation.errors.username
+                                                    ? true
+                                                    : false
+                                                }
+                                              />
+                                              {validation.touched.username &&
+                                              validation.errors.username ? (
+                                                <FormFeedback type="invalid">
+                                                  {validation.errors.username}
+                                                </FormFeedback>
+                                              ) : null}
+                                            </div>
+                                          </Col>
+                                        </Row>
+                                        <Row>
+                                          <Col lg="12">
+                                            <div className="mb-3">
+                                              <Label for="basicpill-cstno-input7">
+                                                {selectedUser[userType]} Email
+                                                Address *
+                                              </Label>
+                                              <Input
+                                                name="email"
+                                                type="text"
+                                                className="form-control"
+                                                id="basicpill-cstno-input7"
+                                                placeholder="Enter here"
+                                                onChange={
+                                                  validation.handleChange
+                                                }
+                                                onBlur={validation.handleBlur}
+                                                invalid={
+                                                  validation.touched.email &&
+                                                  validation.errors.email
+                                                    ? true
+                                                    : false
+                                                }
+                                              />
+                                              {validation.touched.email &&
+                                              validation.errors.email ? (
+                                                <FormFeedback type="invalid">
+                                                  {validation.errors.email}
+                                                </FormFeedback>
+                                              ) : null}
+                                            </div>
+                                          </Col>
+                                        </Row>
+                                        <Row>
+                                          <Col lg="12">
+                                            <div className="mb-3">
+                                              <Label for="basicpill-companyuin-input9">
+                                                {selectedUser[userType]} Address
+                                                *
+                                              </Label>
+                                              <Input
+                                                name="address"
+                                                type="text"
+                                                className="form-control"
+                                                id="basicpill-companyuin-input9"
+                                                placeholder="Enter here"
+                                                onChange={
+                                                  validation.handleChange
+                                                }
+                                                onBlur={validation.handleBlur}
+                                                invalid={
+                                                  validation.touched.address &&
+                                                  validation.errors.address
+                                                    ? true
+                                                    : false
+                                                }
+                                              />
+                                              {validation.touched.address &&
+                                              validation.errors.address ? (
+                                                <FormFeedback type="invalid">
+                                                  {validation.errors.address}
+                                                </FormFeedback>
+                                              ) : null}
+                                            </div>
+                                          </Col>
+                                        </Row>
+                                        {/* <Row>
+                                          <Col lg="12">
+                                            <div className="mb-3">
+                                              <Label for="basicpill-companyuin-input9">
+                                                Total number of Members *
+                                              </Label>
+                                              <Input
+                                                name="noOfMember"
+                                                type="text"
+                                                className="form-control"
+                                                id="basicpill-companyuin-input9"
+                                                placeholder="Enter here"
+                                                onChange={
+                                                  validation.handleChange
+                                                }
+                                                onBlur={validation.handleBlur}
+                                                invalid={
+                                                  validation.touched.noOfMember &&
+                                                  validation.errors.noOfMember
+                                                    ? true
+                                                    : false
+                                                }
+                                              />
+                                              {validation.touched.noOfMember &&
+                                              validation.errors.noOfMember ? (
+                                                <FormFeedback type="invalid">
+                                                  {validation.errors.noOfMember}
+                                                </FormFeedback>
+                                              ) : null}
+                                            </div>
+                                          </Col>
+                                        </Row> */}
 
-                                           
-                                          </Row>
-                                          <Row>
-                                            <Col lg="12">
-                                              <div className="mb-3">
-                                                <Label for="basicpill-cstno-input7">
-                                                  CST No.
-                                                </Label>
-                                                <Input
-                                                  type="text"
-                                                  className="form-control"
-                                                  id="basicpill-cstno-input7"
-                                                  placeholder="Enter Your CST No."
-                                                />
-                                              </div>
-                                            </Col>
+                                        <Row>
+                                          <Col lg="12">
+                                            <div className="mb-3">
+                                              <Label for="basicpill-companyuin-input9">
+                                                {selectedUser[userType]} Contact
+                                                Number *
+                                              </Label>
+                                              <Input
+                                                name="phone"
+                                                type="text"
+                                                className="form-control"
+                                                id="basicpill-companyuin-input9"
+                                                placeholder="Enter here"
+                                                onChange={
+                                                  validation.handleChange
+                                                }
+                                                onBlur={validation.handleBlur}
+                                                invalid={
+                                                  validation.touched.phone &&
+                                                  validation.errors.phone
+                                                    ? true
+                                                    : false
+                                                }
+                                              />
+                                              {validation.touched.phone &&
+                                              validation.errors.phone ? (
+                                                <FormFeedback type="invalid">
+                                                  {validation.errors.phone}
+                                                </FormFeedback>
+                                              ) : null}
+                                            </div>
+                                          </Col>
+                                        </Row>
 
-                                                                                   </Row>
-                                          <Row>
-                                            <Col lg="12">
-                                              <div className="mb-3">
-                                                <Label for="basicpill-companyuin-input9">
-                                                  Company UIN
-                                                </Label>
-                                                <Input
-                                                  type="text"
-                                                  className="form-control"
-                                                  id="basicpill-companyuin-input9"
-                                                  placeholder="Enter Your Company UIN"
-                                                />
-                                              </div>
-                                            </Col>
+                                        <Row>
+                                          <Col lg="12">
+                                            <div className="mb-3">
+                                              <Label for="basicpill-expiration-input13">
+                                                Email Password *
+                                              </Label>
+                                              <Input
+                                                name="password"
+                                                type="password"
+                                                className="form-control"
+                                                id="basicpill-expiration-input13"
+                                                placeholder="Enter here"
+                                                onChange={
+                                                  validation.handleChange
+                                                }
+                                                onBlur={validation.handleBlur}
+                                                invalid={
+                                                  validation.touched.password &&
+                                                  validation.errors.password
+                                                    ? true
+                                                    : false
+                                                }
+                                              />
+                                              {validation.touched.password &&
+                                              validation.errors.password ? (
+                                                <FormFeedback type="invalid">
+                                                  {validation.errors.password}
+                                                </FormFeedback>
+                                              ) : null}
+                                            </div>
+                                          </Col>
+                                        </Row>
 
-                                          </Row>
-                                        </Form>
+                                        <Row>
+                                          <Col lg="12">
+                                            <div className="mb-3">
+                                              <Label for="basicpill-expiration-input13">
+                                                Re-Enter Email Password *
+                                              </Label>
+                                              <Input
+                                                name="confirmPassword"
+                                                type="password"
+                                                className="form-control"
+                                                id="basicpill-expiration-input13"
+                                                placeholder="Enter here"
+                                                onChange={
+                                                  validation.handleChange
+                                                }
+                                                onBlur={validation.handleBlur}
+                                                invalid={
+                                                  validation.touched
+                                                    .confirmPassword &&
+                                                  validation.errors
+                                                    .confirmPassword
+                                                    ? true
+                                                    : false
+                                                }
+                                              />
+                                              {validation.touched.confirmPassword &&
+                                              validation.errors.confirmPassword ? (
+                                                <FormFeedback type="invalid">
+                                                  {validation.errors.confirmPassword}
+                                                </FormFeedback>
+                                              ) : null}
+                                            </div>
+                                          </Col>
+                                        </Row>
                                       </div>
                                     </TabPane>
+
                                     <TabPane tabId={3}>
-                                      <div>
-                                        <Form>
-                                          <Row>
-                                            <Col lg="12">
-                                              <div className="mb-3">
-                                                <Label for="basicpill-namecard-input11">
-                                                  Name on Card
-                                                </Label>
-                                                <Input
-                                                  type="text"
-                                                  className="form-control"
-                                                  id="basicpill-namecard-input11"
-                                                  placeholder="Enter Your Name on Card"
-                                                />
-                                              </div>
-                                            </Col>
-
-                                           
-                                          </Row>
-                                          <Row>
-                                            <Col lg="12">
-                                              <div className="mb-3">
-                                                <Label for="basicpill-cardno-input12">
-                                                  Credit Card Number
-                                                </Label>
-                                                <Input
-                                                  type="text"
-                                                  className="form-control"
-                                                  id="basicpill-cardno-input12"
-                                                  placeholder="Credit Card Number"
-                                                />
-                                              </div>
-                                            </Col>
-
-                                           
-                                          </Row>
-                                          <Row>
-                                            <Col lg="12">
-                                              <div className="mb-3">
-                                                <Label for="basicpill-expiration-input13">
-                                                  Expiration Date
-                                                </Label>
-                                                <Input
-                                                  type="text"
-                                                  className="form-control"
-                                                  id="basicpill-expiration-input13"
-                                                  placeholder="Card Expiration Date"
-                                                />
-                                              </div>
-                                            </Col>
-                                          </Row>
-                                        </Form>
-                                      </div>
-                                    </TabPane>
-                                    <TabPane tabId={4}>
                                       <div className="row justify-content-center">
                                         <Col lg="12">
                                           <div className="text-center">
@@ -302,42 +509,44 @@ const Register = () => {
                                     </TabPane>
                                   </TabContent>
                                 </div>
-                                <div className="actions clearfix">
-                                  <ul>
-                                    <li
-                                      className={
-                                        activeTab === 1
-                                          ? "previous disabled"
-                                          : "previous"
-                                      }
-                                    >
-                                      <Link
-                                        to="#"
-                                        onClick={() => {
-                                          toggleTab(activeTab - 1);
-                                        }}
+                                {activeTab !== 3 && (
+                                  <div className="actions clearfix">
+                                    <ul>
+                                      <li
+                                        className={
+                                          activeTab === 1
+                                            ? "previous disabled"
+                                            : "previous"
+                                        }
                                       >
-                                        Previous
-                                      </Link>
-                                    </li>
-                                    <li
-                                      className={
-                                        activeTab === 4
-                                          ? "next disabled"
-                                          : "next"
-                                      }
-                                    >
-                                      <Link
-                                        to="#"
-                                        onClick={() => {
-                                          toggleTab(activeTab + 1);
-                                        }}
+                                        <Link
+                                          to="#"
+                                          onClick={() => {
+                                            toggleTab(activeTab - 1);
+                                          }}
+                                        >
+                                          Previous
+                                        </Link>
+                                      </li>
+                                      <li
+                                        className={
+                                          activeTab === 3
+                                            ? "next disabled"
+                                            : "next"
+                                        }
                                       >
-                                        Next
-                                      </Link>
-                                    </li>
-                                  </ul>
-                                </div>
+                                        <Link
+                                          to="#"
+                                          onClick={() => {
+                                            validation.handleSubmit();
+                                          }}
+                                        >
+                                          Next
+                                        </Link>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </Col>
