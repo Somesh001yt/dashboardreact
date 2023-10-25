@@ -39,13 +39,32 @@ export const API = {
     }
   },
 
-
   async resetPassword(params) {
-  
     try {
       const response = await instance.post("auth/reset-password", {
         ...params,
       });
+      console.log(response);
+      return response?.data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  async updateProfile(params, token) {
+    console.log(token)
+    try {
+      const response = await instance.post(
+        "user/update-profile",
+        {
+          ...params,
+        },
+        {
+          headers: {
+            "x-access-token": token,
+          },
+        }
+      );
       console.log(response);
       return response?.data;
     } catch (error) {

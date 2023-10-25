@@ -68,10 +68,7 @@ const Login = () => {
         /^[A-Za-z0-9_%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
       "Invalid email format"
       ).required("Please Enter Your Username"),
-      password: Yup.string().matches(
-        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-\/:-@\[-`{-~]).{8,}$/,
-        "Invalid password format"
-      ).required("Please Enter Your Password"),
+      password: Yup.string().required("Please Enter Your Password"),
     }),
     onSubmit: (values) => { 
       login(values)
