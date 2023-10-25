@@ -56,7 +56,16 @@ const UserProfile = () => {
   const { error, success } = useSelector(ProfileProperties);
 
   const token = localStorage.getItem('token');
+  const usrData = JSON.parse(localStorage.getItem('userData'));
 
+  const [initialValues, setInitialValues] = useState({
+    username: usrData?.username || "name",
+    address: usrData?.address || "address",
+    phone: usrData?.phone_number || "phone",
+    profileImage: usrData?.profile_image || "profile",
+  });
+
+  // console.log(data)
   
 
   const updateProfileApi = async (data  ) => {
@@ -86,10 +95,7 @@ const UserProfile = () => {
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
 
-    initialValues: {
-      username:  "",
-      email : "",
-    },
+    initialValues: initialValues,
     validationSchema: Yup.object({
       username: Yup.string().required("Please Enter Your UserName"),
     }),
@@ -150,6 +156,7 @@ const UserProfile = () => {
                         <input
                           type="file"
                           className="d-none"
+                          name="profileImage"
                           onChange={handleImageChange}
                           ref={inputRef}
                         />

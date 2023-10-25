@@ -38,6 +38,8 @@ const Login = () => {
     console.log(response)
     if(response?.success){
       const data=response?.data
+      const userDataJSON = JSON.stringify(data);
+      localStorage.setItem('userData' ,userDataJSON)
       toast.success(response?.message);
       localStorage.setItem('token', data?.token)
       navigate('/dashboard')
@@ -54,6 +56,8 @@ const Login = () => {
     }
    }
 
+   
+
   // Form validation 
   const validation = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
@@ -68,7 +72,10 @@ const Login = () => {
         /^[A-Za-z0-9_%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
       "Invalid email format"
       ).required("Please Enter Your Username"),
-      password: Yup.string().required("Please Enter Your Password"),
+      password: Yup.string().matches(
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-\/:-@\[-`{-~]).{8,}$/,
+        "Invalid password format"
+      ).required("Please Enter Your Password"),
     }),
     onSubmit: (values) => { 
       login(values)

@@ -71,4 +71,24 @@ export const API = {
       console.log(error);
     }
   },
+
+  async userUpdatePassword(params , token ) {
+    try {
+      const response = await instance.post(
+        "user/update-password",
+        {
+          ...params,
+        },
+        {
+          headers: {
+            "x-access-token": token,
+          },
+        }
+      );
+      console.log(response);
+      return response?.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 };
