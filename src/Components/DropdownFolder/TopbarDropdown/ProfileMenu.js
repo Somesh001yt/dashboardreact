@@ -11,7 +11,7 @@ import {
 // import { withTranslation } from "react-i18next";
 // Redux
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import withRouter from "../../../Components/Common/withRouter";
 
 // users
@@ -22,6 +22,8 @@ const ProfileMenu = (props) => {
   const [menu, setMenu] = useState(false);
 
   const [username, setusername] = useState("Admin");
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (localStorage.getItem("authUser")) {
@@ -37,6 +39,11 @@ const ProfileMenu = (props) => {
       }
     }
   }, [props.success]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    navigate('/login')
+  }
 
   return (
     <React.Fragment>
@@ -79,10 +86,10 @@ const ProfileMenu = (props) => {
             {"Lock screen"}
           </DropdownItem>
           <div className="dropdown-divider" />
-          <Link to="/login" className="dropdown-item">
+          <DropdownItem onClick={()=> handleLogout()} className="dropdown-item">
             <i className="bx bx-power-off font-size-16 align-middle me-1 text-danger" />
             <span>{"Logout"}</span>
-          </Link>
+          </DropdownItem>
         </DropdownMenu>
       </Dropdown>
     </React.Fragment>

@@ -260,7 +260,7 @@ const UserProfile = () => {
                       </FormFeedback>
                     ) : null}
                   </div>
-                  <div className="text-center mt-4">
+                  <div  className="text-center mt-4" >
                     <Button type="submit" color="primary">
                     {    
                               loading?

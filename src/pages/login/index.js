@@ -208,6 +208,7 @@ const Login = () => {
                             className="form-check-input"
                             id="auth-remember-check"
                             onChange={() => setRememberMe(!rememberMe)}
+                            checked={rememberMe}
                           />
                           <label
                             className="form-check-label"

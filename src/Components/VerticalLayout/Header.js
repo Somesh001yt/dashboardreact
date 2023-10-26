@@ -46,7 +46,11 @@ const Header = (props) => {
   const [isSubscribed, setIsSubscribed] = useState(true);
 
   const selectLayoutState = useSelector((state) => state.Layout.layoutModeType);
-  console.log(selectLayoutState);
+  // console.log(selectLayoutState);
+
+  const layoutChangeState =  useSelector((state)=> state.Layout.layoutType)
+
+
 
   const dispatch = useDispatch();
   // const isSubscribed = useSelector(state => state.isSubscribed);
@@ -99,7 +103,7 @@ const Header = (props) => {
 
   const handleVerticalLayout = () => {
     console.log(layoutTypes);
-    if (layoutTypes.VERTICAL === layoutTypes.VERTICAL) {
+    if (layoutChangeState === 'vertical') {
       dispatch(changeLayout("horizontal"));
     }
   };
@@ -122,11 +126,6 @@ const Header = (props) => {
         <div className="navbar-header">
           <div className="d-flex">
             <div className="navbar-brand-box d-lg-none d-md-block">
-              <Link to="/" className="logo logo-dark">
-                <span className="logo-sm">
-                  <img src={WhiteLogo} alt="" height="22" />
-                </span>
-              </Link>
 
               <Link to="/" className="logo logo-light">
                 <span className="logo-sm object-contain">

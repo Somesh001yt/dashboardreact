@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Login from "../pages/login";
 import Register from "../pages/register";
 import RecoverPassword from "../pages/forgotPassword";
@@ -72,6 +72,7 @@ const MainRoutes = () => {
   const hideHeader = onBoardingPages.includes(location.pathname) ? true : false;
   const [openMenu, setOpenMenu] = useState();
 
+
   return (
     <React.Fragment>
       <div>
@@ -89,8 +90,8 @@ const MainRoutes = () => {
           />
         )}
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/"element={<HomePage/>} />
+          <Route path="/login" element={localStorage.getItem("token") ? <Navigate to="/dashboard" /> : <Login/>}  />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<RecoverPassword />} />
           <Route path="/confirm-email" element={<ConfirmMail />} />
