@@ -30,13 +30,14 @@ const Login = () => {
   const [loading, setLoader] = useState(false);
   const navigate = useNavigate();
   const [rememberMe, setRememberMe] = useState(false);
+  const storedEmail = localStorage.getItem("email");
+  const storedPassword = localStorage.getItem("password");
 
   //meta title
   document.title = "Login  | The Track Pilot ";
 
   useEffect(() => {
-    const storedEmail = localStorage.getItem("email");
-    const storedPassword = localStorage.getItem("password");
+
     
     if (storedEmail && storedPassword) {
       validation.setValues({
@@ -207,7 +208,7 @@ const Login = () => {
                             type="checkbox"
                             className="form-check-input"
                             id="auth-remember-check"
-                            onChange={() => setRememberMe(!rememberMe)}
+                            onClick={() => setRememberMe(!rememberMe)}
                             checked={rememberMe}
                           />
                           <label
