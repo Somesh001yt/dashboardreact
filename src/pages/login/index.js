@@ -37,11 +37,14 @@ const Login = () => {
   useEffect(() => {
     const storedEmail = localStorage.getItem("email");
     const storedPassword = localStorage.getItem("password");
+    
     if (storedEmail && storedPassword) {
       validation.setValues({
         username: storedEmail,
         password: storedPassword,
       });
+
+      setRememberMe(true)
     }
   }, []);
 
