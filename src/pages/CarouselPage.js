@@ -9,7 +9,7 @@ import authOverlay from "../assets/images/bg-auth-overlay2.png";
 const CarouselPage = () => {
   return (
     <React.Fragment>
-      <Col xl={9}>
+      <Col style={{height:'100vh'}} xl={9}>
         <div className="auth-full-bg pt-lg-5 p-4 h-100">
           <div className="w-100">
             <div

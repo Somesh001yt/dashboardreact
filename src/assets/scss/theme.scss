@@ -205,7 +205,8 @@ span.flatpickr-weekday {
 
 .carousel {
   .control-dots {
-    margin: -5px 0px;
+    // margin: -5px 0px;
+    margin: 0 !important;
   }
 
   .dot {

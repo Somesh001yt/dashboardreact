@@ -1,0 +1,45 @@
+.radioContainer {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid rgb(145, 142, 142);
+  border-radius: 10px;
+  margin-bottom: 15px;
+  box-shadow: 2px 2px 2px 2px rgb(228, 232, 233);
+}
+
+.selectedRadio {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid rgb(65, 63, 63);
+  border-radius: 10px;
+  margin-bottom: 15px;
+  box-shadow: 2px 2px 2px 2px rgb(228, 232, 233);
+  background-color: rgb(255, 255, 255);
+}
+.tabItem {
+  display: block !important;
+  transition: opacity 0.5s ease-out;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  &.active {
+    opacity: 1;
+    height: auto;
+  }
+}
+
+.rightBar {
+  height: 100vh !important;
+  overflow: auto;
+
+  /* width */
+  &::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+}

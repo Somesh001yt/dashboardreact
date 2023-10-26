@@ -15,7 +15,7 @@ import CarouselPage from "../CarouselPage";
 import { toast } from "react-toastify"; 
 import {API} from "../../Api/Api" 
 import Spinner from "../../Components/Common/Spinner";
-
+import './module.login.scss'
 
 const Login = () => {
   const [passwordShow, setPasswordShow] = useState(false); 
@@ -93,25 +93,20 @@ const Login = () => {
                <div className="w-100">
                  <div className="d-flex flex-column h-100">
                    <div className="mb-4 mb-md-5">
-                     <Link to="/dashboard" className="d-block card-logo">
+                     <Link style={{width:'100%' , display:'flex' , justifyContent:'center'}} className="card-logo">
                        <img
                          src={trackLogo}
                          alt=""
                          height="100"
                          className="logo-dark-element"
                        />
-                       <img
-                         src={trackLogo}
-                         alt=""
-                         height="100"
-                         className="logo-light-element"
-                       />
+                       
                      </Link>
                    </div>
                    <div className="my-auto">
                      <div>
                        <h5 className="text-primary">Welcome Back !</h5>
-                       <p className="text-muted">
+                       <p style={{fontWeight:'600'}} className="text-muted">
                          Sign in to continue to The Track Pilot.
                        </p>
                      </div>
@@ -160,11 +155,12 @@ const Login = () => {
                                  validation.touched.password && validation.errors.password ? true : false
                                }
                              />
-                              {validation.touched.password && validation.errors.password ? (
-                             <FormFeedback type="invalid">{validation.errors.password}</FormFeedback>
-                           ) : null}
+                             
                              <button onClick={() => setPasswordShow(!passwordShow)} className="btn btn-light " type="button" id="password-addon">
                                <i className="mdi mdi-eye-outline"></i></button>
+                               {validation.touched.password && validation.errors.password ? (
+                             <FormFeedback type="invalid">{validation.errors.password}</FormFeedback>
+                           ) : null}
                            </div>
                           
                          </div>
@@ -236,7 +232,7 @@ const Login = () => {
                        </Form> */}
                        <div className="mt-5 text-center">
                          <p>
-                           Don&apos;t have an account ?
+                           Don&apos;t have an account ? {" "}
                            <Link
                              to="/register"
                              className="fw-medium text-primary"
@@ -251,7 +247,7 @@ const Login = () => {
                    <div className="mt-4 mt-md-5 text-center">
                      <p className="mb-0">
                        © {new Date().getFullYear()} The Track Pilot. Crafted with{" "}
-                       <i className="mdi mdi-heart text-danger"></i> by
+                       <i className="mdi mdi-heart  heartColor"></i> by
                        Eitbiz
                      </p>
                    </div>

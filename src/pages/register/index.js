@@ -33,6 +33,7 @@ import CarouselPage from "../CarouselPage";
 import { toast } from "react-toastify";
 import { API } from "../../Api/Api";
 import Spinner from "../../Components/Common/Spinner";
+import styles from "./register.module.scss";
 
 const Register = () => {
   const [activeTab, setactiveTab] = useState(1);
@@ -40,6 +41,8 @@ const Register = () => {
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
   const [userType, setUserType] = useState("education");
+  const [passwordShow, setPasswordShow] = useState(false);
+  const [confirmPasswordShow, setConfirmPasswordShow] = useState(false);
 
   const selectedUser = {
     corporate: "Corporate",
@@ -68,7 +71,9 @@ const Register = () => {
       .required("This field is required."),
     address: Yup.string().required("This field is required."),
     // noOfMember: Yup.string().required("This field is required."),
-    phone: Yup.number().required("This field is required."),
+    phone: Yup.number("Please enter valid number format").required(
+      "This field is required."
+    ),
     password: Yup.string()
       .min(6, "Password must be at least 6 characters")
       .matches(
@@ -100,7 +105,7 @@ const Register = () => {
       password: "",
       confirmPassword: "",
     },
-    validationSchema: activeTab === 1 ? form1Schema : form2Schema,
+    validationSchema: form2Schema,
 
     onSubmit: (values) => {
       console.log(activeTab);
@@ -146,30 +151,31 @@ const Register = () => {
           <CarouselPage />
 
           <Col xl={3}>
-            <div className="auth-full-page-content p-md-5 p-4">
+              <div  className={`${"auth-full-page-content p-md-5 p-4"} ${styles.rightBar}`}>
               <div className="w-100">
                 <div className="d-flex flex-column h-100">
                   <div className="mb-4 mb-md-5">
-                    <Link to="/dashboard" className="d-block auth-logo">
+                    <Link
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                      className="auth-logo"
+                    >
                       <img
                         src={trackLogo}
                         alt=""
                         height="100"
                         className="auth-logo-dark"
                       />
-                      <img
-                        src={trackLogo}
-                        alt=""
-                        height="100"
-                        className="auth-logo-light"
-                      />
                     </Link>
                   </div>
                   <div className="my-auto">
                     <div>
                       <h5 className="text-primary">Register account</h5>
-                      <p className="text-muted">
-                        Get your free Faags account now.
+                      <p style={{ fontWeight: "600" }} className="text-muted">
+                        Get your free Track Pilot account now.
                       </p>
                     </div>
 
@@ -188,12 +194,15 @@ const Register = () => {
                               {/* <h4 className="card-title mb-4">Basic Wizard</h4> */}
                               <div className="wizard clearfix">
                                 <div className="steps clearfix"></div>
-                                <div className="content clearfix">
+                                <div
+                                  style={{ padding: 0 }}
+                                  className="content clearfix"
+                                >
                                   <TabContent
                                     activeTab={activeTab}
                                     className="body"
                                   >
-                                    <TabPane tabId={1}>
+                                    <TabPane className={`${styles.tabItem} ${activeTab === 1 && styles.active}`} tabId={1}>
                                       <div>
                                         <Row>
                                           <Col>
@@ -206,67 +215,91 @@ const Register = () => {
                                                 and begin setting up your
                                                 profile.
                                               </h5>
-                                              <div className="form-check mb-3">
-                                                <input
-                                                  className="form-check-input"
-                                                  type="radio"
-                                                  name="userType"
-                                                  id="education"
-                                                  value="education"
-                                                  defaultChecked
-                                                  onClick={() =>
-                                                    setUserType("education")
-                                                  }
-                                                />
-                                                <label
-                                                  className="form-check-label"
-                                                  htmlFor="exampleRadios1"
-                                                >
-                                                  For Education Purpose
-                                                </label>
+                                              <div
+                                                className={
+                                                  userType === "education"
+                                                    ? styles.selectedRadio
+                                                    : styles.radioContainer
+                                                }
+                                              >
+                                                <div className="form-check">
+                                                  <input
+                                                    className="form-check-input"
+                                                    type="radio"
+                                                    name="userType"
+                                                    id="education"
+                                                    value="education"
+                                                    defaultChecked
+                                                    onClick={() =>
+                                                      setUserType("education")
+                                                    }
+                                                  />
+                                                  <label
+                                                    className="form-check-label"
+                                                    htmlFor="exampleRadios1"
+                                                  >
+                                                    For Education Purpose
+                                                  </label>
+                                                </div>
                                               </div>
-                                              <div className="form-check mb-3">
-                                                <input
-                                                  className="form-check-input"
-                                                  type="radio"
-                                                  name="userType"
-                                                  id="corporate"
-                                                  value="corporate"
-                                                  onClick={() =>
-                                                    setUserType("corporate")
-                                                  }
-                                                />
-                                                <label
-                                                  className="form-check-label"
-                                                  htmlFor="exampleRadios2"
-                                                >
-                                                  For Corporate Use
-                                                </label>
+                                              <div
+                                                className={
+                                                  userType === "corporate"
+                                                    ? styles.selectedRadio
+                                                    : styles.radioContainer
+                                                }
+                                              >
+                                                <div className="form-check">
+                                                  <input
+                                                    className="form-check-input"
+                                                    type="radio"
+                                                    name="userType"
+                                                    id="corporate"
+                                                    value="corporate"
+                                                    onClick={() =>
+                                                      setUserType("corporate")
+                                                    }
+                                                  />
+                                                  <label
+                                                    className="form-check-label"
+                                                    htmlFor="exampleRadios2"
+                                                  >
+                                                    For Corporate Use
+                                                  </label>
+                                                </div>
                                               </div>
-                                              <div className="form-check mb-3">
-                                                <input
-                                                  className="form-check-input"
-                                                  type="radio"
-                                                  name="userType"
-                                                  id="parent"
-                                                  value="parent"
-                                                  onClick={() =>
-                                                    setUserType("parent")
-                                                  }
-                                                />
-                                                <label
-                                                  className="form-check-label"
-                                                  htmlFor="exampleRadios2"
-                                                >
-                                                  For Parents
-                                                </label>
+                                              <div
+                                                className={
+                                                  userType === "parent"
+                                                    ? styles.selectedRadio
+                                                    : styles.radioContainer
+                                                }
+                                              >
+                                                <div className="form-check">
+                                                  <input
+                                                    className="form-check-input"
+                                                    type="radio"
+                                                    name="userType"
+                                                    id="parent"
+                                                    value="parent"
+                                                    onClick={() =>
+                                                      setUserType("parent")
+                                                    }
+                                                  />
+                                                  <label
+                                                    className="form-check-label"
+                                                    htmlFor="exampleRadios2"
+                                                  >
+                                                    For Parents
+                                                  </label>
+                                                </div>
                                               </div>
                                             </div>
                                           </Col>
                                         </Row>
                                       </div>
                                     </TabPane>
-                                    <TabPane tabId={2}>
+                                    <TabPane className={`${styles.tabItem} ${activeTab === 2 && styles.active}`} tabId={2}>
                                       <div>
                                         <Row>
                                           <Col lg="12">
@@ -284,7 +317,10 @@ const Register = () => {
                                                   validation.handleChange
                                                 }
                                                 onBlur={validation.handleBlur}
-                                                // value={validation.values.username || ""}
+                                                value={
+                                                  validation.values.username ||
+                                                  ""
+                                                }
                                                 invalid={
                                                   validation.touched.username &&
                                                   validation.errors.username
@@ -316,6 +352,9 @@ const Register = () => {
                                                 placeholder="Enter here"
                                                 onChange={
                                                   validation.handleChange
+                                                }
+                                                value={
+                                                  validation.values.email || ""
                                                 }
                                                 onBlur={validation.handleBlur}
                                                 invalid={
@@ -438,31 +477,52 @@ const Register = () => {
                                           <Col lg="12">
                                             <div className="mb-3">
                                               <Label for="basicpill-expiration-input13">
-                                                Email Password *
+                                                Password *
                                               </Label>
-                                              <Input
-                                                name="password"
-                                                type="password"
-                                                className="form-control"
-                                                id="basicpill-expiration-input13"
-                                                placeholder="Enter here"
-                                                onChange={
-                                                  validation.handleChange
-                                                }
-                                                onBlur={validation.handleBlur}
-                                                invalid={
-                                                  validation.touched.password &&
-                                                  validation.errors.password
-                                                    ? true
-                                                    : false
-                                                }
-                                              />
-                                              {validation.touched.password &&
-                                              validation.errors.password ? (
-                                                <FormFeedback type="invalid">
-                                                  {validation.errors.password}
-                                                </FormFeedback>
-                                              ) : null}
+                                              <div className="input-group auth-pass-inputgroup">
+                                                <Input
+                                                  name="password"
+                                                  type={
+                                                    !passwordShow
+                                                      ? "password"
+                                                      : "text"
+                                                  }
+                                                  className="form-control"
+                                                  id="basicpill-expiration-input13"
+                                                  placeholder="Enter here"
+                                                  onChange={
+                                                    validation.handleChange
+                                                  }
+                                                  onBlur={validation.handleBlur}
+                                                  invalid={
+                                                    validation.touched
+                                                      .password &&
+                                                    validation.errors.password
+                                                      ? true
+                                                      : false
+                                                  }
+                                                />
+
+                                                <button
+                                                  onClick={() =>
+                                                    setPasswordShow(
+                                                      !passwordShow
+                                                    )
+                                                  }
+                                                  className="btn btn-light "
+                                                  type="button"
+                                                  id="password-addon"
+                                                >
+                                                  <i className="mdi mdi-eye-outline"></i>
+                                                </button>
+
+                                                {validation.touched.password &&
+                                                validation.errors.password ? (
+                                                  <FormFeedback type="invalid">
+                                                    {validation.errors.password}
+                                                  </FormFeedback>
+                                                ) : null}
+                                              </div>
                                             </div>
                                           </Col>
                                         </Row>
@@ -471,45 +531,64 @@ const Register = () => {
                                           <Col lg="12">
                                             <div className="mb-3">
                                               <Label for="basicpill-expiration-input13">
-                                                Re-Enter Email Password *
+                                                Confirm Password *
                                               </Label>
-                                              <Input
-                                                name="confirmPassword"
-                                                type="password"
-                                                className="form-control"
-                                                id="basicpill-expiration-input13"
-                                                placeholder="Enter here"
-                                                onChange={
-                                                  validation.handleChange
-                                                }
-                                                onBlur={validation.handleBlur}
-                                                invalid={
-                                                  validation.touched
-                                                    .confirmPassword &&
-                                                  validation.errors
-                                                    .confirmPassword
-                                                    ? true
-                                                    : false
-                                                }
-                                              />
-                                              {validation.touched
-                                                .confirmPassword &&
-                                              validation.errors
-                                                .confirmPassword ? (
-                                                <FormFeedback type="invalid">
-                                                  {
+                                              <div className="input-group auth-pass-inputgroup">
+                                                <Input
+                                                  name="confirmPassword"
+                                                  type={
+                                                    !confirmPasswordShow
+                                                      ? "password"
+                                                      : "text"
+                                                  }
+                                                  className="form-control"
+                                                  id="basicpill-expiration-input13"
+                                                  placeholder="Enter here"
+                                                  onChange={
+                                                    validation.handleChange
+                                                  }
+                                                  onBlur={validation.handleBlur}
+                                                  invalid={
+                                                    validation.touched
+                                                      .confirmPassword &&
                                                     validation.errors
                                                       .confirmPassword
+                                                      ? true
+                                                      : false
                                                   }
-                                                </FormFeedback>
-                                              ) : null}
+                                                />
+
+                                                <button
+                                                  onClick={() =>
+                                                    setConfirmPasswordShow(
+                                                      !confirmPasswordShow
+                                                    )
+                                                  }
+                                                  className="btn btn-light "
+                                                  type="button"
+                                                  id="password-addon"
+                                                >
+                                                  <i className="mdi mdi-eye-outline"></i>
+                                                </button>
+                                                {validation.touched
+                                                  .confirmPassword &&
+                                                validation.errors
+                                                  .confirmPassword ? (
+                                                  <FormFeedback type="invalid">
+                                                    {
+                                                      validation.errors
+                                                        .confirmPassword
+                                                    }
+                                                  </FormFeedback>
+                                                ) : null}
+                                              </div>
                                             </div>
                                           </Col>
                                         </Row>
                                       </div>
                                     </TabPane>
 
-                                    <TabPane tabId={3}>
+                                    <TabPane className={`${styles.tabItem} ${activeTab === 3 && styles.active}`} tabId={3}>
                                       <div className="row justify-content-center">
                                         <Col lg="12">
                                           <div className="text-center">
@@ -546,24 +625,35 @@ const Register = () => {
                                       />{" "}
                                     </div>
                                   ) : (
-                                    <div className="actions clearfix">
+                                    <div
+                                      style={{
+                                        marginTop: "20px",
+                                        marginBottom: "20px",
+                                        display: "flex",
+                                        width: "100%",
+                                        justifyContent: "center",
+                                      }}
+                                      className="actions clearfix"
+                                    >
                                       <ul>
-                                        <li
-                                          className={
-                                            activeTab === 1
-                                              ? "previous disabled"
-                                              : "previous"
-                                          }
-                                        >
-                                          <Link
-                                            to="#"
-                                            onClick={() => {
-                                              toggleTab(activeTab - 1);
-                                            }}
+                                        {activeTab !== 1 && (
+                                          <li
+                                            className={
+                                              activeTab === 1
+                                                ? "previous disabled"
+                                                : "previous"
+                                            }
                                           >
-                                            Previous
-                                          </Link>
-                                        </li>
+                                            <Link
+                                              to="#"
+                                              onClick={() => {
+                                                toggleTab(activeTab - 1);
+                                              }}
+                                            >
+                                              Previous
+                                            </Link>
+                                          </li>
+                                        )}
                                         <li
                                           className={
                                             activeTab === 3
@@ -574,7 +664,9 @@ const Register = () => {
                                           <Link
                                             to="#"
                                             onClick={() => {
-                                              validation.handleSubmit();
+                                              activeTab === 1
+                                                ? toggleTab(activeTab + 1)
+                                                : validation.handleSubmit();
                                             }}
                                           >
                                             Next
@@ -645,7 +737,7 @@ const Register = () => {
 
                         <div>
                           <p className="mb-0">
-                            By registering you agree to the Skote{" "}
+                            By registering you agree to the Track Pilot{" "}
                             <Link
                               to={"/terms&conditon"}
                               className="text-primary"
