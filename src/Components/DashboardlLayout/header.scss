@@ -1,0 +1,26 @@
+.darkMode{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+
+   .theme{
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+   }
+
+    .checkboxInput{
+        margin-top: 15px;
+         padding-right: 1px;
+    }
+}
+
+.menuIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    margin-right: 30px;
+    color: white;
+}

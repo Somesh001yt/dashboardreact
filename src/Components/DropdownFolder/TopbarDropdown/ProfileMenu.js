@@ -79,7 +79,7 @@ const ProfileMenu = (props) => {
             {"Lock screen"}
           </DropdownItem>
           <div className="dropdown-divider" />
-          <Link to="/" className="dropdown-item">
+          <Link to="/login" className="dropdown-item">
             <i className="bx bx-power-off font-size-16 align-middle me-1 text-danger" />
             <span>{"Logout"}</span>
           </Link>

@@ -63,7 +63,13 @@ export const API = {
   },
 
   async updateProfile(params, token) {
-    console.log(token)
+    console.log(params)
+    let formData = new FormData();
+    Array.from(params?.profileImage).forEach((image) => {
+      formData.append("profileImage", image);
+    });
+
+
     try {
       const response = await instance.post(
         "user/update-profile",

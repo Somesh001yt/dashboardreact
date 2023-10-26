@@ -69,7 +69,10 @@ const UserProfile = () => {
   
 
   const updateProfileApi = async (data  ) => {
-    data['profileImage'] = image
+    // const formData = new FormData();
+    // formData.append("profileImage", image);
+
+    
     
 
     try {
@@ -151,7 +154,7 @@ const UserProfile = () => {
                             className="avatar-xl rounded-circle img-thumbnail"
                           />
                         )}
-                        <i className="fas fa-pen-square  postion-absolute top-0" />
+                        <i className="fas fa-pen-square  editIcon" />
 
                         <input
                           type="file"
@@ -258,11 +261,11 @@ const UserProfile = () => {
                     ) : null}
                   </div>
                   <div className="text-center mt-4">
-                    <Button type="submit" color="danger">
+                    <Button type="submit" color="primary">
                     {    
                               loading?
                                <div >
-                              <Spinner  size={"sm"} color={"ffff"} /> 
+                              <Spinner  size={"sm"} color={"light"} /> 
                               </div> : 'Update Username'  }
                     </Button>
                   </div>

@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import React, { useState } from "react";
 
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
-
+import styles from "./vertical.module.scss";
 // Reactstrap
 import { Dropdown, DropdownToggle, DropdownMenu } from "reactstrap";
 
@@ -15,15 +15,13 @@ import ProfileMenu from "../DropdownFolder/TopbarDropdown/ProfileMenu";
 import megamenuImg from "../../assets/images/megamenu-img.png";
 
 // import images
-import github from "../../assets/images/brands/github.png";
-import bitbucket from "../../assets/images/brands/bitbucket.png";
-import dribbble from "../../assets/images/brands/dribbble.png";
-import dropbox from "../../assets/images/brands/dropbox.png";
-import mail_chimp from "../../assets/images/brands/mail_chimp.png";
-import slack from "../../assets/images/brands/slack.png";
+import WhiteLogo from '../../assets/images/whitelogo.svg'
 
 import logo from "../../assets/images/logo.svg";
 import logoLightSvg from "../../assets/images/logo-light.svg";
+
+import Light from "../../assets/images/sun.png";
+import Moon from "../../assets/images/moon.png";
 
 //i18n
 // import { withTranslation } from "react-i18next";
@@ -33,12 +31,21 @@ import {
   showRightSidebarAction,
   toggleLeftmenu,
   changeSidebarType,
+  changeLayout,
+  changeLayoutMode,
+  toggleSubscription
 } from "../../store/actions";
+import { createSelector } from "reselect";
 
-const Header = props => {
+import { layoutTypes, layoutModeTypes } from "../../constants/layout";
+
+const Header = (props) => {
   const [search, setsearch] = useState(false);
   const [megaMenu, setmegaMenu] = useState(false);
   const [socialDrp, setsocialDrp] = useState(false);
+   const [isSubscribed, setIsSubscribed] = useState(true );
+  const dispatch = useDispatch();
+  // const isSubscribed = useSelector(state => state.isSubscribed);
 
   function toggleFullscreen() {
     if (
@@ -75,25 +82,42 @@ const Header = props => {
       body.classList.toggle("vertical-collpsed");
       body.classList.toggle("sidebar-enable");
     }
-
   }
+
+  const handleVerticalLayout = () => {
+    console.log(layoutTypes);
+    if (layoutTypes.VERTICAL === layoutTypes.VERTICAL) {
+      dispatch(changeLayout("horizontal"));
+    }
+  };
+
+  const handleTheme = (theme) => {
+    if (theme === "light") {
+      dispatch(changeLayoutMode("light"));
+        setIsSubscribed(true);
+      // dispatch(toggleSubscription())
+    } else {
+      dispatch(changeLayoutMode("dark"));
+       setIsSubscribed(false);
+      // dispatch(toggleSubscription())
+    }
+  };
 
   return (
     <React.Fragment>
       <header id="page-topbar">
         <div className="navbar-header">
           <div className="d-flex">
-
             <div className="navbar-brand-box d-lg-none d-md-block">
               <Link to="/" className="logo logo-dark">
                 <span className="logo-sm">
-                  <img src={logo} alt="" height="22" />
+                  <img src={WhiteLogo} alt="" height="22" />
                 </span>
               </Link>
 
               <Link to="/" className="logo logo-light">
-                <span className="logo-sm">
-                  <img src={logoLightSvg} alt="" height="22" />
+                <span className="logo-sm object-contain">
+                  <img src={WhiteLogo} alt="" height="30" />
                 </span>
               </Link>
             </div>
@@ -108,117 +132,109 @@ const Header = props => {
             >
               <i className="fa fa-fw fa-bars" />
             </button>
+          </div>
 
+          <div className="d-flex">
             <form className="app-search d-none d-lg-block">
               <div className="position-relative">
                 <input
                   type="text"
                   className="form-control"
-                  placeholder={("Search") + "..."}
+                  placeholder={"Search" + "..."}
                 />
                 <span className="bx bx-search-alt" />
               </div>
             </form>
 
-            <Dropdown
+            {/* <Dropdown
               className="dropdown-mega d-none d-lg-block ms-2"
               isOpen={megaMenu}
               toggle={() => {
                 setmegaMenu(!megaMenu);
               }}
             >
-              <DropdownToggle
-                className="btn header-item "
-                caret
-                tag="button"
-              >
+              <DropdownToggle className="btn header-item " caret tag="button">
                 {" "}
-                {("Mega Menu")} <i className="mdi mdi-chevron-down" />
+                {"Mega Menu"} <i className="mdi mdi-chevron-down" />
               </DropdownToggle>
               <DropdownMenu className="dropdown-megamenu">
                 <Row>
                   <Col sm={8}>
                     <Row>
                       <Col md={4}>
-                        <h5 className="font-size-14 mt-0">
-                          {("UI Components")}
-                        </h5>
+                        <h5 className="font-size-14 mt-0">{"UI Components"}</h5>
                         <ul className="list-unstyled megamenu-list">
                           <li>
-                            <Link to="#">{("Lightbox")}</Link>
+                            <Link to="#">{"Lightbox"}</Link>
                           </li>
                           <li>
-                            <Link to="#">{("Range Slider")}</Link>
+                            <Link to="#">{"Range Slider"}</Link>
                           </li>
                           <li>
-                            <Link to="#">{("Sweet Alert")}</Link>
+                            <Link to="#">{"Sweet Alert"}</Link>
                           </li>
                           <li>
-                            <Link to="#">{("Rating")}</Link>
+                            <Link to="#">{"Rating"}</Link>
                           </li>
                           <li>
-                            <Link to="#">{("Forms")}</Link>
+                            <Link to="#">{"Forms"}</Link>
                           </li>
                           <li>
-                            <Link to="#">{("Tables")}</Link>
+                            <Link to="#">{"Tables"}</Link>
                           </li>
                           <li>
-                            <Link to="#">{("Charts")}</Link>
+                            <Link to="#">{"Charts"}</Link>
                           </li>
                         </ul>
                       </Col>
 
                       <Col md={4}>
-                        <h5 className="font-size-14 mt-0">
-                          {("Applications")}
-                        </h5>
+                        <h5 className="font-size-14 mt-0">{"Applications"}</h5>
                         <ul className="list-unstyled megamenu-list">
                           <li>
-                            <Link to="#">{("Ecommerce")}</Link>
+                            <Link to="#">{"Ecommerce"}</Link>
                           </li>
                           <li>
-                            <Link to="#">{("Calendar")}</Link>
+                            <Link to="#">{"Calendar"}</Link>
                           </li>
                           <li>
-                            <Link to="#">{("Email")}</Link>
+                            <Link to="#">{"Email"}</Link>
                           </li>
                           <li>
-                            <Link to="#">{("Projects")}</Link>
+                            <Link to="#">{"Projects"}</Link>
                           </li>
                           <li>
-                            <Link to="#">{("Tasks")}</Link>
+                            <Link to="#">{"Tasks"}</Link>
                           </li>
                           <li>
-                            <Link to="#">{("Contacts")}</Link>
+                            <Link to="#">{"Contacts"}</Link>
                           </li>
                         </ul>
                       </Col>
 
                       <Col md={4}>
-                        <h5 className="font-size-14 mt-0">
-                          {("Extra Pages")}
-                        </h5>
+                        <h5 className="font-size-14 mt-0">{"Extra Pages"}</h5>
                         <ul className="list-unstyled megamenu-list">
                           <li>
-                            <Link to="#">{("Light Sidebar")}</Link>
+                            <Link to="#">{"Light Sidebar"}</Link>
                           </li>
                           <li>
-                            <Link to="#">{("Compact Sidebar")}</Link>
+                            <Link to="#">{"Compact Sidebar"}</Link>
                           </li>
                           <li>
-                            <Link to="#">{("Horizontal layout")}</Link>
+                            <Link to="#">{"Horizontal layout"}</Link>
                           </li>
                           <li>
-                            <Link to="#"> {("Maintenance")}</Link>
+                            <Link to="#"> {"Maintenance"}</Link>
                           </li>
                           <li>
-                            <Link to="#">{("Coming Soon")}</Link>
+                            <Link to="#">{"Coming Soon"}</Link>
                           </li>
                           <li>
-                            <Link to="#">{("Timeline")}</Link>
+                            <Link to="#">{"Timeline"}</Link>
                           </li>
                           <li>
-                            <Link to="#">{("FAQs")}</Link>
+                            <Link to="#">{"FAQs"}</Link>
                           </li>
                         </ul>
                       </Col>
@@ -227,30 +243,28 @@ const Header = props => {
                   <Col sm={4}>
                     <Row>
                       <Col sm={6}>
-                        <h5 className="font-size-14 mt-0">
-                          {("UI Components")}
-                        </h5>
+                        <h5 className="font-size-14 mt-0">{"UI Components"}</h5>
                         <ul className="list-unstyled megamenu-list">
                           <li>
-                            <Link to="#">{("Lightbox")}</Link>
+                            <Link to="#">{"Lightbox"}</Link>
                           </li>
                           <li>
-                            <Link to="#">{("Range Slider")}</Link>
+                            <Link to="#">{"Range Slider"}</Link>
                           </li>
                           <li>
-                            <Link to="#">{("Sweet Alert")}</Link>
+                            <Link to="#">{"Sweet Alert"}</Link>
                           </li>
                           <li>
-                            <Link to="#">{("Rating")}</Link>
+                            <Link to="#">{"Rating"}</Link>
                           </li>
                           <li>
-                            <Link to="#">{("Forms")}</Link>
+                            <Link to="#">{"Forms"}</Link>
                           </li>
                           <li>
-                            <Link to="#">{("Tables")}</Link>
+                            <Link to="#">{"Tables"}</Link>
                           </li>
                           <li>
-                            <Link to="#">{("Charts")}</Link>
+                            <Link to="#">{"Charts"}</Link>
                           </li>
                         </ul>
                       </Col>
@@ -268,9 +282,8 @@ const Header = props => {
                   </Col>
                 </Row>
               </DropdownMenu>
-            </Dropdown>
-          </div>
-          <div className="d-flex">
+            </Dropdown> */}
+
             <div className="dropdown d-inline-block d-lg-none ms-2">
               <button
                 onClick={() => {
@@ -310,8 +323,8 @@ const Header = props => {
               </div>
             </div>
 
-            <LanguageDropdown />
-
+            {/* <LanguageDropdown /> */}
+            {/* 
             <Dropdown
               className="d-none d-lg-inline-block ms-1"
               isOpen={socialDrp}
@@ -370,7 +383,7 @@ const Header = props => {
                   </Row>
                 </div>
               </DropdownMenu>
-            </Dropdown>
+            </Dropdown> */}
 
             <div className="dropdown d-none d-lg-inline-block ms-1">
               <button
@@ -385,10 +398,38 @@ const Header = props => {
               </button>
             </div>
 
-            <NotificationDropdown />
+            {/* <NotificationDropdown /> */}
+          </div>
+
+          <div className="d-flex">
+            <div
+              className={styles.verticalMenuIcon}
+              onClick={handleVerticalLayout}
+            >
+              <i className="fas fa-align-left verticalIcon" />
+            </div>
+
+            <div className={styles.themeDiv}>
+              {isSubscribed ? (
+                <img
+                  src={Moon}
+                  alt="moon"
+                  className={styles.themeDiv__themeIcon}
+                  onClick={() => handleTheme("dark")}
+                />
+              ) : (
+                <img
+                  src={Light}
+                  alt="light"
+                  className={styles.themeDiv__themeIcon}
+                  onClick={() => handleTheme("light")}
+                />
+              )}
+            </div>
+
             <ProfileMenu />
 
-            <div
+            {/* <div
                onClick={() => {
                 props.showRightSidebarAction(!props.showRightSidebar);
               }}
@@ -400,7 +441,7 @@ const Header = props => {
               >
                 <i className="bx bx-cog bx-spin" />
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </header>
@@ -415,16 +456,12 @@ Header.propTypes = {
   showRightSidebar: PropTypes.any,
   showRightSidebarAction: PropTypes.func,
   t: PropTypes.any,
-  toggleLeftmenu: PropTypes.func
+  toggleLeftmenu: PropTypes.func,
 };
 
-const mapStatetoProps = state => {
-  const {
-    layoutType,
-    showRightSidebar,
-    leftMenu,
-    leftSideBarType,
-  } = state.Layout;
+const mapStatetoProps = (state) => {
+  const { layoutType, showRightSidebar, leftMenu, leftSideBarType } =
+    state.Layout;
   return { layoutType, showRightSidebar, leftMenu, leftSideBarType };
 };
 
@@ -432,5 +469,5 @@ export default connect(mapStatetoProps, {
   showRightSidebarAction,
   toggleLeftmenu,
   changeSidebarType,
-})((Header));
+})(Header);
 // withTranslation()

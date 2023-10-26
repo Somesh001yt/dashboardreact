@@ -10,7 +10,8 @@ import {
   CHANGE_PRELOADER,
   TOGGLE_LEFTMENU,
   SHOW_SIDEBAR,
-  CHANGE_LAYOUT_MODE
+  CHANGE_LAYOUT_MODE,
+  TOGGLE_SUBSCRIPTION
 } from "./actionTypes";
 
 //constants
@@ -37,6 +38,7 @@ const INIT_STATE = {
   isMobile: false,
   showSidebar: true,
   leftMenu: false,
+  isSubscribed: true,
 }
 const Layout = (state = INIT_STATE, action) => {
   switch (action.type) {
@@ -98,6 +100,13 @@ const Layout = (state = INIT_STATE, action) => {
         ...state,
         leftMenu: action.payload,
       }
+      case TOGGLE_SUBSCRIPTION:
+      
+        return {
+          ...state,
+          isSubscribed: action.payload, 
+        }
+  
 
     default:
       return state

@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { connect } from "react-redux";
 import withRouter from "../../Components/Common/withRouter";
+import WhiteLogo from '../../assets/images/whitelogo.svg'
 
 //i18n
 // import { withTranslation } from "react-i18next";
@@ -22,19 +23,19 @@ const Sidebar = props => {
         <div className="navbar-brand-box">
           <Link to="/" className="logo logo-dark">
             <span className="logo-sm">
-              <img src={logo} alt="" height="22" />
+              <img src={WhiteLogo} alt="" height="22" />
             </span>
             <span className="logo-lg">
-              <img src={logoDark} alt="" height="17" />
+              <img src={WhiteLogo} alt="" height="17" />
             </span>
           </Link>
 
           <Link to="/" className="logo logo-light">
             <span className="logo-sm">
-              <img src={logoLightSvg} alt="" height="22" />
+              <img src={WhiteLogo} alt="" height="22" />
             </span>
             <span className="logo-lg">
-              <img src={logoLightPng} alt="" height="19" />
+              <img src={WhiteLogo} alt="" height="50" />
             </span>
           </Link>
         </div>
