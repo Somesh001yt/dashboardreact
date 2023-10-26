@@ -133,7 +133,7 @@ const Login = () => {
                    </div>
                    <div className="my-auto">
                      <div>
-                       <h5 className="text-primary">Welcome Back !</h5>
+                       <h5 style={{fontSize:'20px'}} className="text-primary">Welcome Back !</h5>
                        <p style={{fontWeight:'600'}} className="text-muted">
                          Sign in to continue to The Track Pilot.
                        </p>

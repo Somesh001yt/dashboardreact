@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
-import { connect, useDispatch } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
 import "./header.scss";
@@ -46,6 +46,20 @@ const Header = (props) => {
   const [isSearch, setSearch] = useState(false);
   const [socialDrp, setsocialDrp] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(true);
+
+  const selectLayoutState = useSelector((state) => state.Layout.layoutModeType)
+  console.log(selectLayoutState)
+
+
+  useEffect(()=>{
+    if(selectLayoutState === "light"){
+      setIsSubscribed(true)
+    }
+    else{
+      setIsSubscribed(false)
+    }
+  },[selectLayoutState])
+
 
   function toggleFullscreen() {
     if (
