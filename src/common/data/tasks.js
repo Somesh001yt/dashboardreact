@@ -179,7 +179,7 @@ const options = {
   chart: { height: 280, type: "line", stacked: !1, toolbar: { show: !1 } },
   stroke: { width: [0, 2, 5], curve: "smooth" },
   plotOptions: { bar: { columnWidth: "20%", endingShape: "rounded" } },
-  colors: ["#556ee6", "#34c38f"],
+  colors: ["#00395C", "#34c38f"],
   fill: {
     gradient: {
       inverseColors: !1,

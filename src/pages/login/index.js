@@ -74,7 +74,7 @@ const Login = () => {
       ).required("Please Enter Your Username"),
       password: Yup.string().matches(
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-\/:-@\[-`{-~]).{8,}$/,
-        "Invalid password format"
+        "Your password should contain a combination of uppercase and lowercase letters, at least one number, and at least one special character."
       ).required("Please Enter Your Password"),
     }),
     onSubmit: (values) => { 

@@ -639,7 +639,7 @@ const options = {
       text: "Week",
     },
   },
-  colors: ["#556ee6"],
+  colors: ["#00395C"],
 };
 
 const series = [

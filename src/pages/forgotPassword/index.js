@@ -29,7 +29,7 @@ const RecoverPassword = () => {
     if(response?.success){
       localStorage.setItem('forgotToken', response?.token)
       toast.success(response?.message); 
-      navigate("/reset-password");
+      navigate("/login");
     }else {
       console.log({response});
       toast.error(response?.message );

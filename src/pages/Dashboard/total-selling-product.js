@@ -13,7 +13,7 @@ const getChartOptions = index => {
   var options = {
     chart: { sparkline: { enabled: !0 } },
     dataLabels: { enabled: !1 },
-    colors: ["#556ee6"],
+    colors: ["#00395C"],
     plotOptions: {
       radialBar: {
         hollow: { margin: 0, size: "60%" },
@@ -24,7 +24,7 @@ const getChartOptions = index => {
   };
   switch (index) {
     case 1:
-      options["colors"][0] = "#556ee6";
+      options["colors"][0] = "#00395C";
       break;
     case 2:
       options["colors"][0] = "#34c38f";

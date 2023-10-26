@@ -32,11 +32,13 @@ import trackLogo from "../../assets/images/logo.png";
 import CarouselPage from "../CarouselPage";
 import { toast } from "react-toastify";
 import { API } from "../../Api/Api";
+import Spinner from "../../Components/Common/Spinner";
 
 const Register = () => {
   const [activeTab, setactiveTab] = useState(1);
   const [passedSteps, setPassedSteps] = useState([1]);
-  const navigate = useNavigate()
+  const [loader, setLoader] = useState(false);
+  const navigate = useNavigate();
   const [userType, setUserType] = useState("education");
 
   const selectedUser = {
@@ -69,8 +71,16 @@ const Register = () => {
     phone: Yup.number().required("This field is required."),
     password: Yup.string()
       .min(6, "Password must be at least 6 characters")
+      .matches(
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-\/:-@\[-`{-~]).{8,}$/,
+        "Your password should contain a combination of uppercase and lowercase letters, at least one number, and at least one special character."
+      )
       .required("Password is required"),
     confirmPassword: Yup.string()
+      .matches(
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-\/:-@\[-`{-~]).{8,}$/,
+        "Your password should contain a combination of uppercase and lowercase letters, at least one number, and at least one special character."
+      )
       .oneOf([Yup.ref("password"), null], "Passwords must match.")
       .required("This field is required."),
   });
@@ -99,6 +109,7 @@ const Register = () => {
   });
 
   const userRegistration = async (data) => {
+    setLoader(true);
     console.log(data);
     let param = {
       username: data?.username,
@@ -114,12 +125,16 @@ const Register = () => {
       if (response?.success) {
         toast.success(response.message);
         toggleTab(activeTab + 1);
-        setTimeout(()=>{navigate("/login") } , 3000)
+        setTimeout(() => {
+          navigate("/login");
+        }, 3000);
       } else {
         toast.error(response.message);
       }
     } catch (error) {
       toast.error("Network Error");
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -477,10 +492,15 @@ const Register = () => {
                                                     : false
                                                 }
                                               />
-                                              {validation.touched.confirmPassword &&
-                                              validation.errors.confirmPassword ? (
+                                              {validation.touched
+                                                .confirmPassword &&
+                                              validation.errors
+                                                .confirmPassword ? (
                                                 <FormFeedback type="invalid">
-                                                  {validation.errors.confirmPassword}
+                                                  {
+                                                    validation.errors
+                                                      .confirmPassword
+                                                  }
                                                 </FormFeedback>
                                               ) : null}
                                             </div>
@@ -509,44 +529,60 @@ const Register = () => {
                                     </TabPane>
                                   </TabContent>
                                 </div>
-                                {activeTab !== 3 && (
-                                  <div className="actions clearfix">
-                                    <ul>
-                                      <li
-                                        className={
-                                          activeTab === 1
-                                            ? "previous disabled"
-                                            : "previous"
-                                        }
-                                      >
-                                        <Link
-                                          to="#"
-                                          onClick={() => {
-                                            toggleTab(activeTab - 1);
-                                          }}
+                                {activeTab !== 3 &&
+                                  (loader ? (
+                                    <div
+                                      style={{
+                                        width: "100%",
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        marginBottom: "10px",
+                                      }}
+                                    >
+                                      {" "}
+                                      <Spinner
+                                        size={"sm"}
+                                        color={"ffff"}
+                                      />{" "}
+                                    </div>
+                                  ) : (
+                                    <div className="actions clearfix">
+                                      <ul>
+                                        <li
+                                          className={
+                                            activeTab === 1
+                                              ? "previous disabled"
+                                              : "previous"
+                                          }
                                         >
-                                          Previous
-                                        </Link>
-                                      </li>
-                                      <li
-                                        className={
-                                          activeTab === 3
-                                            ? "next disabled"
-                                            : "next"
-                                        }
-                                      >
-                                        <Link
-                                          to="#"
-                                          onClick={() => {
-                                            validation.handleSubmit();
-                                          }}
+                                          <Link
+                                            to="#"
+                                            onClick={() => {
+                                              toggleTab(activeTab - 1);
+                                            }}
+                                          >
+                                            Previous
+                                          </Link>
+                                        </li>
+                                        <li
+                                          className={
+                                            activeTab === 3
+                                              ? "next disabled"
+                                              : "next"
+                                          }
                                         >
-                                          Next
-                                        </Link>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                )}
+                                          <Link
+                                            to="#"
+                                            onClick={() => {
+                                              validation.handleSubmit();
+                                            }}
+                                          >
+                                            Next
+                                          </Link>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  ))}
                               </div>
                             </div>
                           </Col>
