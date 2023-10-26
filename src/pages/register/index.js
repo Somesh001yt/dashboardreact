@@ -173,13 +173,13 @@ const Register = () => {
                   </div>
                   <div className="my-auto">
                     <div>
-                      <h5 className="text-primary">Register account</h5>
+                      <h5 style={{fontSize:'20px'}} className="text-primary">Register account</h5>
                       <p style={{ fontWeight: "600" }} className="text-muted">
                         Get your free Track Pilot account now.
                       </p>
                     </div>
 
-                    <div className="mt-4">
+                    <div>
                       <Form
                         className="form-horizontal"
                         onSubmit={(e) => {

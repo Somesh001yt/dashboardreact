@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { connect, useDispatch, useSelector } from "react-redux";
 import { Row, Col } from "reactstrap";
@@ -15,7 +15,7 @@ import ProfileMenu from "../DropdownFolder/TopbarDropdown/ProfileMenu";
 import megamenuImg from "../../assets/images/megamenu-img.png";
 
 // import images
-import WhiteLogo from '../../assets/images/whitelogo.svg'
+import WhiteLogo from "../../assets/images/whitelogo.svg";
 
 import logo from "../../assets/images/logo.svg";
 import logoLightSvg from "../../assets/images/logo-light.svg";
@@ -33,7 +33,7 @@ import {
   changeSidebarType,
   changeLayout,
   changeLayoutMode,
-  toggleSubscription
+  toggleSubscription,
 } from "../../store/actions";
 import { createSelector } from "reselect";
 
@@ -43,9 +43,22 @@ const Header = (props) => {
   const [search, setsearch] = useState(false);
   const [megaMenu, setmegaMenu] = useState(false);
   const [socialDrp, setsocialDrp] = useState(false);
-   const [isSubscribed, setIsSubscribed] = useState(true );
+  const [isSubscribed, setIsSubscribed] = useState(true);
+
+  const selectLayoutState = useSelector((state) => state.Layout.layoutModeType);
+  console.log(selectLayoutState);
+
   const dispatch = useDispatch();
   // const isSubscribed = useSelector(state => state.isSubscribed);
+
+  useEffect(()=>{
+    if(selectLayoutState === "light"){
+      setIsSubscribed(true)
+    }
+    else{
+      setIsSubscribed(false)
+    }
+  },[selectLayoutState])
 
   function toggleFullscreen() {
     if (
@@ -94,11 +107,11 @@ const Header = (props) => {
   const handleTheme = (theme) => {
     if (theme === "light") {
       dispatch(changeLayoutMode("light"));
-        setIsSubscribed(true);
+      setIsSubscribed(true);
       // dispatch(toggleSubscription())
     } else {
       dispatch(changeLayoutMode("dark"));
-       setIsSubscribed(false);
+      setIsSubscribed(false);
       // dispatch(toggleSubscription())
     }
   };
