@@ -147,11 +147,11 @@ const SidebarContent = props => {
           <ul className="metismenu list-unstyled" id="side-menu">
             <li className="menu-title">{("Menu")} </li>
             <li>
-              <Link to="/#" className="has-arrow">
-                <i className="bx bx-home-circle"></i>
+              <Link to="/dashboard" >
+                {/* <i className="bx bx-home-circle"></i> */}
                 <span>{("Dashboards")}</span>
               </Link>
-              <ul className="sub-menu">
+              {/* <ul className="sub-menu">
                 <li>
                   <Link to="/dashboard">{("Default")}</Link>
                 </li>
@@ -169,7 +169,7 @@ const SidebarContent = props => {
                     {("Job")}
                   </Link>
                 </li>
-              </ul>
+              </ul> */}
             </li>
 
             <li className="menu-title">{("Apps")}</li>
