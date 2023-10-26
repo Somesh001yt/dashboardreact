@@ -119,12 +119,7 @@ const ChangePassword = () => {
                               validation.errors.oldPassword
                             }
                           />
-                          {validation.touched.oldPassword &&
-                        validation.errors.oldPassword ? (
-                          <FormFeedback type="invalid">
-                            {validation.errors.oldPassword}
-                          </FormFeedback>
-                        ) : null}
+                         
                           <button
                             onClick={() =>
                               togglePasswordVisibility("oldPassword")
@@ -139,6 +134,12 @@ const ChangePassword = () => {
                               }`}
                             ></i>
                           </button>
+                          {validation.touched.oldPassword &&
+                        validation.errors.oldPassword ? (
+                          <FormFeedback type="invalid">
+                            {validation.errors.oldPassword}
+                          </FormFeedback>
+                        ) : null}
                         </div>
                         
                       </div>
@@ -160,12 +161,7 @@ const ChangePassword = () => {
                                 : false
                             }
                           />
-                          {validation.touched.newPassword &&
-                          validation.errors.newPassword ? (
-                            <FormFeedback type="invalid">
-                              {validation.errors.newPassword}
-                            </FormFeedback>
-                          ) : null}
+                         
                           <button
                             onClick={() =>
                               togglePasswordVisibility("newPassword")
@@ -180,6 +176,12 @@ const ChangePassword = () => {
                               }`}
                             ></i>
                           </button>
+                          {validation.touched.newPassword &&
+                          validation.errors.newPassword ? (
+                            <FormFeedback type="invalid">
+                              {validation.errors.newPassword}
+                            </FormFeedback>
+                          ) : null}
                         </div>
 
                         {console.log("Erro Fields: ", validation.errors)}
@@ -200,12 +202,7 @@ const ChangePassword = () => {
                               validation.errors.confirmPassword
                             }
                           />
-                          {validation.touched.confirmPassword &&
-                          validation.errors.confirmPassword ? (
-                            <FormFeedback type="invalid">
-                              {validation.errors.confirmPassword}
-                            </FormFeedback>
-                          ) : null}
+                         
                           <button
                             onClick={() =>
                               togglePasswordVisibility("confirmPassword")
@@ -220,6 +217,12 @@ const ChangePassword = () => {
                               }`}
                             ></i>
                           </button>
+                          {validation.touched.confirmPassword &&
+                          validation.errors.confirmPassword ? (
+                            <FormFeedback type="invalid">
+                              {validation.errors.confirmPassword}
+                            </FormFeedback>
+                          ) : null}
                         </div>
                       </div>
 
@@ -227,6 +230,7 @@ const ChangePassword = () => {
                         <button
                           className="btn btn-primary btn-block"
                           type="submit"
+                          style={{width:'180px'}}
                         >
                           {loading ? (
                             <Spinner size="sm" color="ffff" />
