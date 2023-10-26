@@ -9,7 +9,8 @@ import {
   SHOW_SIDEBAR,
   CHANGE_PRELOADER,
   TOGGLE_LEFTMENU,
-  CHANGE_LAYOUT_MODE
+  CHANGE_LAYOUT_MODE,
+  TOGGLE_SUBSCRIPTION
 } from "./actionTypes"
 
 export const changeLayout = layout => ({
@@ -68,3 +69,8 @@ export const toggleLeftmenu = isopen => ({
   type: TOGGLE_LEFTMENU,
   payload: isopen,
 })
+
+
+export const toggleSubscription = () => ({
+  type: TOGGLE_SUBSCRIPTION,
+});
