@@ -261,7 +261,7 @@ const UserProfile = () => {
                     ) : null}
                   </div>
                   <div  className="text-center mt-4" >
-                    <Button type="submit" color="primary">
+                    <Button style={{width:'170px'}} type="submit" color="primary">
                     {    
                               loading?
                                <div >
