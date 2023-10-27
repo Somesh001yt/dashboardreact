@@ -23,7 +23,7 @@ import CarouselPage from "../CarouselPage";
 import { toast } from "react-toastify";
 import { API } from "../../Api/Api";
 import Spinner from "../../Components/Common/Spinner";
-import './module.login.scss'
+import "./module.login.scss";
 
 const Login = () => {
   const [passwordShow, setPasswordShow] = useState(false);
@@ -37,19 +37,17 @@ const Login = () => {
   document.title = "Login  | The Track Pilot ";
 
   useEffect(() => {
-
-    
     if (storedEmail && storedPassword) {
       validation.setValues({
         username: storedEmail,
         password: storedPassword,
       });
 
-      setRememberMe(true)
+      setRememberMe(true);
     }
   }, []);
 
-  const login = async (data , rememberMe) => {
+  const login = async (data, rememberMe) => {
     setLoader(true);
     const vals = {
       email: data.username,
@@ -103,8 +101,13 @@ const Login = () => {
           /^[A-Za-z0-9_%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
           "Invalid email format"
         )
-        .required("Please Enter Your Username"),
-      password: Yup.string().required("Please Enter Your Password"),
+        .required("Please enter your email address."),
+      password: Yup.string()
+        .matches(
+          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-\/:-@\[-`{-~]).{8,}$/,
+          "Your password should contain a combination of uppercase and lowercase letters, at least one number, and at least one special character."
+        )
+        .required("Please enter your password."),
     }),
     onSubmit: (values) => {
       login(values, rememberMe);
@@ -117,28 +120,39 @@ const Login = () => {
         <Row className="g-0">
           <CarouselPage />
 
-           <Col xl={3}>
-             <div className="auth-full-page-content p-md-5 p-4">
-               <div className="w-100">
-                 <div className="d-flex flex-column h-100">
-                   <div className="mb-4 mb-md-5">
-                     <Link style={{width:'100%' , display:'flex' , justifyContent:'center'}} className="card-logo">
-                       <img
-                         src={trackLogo}
-                         alt=""
-                         height="100"
-                         className="logo-dark-element"
-                       />
-                       
-                     </Link>
-                   </div>
-                   <div className="my-auto">
-                     <div>
-                       <h5 style={{fontSize:'20px'}} className="text-primary">Welcome Back !</h5>
-                       <p style={{fontWeight:'600'}} className="text-muted">
-                         Sign in to continue to The Track Pilot.
-                       </p>
-                     </div>
+          <Col xl={3}>
+            <div className="auth-full-page-content p-md-5 p-4">
+              <div className="w-100">
+                <div className="d-flex flex-column h-100">
+                  <div className="mb-4 mb-md-5">
+                    <Link
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                      className="card-logo"
+                    >
+                      <img
+                        src={trackLogo}
+                        alt=""
+                        height="100"
+                        className="logo-dark-element"
+                      />
+                    </Link>
+                  </div>
+                  <div className="my-auto">
+                    <div>
+                      <h5
+                        style={{ fontWeight: "600", fontSize: "20px" }}
+                        className="text-primary"
+                      >
+                        Welcome Back !
+                      </h5>
+                      <p style={{ fontWeight: "600" }} className="text-muted">
+                        Sign in to continue to The Track Pilot.
+                      </p>
+                    </div>
 
                     <div className="mt-4">
                       <Form
@@ -150,13 +164,11 @@ const Login = () => {
                         }}
                       >
                         <div className="mb-3">
-                          <Label className="form-label">
-                            Email Address
-                          </Label>
+                          <Label className="form-label">Email Address</Label>
                           <Input
                             name="username"
                             className="form-control"
-                            placeholder="Enter username"
+                            placeholder="Enter email address"
                             type="text"
                             onChange={validation.handleChange}
                             onBlur={validation.handleBlur}
@@ -176,32 +188,45 @@ const Login = () => {
                           ) : null}
                         </div>
 
-                         <div className="mb-3">
-                           <div className="float-end">
-                             <Link to="/forgot-password" className="text-muted">Forgot password?</Link>
-                           </div>
-                           <Label className="form-label">Password</Label>
-                           <div className="input-group auth-pass-inputgroup">
-                             <Input
-                               name="password"
-                               value={validation.values.password || ""}
-                               type={passwordShow ? "text" : "password"}
-                               placeholder="Enter Password"
-                               onChange={validation.handleChange}
-                               onBlur={validation.handleBlur}
-                               invalid={
-                                 validation.touched.password && validation.errors.password ? true : false
-                               }
-                             />
-                             
-                             <button onClick={() => setPasswordShow(!passwordShow)} className="btn btn-light " type="button" id="password-addon">
-                               <i className="mdi mdi-eye-outline"></i></button>
-                               {validation.touched.password && validation.errors.password ? (
-                             <FormFeedback type="invalid">{validation.errors.password}</FormFeedback>
-                           ) : null}
-                           </div>
-                          
-                         </div>
+                        <div className="mb-3">
+                          <div className="float-end">
+                            <Link to="/forgot-password" className="text-muted">
+                              Forgot password?
+                            </Link>
+                          </div>
+                          <Label className="form-label">Password</Label>
+                          <div className="input-group auth-pass-inputgroup">
+                            <Input
+                              name="password"
+                              value={validation.values.password || ""}
+                              type={passwordShow ? "text" : "password"}
+                              placeholder="Enter Password"
+                              onChange={validation.handleChange}
+                              onBlur={validation.handleBlur}
+                              invalid={
+                                validation.touched.password &&
+                                validation.errors.password
+                                  ? true
+                                  : false
+                              }
+                            />
+
+                            <button
+                              onClick={() => setPasswordShow(!passwordShow)}
+                              className="btn btn-light "
+                              type="button"
+                              id="password-addon"
+                            >
+                              <i className="mdi mdi-eye-outline"></i>
+                            </button>
+                            {validation.touched.password &&
+                            validation.errors.password ? (
+                              <FormFeedback type="invalid">
+                                {validation.errors.password}
+                              </FormFeedback>
+                            ) : null}
+                          </div>
+                        </div>
 
                         <div className="form-check">
                           <Input
@@ -269,35 +294,34 @@ const Login = () => {
                            </ul>
                          </div>
                        </Form> */}
-                       <div className="mt-5 text-center">
-                         <p>
-                           Don&apos;t have an account ? {" "}
-                           <Link
-                             to="/register"
-                             className="fw-medium text-primary"
-                           >
-                             Signup now
-                           </Link>
-                         </p>
-                       </div>
-                     </div>
-                   </div>
+                      <div className="mt-5 text-center">
+                        <p>
+                          Don&apos;t have an account ?{" "}
+                          <Link
+                            to="/register"
+                            className="fw-medium text-primary"
+                          >
+                            Signup now
+                          </Link>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
 
-                   <div className="mt-4 mt-md-5 text-center">
-                     <p className="mb-0">
-                       © {new Date().getFullYear()} The Track Pilot. Crafted with{" "}
-                       <i className="mdi mdi-heart  heartColor"></i> by
-                       Eitbiz
-                     </p>
-                   </div>
-                 </div>
-               </div>
-             </div>
-           </Col>
-         </Row>
-       {/* </Container> */}
-     </div>
-   </React.Fragment>
+                  <div className="mt-4 mt-md-5 text-center">
+                    <p className="mb-0">
+                      © {new Date().getFullYear()} The Track Pilot. Crafted with{" "}
+                      <i className="mdi mdi-heart  heartColor"></i> by Eitbiz
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Col>
+        </Row>
+        {/* </Container> */}
+      </div>
+    </React.Fragment>
   );
 };
 

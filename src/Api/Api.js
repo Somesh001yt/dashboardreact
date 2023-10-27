@@ -15,6 +15,20 @@ export const API = {
     }
   },
 
+  async confirmEmail(params) {
+    try {
+      const response = await instance.post("auth/activate", {
+        ...params,
+      });
+      console.log(response);
+      return response?.data;
+    } catch (error) {
+      console.log("error", error);
+
+      return error.data;
+    }
+  },
+
   async userRegisteration(params) {
     try {
       const response = await instance.post("auth/register", {
@@ -126,9 +140,9 @@ export const API = {
 
   },
 
-  async updateDepartmentList (params , token){
+  async updateDepartmentList (params , token , id){
     try{
-    const response = await instance.put("class/2",
+    const response = await instance.put(`class/${id}`,
     {...params},
     {
       headers: {
@@ -143,7 +157,7 @@ export const API = {
     }
   },
 
-  async addDepartmentList (params, token){
+  async addDepartmentList (params, token ){
     console.log(params, 'me')
 
 
@@ -163,9 +177,9 @@ export const API = {
       }
   },
 
-  async deleteDepartmentList (params , token){
+  async deleteDepartmentList ( token , id){
     try{
-    const response = await instance.delete(`class/${params.id}`,
+    const response = await instance.delete(`class/${id}`,
     {
       headers: {
         "x-access-token": token,

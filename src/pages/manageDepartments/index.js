@@ -22,7 +22,6 @@ import {
   Label,
   Card,
   CardBody,
-
 } from "reactstrap";
 import Spinners from "../../Components/Common/Spinner";
 import { ToastContainer } from "react-toastify";
@@ -43,18 +42,28 @@ const JobNoTitle = (cell) => {
 const ManageDepartment = () => {
   const [modal, setModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [loading, setLoader] = useState(false);
-
-  const [modalState , setModalstate] = useState("add")
-
-  const [jobsList, setJobsList] = useState(listData);
-  const [departmentData , setDepartmentData] = useState([]);
-  const [job, setJob] = useState(null);
-  const [deletId , setDeletId] = useState()
-
   const userDataString = localStorage.getItem("userData");
 
   const UserData = JSON.parse(userDataString);
+
+
+  const [loading, setLoader] = useState(false);
+
+  const [modalState, setModalstate] = useState("add");
+
+  const [jobsList, setJobsList] = useState(listData);
+  const [departmentData, setDepartmentData] = useState([]);
+  const [job, setJob] = useState(null);
+  const [deletId , setDeletId] = useState()
+
+  let userTypeName =
+    UserData.user_type === "education"
+      ? "Class"
+      : UserData.user_type === "corporate"
+      ? "Deaprtment"
+      : "Users";
+
+
 
   const token = localStorage.getItem("token");
 
@@ -70,94 +79,88 @@ const ManageDepartment = () => {
     }),
     onSubmit: (values) => {
       console.log(values);
-      addOrEdit(values)
+      addOrEdit(values);
       toggle();
     },
   });
 
+  useEffect(() => {
+    getDepartementListData();
+  }, [token]);
 
-  useEffect(()=>{
-    getDepartementListData()
-    }, [token])
+  // get List Api
 
-   // get List Api
-
-   const getDepartementListData = async (data ) => {
-   console.log(data)
-    try{
-    const response = await API.getDepartementList(data, token);
-    console.log(response)
-    setDepartmentData(response?.data)
-    const dataId = response?.data
-    setDeletId(dataId.id)
-    }catch (error){
-        console.log(error)
+  const getDepartementListData = async (data) => {
+    console.log(data);
+    try {
+      const response = await API.getDepartementList(data, token);
+      console.log(response);
+      setDepartmentData(response?.data);
+    } catch (error) {
+      console.log(error);
     }
-   }
 
-   console.log('l' ,deletId)
+}
 
-   console.log(departmentData)
+
+  console.log(departmentData);
 
   // Add List Api
 
-  const addOrEdit = (data) =>{
-    if(isEdit){
-        updateDepartementData(data)
+  const addOrEdit = (data) => {
+    if (isEdit) {
+      updateDepartementData(data);
+    } else {
+      AddDepartmentList(data);
     }
-    else{
-        AddDepartmentList(data)
-    }
-  }
+  };
 
   const AddDepartmentList = async (data) => {
     setLoader(true);
-    try{
-     const response = await API.addDepartmentList(data , token);
-     console.log(response)
-     if(response.success) {
-        toast.success(response?.message)
-        getDepartementListData()
-     }else{
-        toast.error(response?.message)
-     }
-    }catch(error){
-        toast.error('Network Error')
-        console.log(error)
-    }finally{
-        setLoader(false)
+    try {
+      const response = await API.addDepartmentList(data, token);
+      console.log(response);
+      if (response.success) {
+        toast.success(response?.message);
+        getDepartementListData();
+        setJob(null)
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Network Error");
+      console.log(error);
+    } finally {
+      setLoader(false);
     }
-  }
- 
-
+  };
 
   const updateDepartementData = async (data) => {
-    console.log(data)
+    console.log(data , job , "sasdasdsd");
     setLoader(true);
-    try{
-     const response = await API.updateDepartmentList(data , token)
-     console.log(response)
-     if(response?.success){
-        toast.success(response?.message)
-        getDepartementListData()
-     }else {
+    try {
+      const response = await API.updateDepartmentList(data, token , job?.id);
+      console.log(response);
+      if (response?.success) {
+        toast.success(response?.message);
+        getDepartementListData();
+      } else {
         console.log({ response });
         toast.error(response?.message);
       }
-    } catch (error){
-        toast.error("Network Error");
-        console.log(error)
-    }finally{
-        setLoader(false)
+    } catch (error) {
+      toast.error("Network Error");
+      console.log(error);
+    } finally {
+      setLoader(false);
     }
   }
 
   const deleteDepartmentData = async () => {
-    let data = {
-        id :deletId
-    }
+    console.log(token, job , "sasdasdsd");
+    setLoader(true);
     try{
-     const response = await API.deleteDepartmentList(data , token)
+     const response = await API.deleteDepartmentList( token , job?.id)
      console.log(response)
      if(response.success){
         toast.success(response?.message)
@@ -168,6 +171,8 @@ const ManageDepartment = () => {
     } catch (error){
         console.log(error)
         toast.error('Network Error')
+    }finally {
+      setLoader(false);
     }
   }
  
@@ -182,23 +187,19 @@ const ManageDepartment = () => {
 
     setIsEdit(true);
 
-    toggleModal("edit")
+    toggleModal("edit");
   };
 
   const toggleModal = (state) => {
-    if(state === "edit"){
-        setIsEdit(true)
-        toggle()
+    if (state === "edit") {
+      setIsEdit(true);
+      toggle();
+    } else {
+      setIsEdit(false);
+      toggle();
     }
-    else{
-        setIsEdit(false)
-        toggle()
-    }
-  }
+  };
 
-  
-
- 
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
 
@@ -208,8 +209,7 @@ const ManageDepartment = () => {
   };
 
   const handleDeletejob = (id) => {
-    console.log(id)
-    setSelectedItemIndex(id);
+    deleteDepartmentData()
     if (job && job.id) {
       setDeleteModal(false);
     }
@@ -226,14 +226,7 @@ const ManageDepartment = () => {
 
   const columnList = useMemo(
     () => [
-      {
-        Header: " S No.",
-        accessor: "id",
-        filterable: true,
-        Cell: (cellProps) => {
-          return <JobNoTitle {...cellProps} />;
-        },
-      },
+     
       {
         Header: "Title",
         accessor: "title",
@@ -306,27 +299,31 @@ const ManageDepartment = () => {
       <div className="main-content">
         <div className="page-content">
           <div className="container-fluid">
-            <Breadcrumbs
-              breadcrumbItem={
-                UserData.user_type === "education"
-                  ? "Manage Class"
-                  : UserData.user_type === "corporate"
-                  ? "Manage Deaprtment"
-                  : "Manage Users"
-              }
-            />
+            <Breadcrumbs breadcrumbItem={"Manage " + userTypeName } />
 
             <Row>
               <Col lg="12">
                 <Card>
                   <CardBody>
-                  <div className="d-flex align-items-center">
-                                                <h5 className="mb-0 card-title flex-grow-1"> </h5>
-                                                <div className="flex-shrink-0">
-                                                    <Link to="#!" onClick={() => toggleModal("add")} className="btn btn-primary me-1">Add New Job</Link>
-                                                    <Link to="#!" className="btn btn-light me-1"><i className="mdi mdi-refresh"></i></Link>
-                                                </div>
-                                            </div>
+                    <div className="d-flex align-items-center">
+                      <h5 className="mb-0 card-title flex-grow-1"> </h5>
+                      <div className="flex-shrink-0">
+                        <Link
+                          to="#!"
+                          onClick={() => toggleModal("add")}
+                          className="btn btn-primary me-1"
+                        >
+                          {UserData.user_type === "education"
+                            ? "Add Class"
+                            : UserData.user_type === "corporate"
+                            ? "Add Deaprtment"
+                            : "Add Users"}
+                        </Link>
+                        <Link to="#!" className="btn btn-light me-1">
+                          <i className="mdi mdi-refresh"></i>
+                        </Link>
+                      </div>
+                    </div>
                     <TableContainer
                       columns={columnList}
                       data={departmentData}
@@ -348,7 +345,7 @@ const ManageDepartment = () => {
 
             <Modal isOpen={modal} toggle={toggle}>
               <ModalHeader toggle={toggle} tag="h4">
-                {!!isEdit ? "Edit Job" : "Add Job"}
+                {!!isEdit ? `Edit ${ userTypeName }` : `Add ${ userTypeName }`}
               </ModalHeader>
               <ModalBody>
                 <Form
@@ -373,14 +370,12 @@ const ManageDepartment = () => {
                           onBlur={validation.handleBlur}
                           value={validation.values.title || ""}
                           invalid={
-                            validation.touched.title &&
-                            validation.errors.title
+                            validation.touched.title && validation.errors.title
                               ? true
                               : false
                           }
                         />
-                        {validation.touched.title &&
-                        validation.errors.title ? (
+                        {validation.touched.title && validation.errors.title ? (
                           <FormFeedback type="invalid">
                             {validation.errors.title}
                           </FormFeedback>
@@ -395,7 +390,7 @@ const ManageDepartment = () => {
                           type="submit"
                           className="btn btn-primary save-user"
                         >
-                         {loading ? <Spinner size={'sm'}/> : "Save"}
+                          {loading ? <Spinner size={"sm"} /> : "Save"}
                         </button>
                       </div>
                     </Col>
@@ -406,7 +401,6 @@ const ManageDepartment = () => {
           </div>
         </div>
       </div>
-      <ToastContainer />
     </React.Fragment>
   );
 };

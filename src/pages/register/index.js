@@ -45,9 +45,9 @@ const Register = () => {
   const [confirmPasswordShow, setConfirmPasswordShow] = useState(false);
 
   const selectedUser = {
-    corporate: "Corporate",
-    parent: "Parent's",
-    education: "Education",
+    corporate: "corporate",
+    parent: "user",
+    education: "institute",
   };
 
   function toggleTab(tab) {
@@ -65,14 +65,18 @@ const Register = () => {
 
   const form1Schema = Yup.object({});
   const form2Schema = Yup.object({
-    username: Yup.string().required("This field is required."),
+    username: Yup.string().required(
+      `Please enter your ${selectedUser[userType]} name.`
+    ),
     email: Yup.string()
       .email("Please enter valid email")
-      .required("This field is required."),
-    address: Yup.string().required("This field is required."),
+      .required(`Please enter your email address.`),
+    address: Yup.string().required(
+      `Please enter your address.`
+    ),
     // noOfMember: Yup.string().required("This field is required."),
     phone: Yup.number("Please enter valid number format").required(
-      "This field is required."
+      `Please enter your contact number.`
     ),
     password: Yup.string()
       .min(6, "Password must be at least 6 characters")
@@ -80,14 +84,14 @@ const Register = () => {
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-\/:-@\[-`{-~]).{8,}$/,
         "Your password should contain a combination of uppercase and lowercase letters, at least one number, and at least one special character."
       )
-      .required("This field is required."),
+      .required(`Please enter your password.`),
     confirmPassword: Yup.string()
       .matches(
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-\/:-@\[-`{-~]).{8,}$/,
         "Your password should contain a combination of uppercase and lowercase letters, at least one number, and at least one special character."
       )
       .oneOf([Yup.ref("password"), null], "Passwords must match.")
-      .required("This field is required."),
+      .required(`Please enter your confirm password.`),
   });
 
   //form validation
@@ -140,7 +144,7 @@ const Register = () => {
     }
   };
 
-  console.log(userType)
+  console.log(userType);
 
   return (
     <React.Fragment>
@@ -176,7 +180,10 @@ const Register = () => {
                   </div>
                   <div className="my-auto">
                     <div>
-                      <h5 style={{ fontSize: "20px" }} className="text-primary">
+                      <h5
+                        style={{ fontWeight: "600", fontSize: "20px" }}
+                        className="text-primary"
+                      >
                         Register account
                       </h5>
                       <p style={{ fontWeight: "600" }} className="text-muted">
@@ -234,8 +241,6 @@ const Register = () => {
                                                 onClick={() =>
                                                   setUserType("education")
                                                 }
-                                                // id="education"
-                                                // htmlFor="education"
                                               >
                                                 <div className="form-check">
                                                   <input
@@ -244,7 +249,8 @@ const Register = () => {
                                                     name="userType"
                                                     id="education"
                                                     value="education"
-                                                    defaultChecked={
+                                                    defaultChecked
+                                                    checked={
                                                       userType === "education"
                                                     }
                                                     onClick={() =>
@@ -255,7 +261,7 @@ const Register = () => {
                                                     className="form-check-label"
                                                     htmlFor="education"
                                                   >
-                                                    For Education
+                                                    Education/Institute
                                                   </label>
                                                 </div>
                                               </div>
@@ -278,7 +284,7 @@ const Register = () => {
                                                     name="userType"
                                                     id="corporate"
                                                     value="corporate"
-                                                    defaultChecked={
+                                                    checked={
                                                       userType === "corporate"
                                                     }
                                                     onClick={() =>
@@ -289,7 +295,7 @@ const Register = () => {
                                                     className="form-check-label"
                                                     htmlFor="corporate"
                                                   >
-                                                    For Corporate
+                                                    Corporate
                                                   </label>
                                                 </div>
                                               </div>
@@ -304,7 +310,6 @@ const Register = () => {
                                                 }
                                                 // id="parent"
                                                 // htmlFor="parent"
-
                                               >
                                                 <div className="form-check">
                                                   <input
@@ -313,7 +318,7 @@ const Register = () => {
                                                     name="userType"
                                                     id="parent"
                                                     value="parent"
-                                                    defaultChecked={
+                                                    checked={
                                                       userType === "parent"
                                                     }
                                                     onClick={() =>
@@ -324,7 +329,7 @@ const Register = () => {
                                                     className="form-check-label"
                                                     htmlFor="parent"
                                                   >
-                                                    For Parents
+                                                    Parents/Users
                                                   </label>
                                                 </div>
                                               </div>
@@ -344,14 +349,14 @@ const Register = () => {
                                           <Col lg="12">
                                             <div className="mb-3">
                                               <Label for="basicpill-pancard-input5">
-                                                {selectedUser[userType]} Name *
+                                              {selectedUser[userType]?.charAt(0).toUpperCase() + selectedUser[userType]?.slice(1)} name *
                                               </Label>
                                               <Input
                                                 name="username"
                                                 type="text"
                                                 className="form-control"
                                                 id="basicpill-pancard-input5"
-                                                placeholder={`Please enter ${selectedUser[userType]} Name`}
+                                                placeholder={`Enter ${selectedUser[userType]} name`}
                                                 onChange={
                                                   validation.handleChange
                                                 }
@@ -380,15 +385,20 @@ const Register = () => {
                                           <Col lg="12">
                                             <div className="mb-3">
                                               <Label for="basicpill-cstno-input7">
-                                                {selectedUser[userType]} Email
-                                                Address *
+                                                {selectedUser[userType]
+                                                  ?.charAt(0)
+                                                  .toUpperCase() +
+                                                  selectedUser[userType]?.slice(
+                                                    1
+                                                  )}{" "}
+                                                email address *
                                               </Label>
                                               <Input
                                                 name="email"
                                                 type="text"
                                                 className="form-control"
                                                 id="basicpill-cstno-input7"
-                                                placeholder={`Please enter ${selectedUser[userType]} Email Address`}
+                                                placeholder={`Enter ${selectedUser[userType]} email address`}
                                                 onChange={
                                                   validation.handleChange
                                                 }
@@ -416,7 +426,7 @@ const Register = () => {
                                           <Col lg="12">
                                             <div className="mb-3">
                                               <Label for="basicpill-companyuin-input9">
-                                                {selectedUser[userType]} Address
+                                              {selectedUser[userType]?.charAt(0).toUpperCase() + selectedUser[userType]?.slice(1)} address
                                                 *
                                               </Label>
                                               <Input
@@ -424,7 +434,7 @@ const Register = () => {
                                                 type="text"
                                                 className="form-control"
                                                 id="basicpill-companyuin-input9"
-                                                placeholder={`Please enter ${selectedUser[userType]} Address`}
+                                                placeholder={`Enter ${selectedUser[userType]} address`}
                                                 onChange={
                                                   validation.handleChange
                                                 }
@@ -482,15 +492,15 @@ const Register = () => {
                                           <Col lg="12">
                                             <div className="mb-3">
                                               <Label for="basicpill-companyuin-input9">
-                                                {selectedUser[userType]} Contact
-                                                Number *
+                                              {selectedUser[userType]?.charAt(0).toUpperCase() + selectedUser[userType]?.slice(1)} contact
+                                                number *
                                               </Label>
                                               <Input
                                                 name="phone"
                                                 type="text"
                                                 className="form-control"
                                                 id="basicpill-companyuin-input9"
-                                                placeholder={`Please enter ${selectedUser[userType]} Contact Number`}
+                                                placeholder={`Enter ${selectedUser[userType]} contact number`}
                                                 onChange={
                                                   validation.handleChange
                                                 }
@@ -528,7 +538,7 @@ const Register = () => {
                                                   }
                                                   className="form-control"
                                                   id="basicpill-expiration-input13"
-                                                  placeholder={`Please enter Password`}
+                                                  placeholder={`Enter password`}
                                                   onChange={
                                                     validation.handleChange
                                                   }
@@ -570,7 +580,7 @@ const Register = () => {
                                           <Col lg="12">
                                             <div className="mb-3">
                                               <Label for="basicpill-expiration-input13">
-                                                Confirm Password *
+                                                Confirm password *
                                               </Label>
                                               <div className="input-group auth-pass-inputgroup">
                                                 <Input
@@ -582,7 +592,7 @@ const Register = () => {
                                                   }
                                                   className="form-control"
                                                   id="basicpill-expiration-input13"
-                                                  placeholder={`Please enter Confirm Password`}
+                                                  placeholder={`Enter confirm password`}
                                                   onChange={
                                                     validation.handleChange
                                                   }
@@ -642,7 +652,9 @@ const Register = () => {
                                             <div>
                                               <h5>Confirm Email</h5>
                                               <p className="text-muted">
-                                                Please confirm your email via clicking the link sent to your email address.
+                                                Please confirm your email via
+                                                clicking the link sent to your
+                                                email address.
                                               </p>
                                             </div>
                                           </div>
@@ -784,6 +796,7 @@ const Register = () => {
                             <Link
                               to={"/terms&conditon"}
                               className="text-primary"
+                              style={{ fontWeight: "600" }}
                             >
                               Terms of Use
                             </Link>
@@ -837,7 +850,11 @@ const Register = () => {
                       <div className="mt-5 text-center">
                         <p>
                           Already have an account ?{" "}
-                          <Link to="/login" className="fw-medium text-primary">
+                          <Link
+                            to="/login"
+                            className=" text-primary"
+                            style={{ fontWeight: "600" }}
+                          >
                             {" "}
                             Login
                           </Link>{" "}
