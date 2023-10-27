@@ -24,6 +24,7 @@ import { createSelector } from "reselect";
 import ChangePassword from "../pages/changePassword";
 import TermsCondition from "../pages/terms&Condition";
 import ResetPassword from "../pages/resetPassword";
+import ConfirmPassword from "../pages/confirmPassword";
 
 const getLayout = (layoutType) => {
   let Layout = VerticalLayout;
@@ -53,6 +54,7 @@ const nonHeaderPages = [
   "/terms&conditon",
   "/reset-password/:id",
   "/activate/:id"
+  "/confirm-password"
 ];
 const allowedHeaderPages = ["/"];
 
@@ -121,6 +123,7 @@ const MainRoutes = () => {
           <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/terms&conditon" element={<TermsCondition/>} />
           <Route path = '/reset-password/:id' element = {<ResetPassword/>}  />
+          <Route path = '/confirm-password' element = {<ConfirmPassword/>}  />
         </Routes>
         {allowedHeaderPages.includes(location.pathname) && <OurPartner />}
         {allowedHeaderPages.includes(location.pathname) && <Footer />}
