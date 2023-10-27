@@ -25,6 +25,7 @@ import ChangePassword from "../pages/changePassword";
 import TermsCondition from "../pages/terms&Condition";
 import ResetPassword from "../pages/resetPassword";
 import ConfirmPassword from "../pages/confirmPassword";
+import ManageDepartment from "../pages/manageDepartments";
 
 const getLayout = (layoutType) => {
   let Layout = VerticalLayout;
@@ -124,6 +125,7 @@ const MainRoutes = () => {
           <Route path="/terms&conditon" element={<TermsCondition/>} />
           <Route path = '/reset-password/:id' element = {<ResetPassword/>}  />
           <Route path = '/confirm-password' element = {<ConfirmPassword/>}  />
+          <Route path = '/manage-department' element = {<ManageDepartment/>}  />
         </Routes>
         {allowedHeaderPages.includes(location.pathname) && <OurPartner />}
         {allowedHeaderPages.includes(location.pathname) && <Footer />}

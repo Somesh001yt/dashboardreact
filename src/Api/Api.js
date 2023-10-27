@@ -121,5 +121,59 @@ export const API = {
     } catch (error) {
       console.log(error);
     }
-  }
+  },
+
+  async getDepartementList (params , token){
+    try{
+    const response = await instance.get("class",
+      {
+        headers: {
+          "x-access-token": token,
+        },
+      }
+    )
+    console.log(response)
+    return response?.data
+    } catch (error) {
+      console.log(error)
+    }
+
+  },
+
+  async updateDepartmentList (params , token , id){
+    try{
+    const response = await instance.put(`class/${id}`,
+    {...params},
+    {
+      headers: {
+        "x-access-token": token,
+      },
+    }
+    )
+    console.log(response)
+    return response?.data
+    }catch (error){
+      console.log(error)
+    }
+  },
+
+  async addDepartmentList (params, token){
+    console.log(params, 'me')
+
+
+    try{
+      const response = await instance.post("class",
+      {...params},
+        {
+          headers: {
+            "x-access-token": token,
+          },
+        }
+      )
+      console.log(response)
+      return response?.data
+      } catch (error) {
+        console.log(error)
+      }
+  },
 };
