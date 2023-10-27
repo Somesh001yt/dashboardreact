@@ -50,6 +50,7 @@ const ManageDepartment = () => {
   const [jobsList, setJobsList] = useState(listData);
   const [departmentData , setDepartmentData] = useState([]);
   const [job, setJob] = useState(null);
+  const [deletId , setDeletId] = useState()
 
   const userDataString = localStorage.getItem("userData");
 
@@ -87,10 +88,14 @@ const ManageDepartment = () => {
     const response = await API.getDepartementList(data, token);
     console.log(response)
     setDepartmentData(response?.data)
+    const dataId = response?.data
+    setDeletId(dataId.id)
     }catch (error){
         console.log(error)
     }
    }
+
+   console.log('l' ,deletId)
 
    console.log(departmentData)
 
@@ -146,6 +151,25 @@ const ManageDepartment = () => {
         setLoader(false)
     }
   }
+
+  const deleteDepartmentData = async () => {
+    let data = {
+        id :deletId
+    }
+    try{
+     const response = await API.deleteDepartmentList(data , token)
+     console.log(response)
+     if(response.success){
+        toast.success(response?.message)
+        getDepartementListData()
+     }else{
+      toast.error(response?.message)
+     }
+    } catch (error){
+        console.log(error)
+        toast.error('Network Error')
+    }
+  }
  
 
 
@@ -176,6 +200,7 @@ const ManageDepartment = () => {
 
  
   const [deleteModal, setDeleteModal] = useState(false);
+  const [selectedItemIndex, setSelectedItemIndex] = useState(null);
 
   const onClickDelete = (job) => {
     setJob(job);
@@ -183,8 +208,9 @@ const ManageDepartment = () => {
   };
 
   const handleDeletejob = (id) => {
+    console.log(id)
+    setSelectedItemIndex(id);
     if (job && job.id) {
-      // dispatch(onDeleteJobList(job.id));
       setDeleteModal(false);
     }
   };

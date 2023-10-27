@@ -162,4 +162,20 @@ export const API = {
         console.log(error)
       }
   },
+
+  async deleteDepartmentList (params , token){
+    try{
+    const response = await instance.delete(`class/${params.id}`,
+    {
+      headers: {
+        "x-access-token": token,
+      },
+    }
+    )
+    console.log(response)
+    return response?.data
+    }catch (error){
+      console.log(error)
+    }
+  }
 };
