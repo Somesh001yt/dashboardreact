@@ -15,6 +15,20 @@ export const API = {
     }
   },
 
+  async confirmEmail(params) {
+    try {
+      const response = await instance.post("auth/activate", {
+        ...params,
+      });
+      console.log(response);
+      return response?.data;
+    } catch (error) {
+      console.log("error", error);
+
+      return error.data;
+    }
+  },
+
   async userRegisteration(params) {
     try {
       const response = await instance.post("auth/register", {

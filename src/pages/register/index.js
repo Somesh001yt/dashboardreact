@@ -176,7 +176,7 @@ const Register = () => {
                   </div>
                   <div className="my-auto">
                     <div>
-                      <h5 style={{ fontSize: "20px" }} className="text-primary">
+                      <h5 style={{fontWeight:'600' , fontSize: "20px" }} className="text-primary">
                         Register account
                       </h5>
                       <p style={{ fontWeight: "600" }} className="text-muted">
@@ -244,7 +244,8 @@ const Register = () => {
                                                     name="userType"
                                                     id="education"
                                                     value="education"
-                                                    defaultChecked={
+                                                    defaultChecked
+                                                    checked={
                                                       userType === "education"
                                                     }
                                                     onClick={() =>
@@ -278,7 +279,7 @@ const Register = () => {
                                                     name="userType"
                                                     id="corporate"
                                                     value="corporate"
-                                                    defaultChecked={
+                                                    checked={
                                                       userType === "corporate"
                                                     }
                                                     onClick={() =>
@@ -313,7 +314,7 @@ const Register = () => {
                                                     name="userType"
                                                     id="parent"
                                                     value="parent"
-                                                    defaultChecked={
+                                                    checked={
                                                       userType === "parent"
                                                     }
                                                     onClick={() =>
@@ -784,6 +785,7 @@ const Register = () => {
                             <Link
                               to={"/terms&conditon"}
                               className="text-primary"
+                              style={{fontWeight:'600' }}
                             >
                               Terms of Use
                             </Link>
@@ -837,7 +839,7 @@ const Register = () => {
                       <div className="mt-5 text-center">
                         <p>
                           Already have an account ?{" "}
-                          <Link to="/login" className="fw-medium text-primary">
+                          <Link to="/login" className=" text-primary" style={{fontWeight:'600' }}>
                             {" "}
                             Login
                           </Link>{" "}
