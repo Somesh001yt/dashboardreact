@@ -227,7 +227,7 @@ const TermsCondition = () => {
                           <div className="text-end">
                                   <button
                                     type="submit"
-                                    className="btn btn-success w-sm"
+                                    className="btn btn-primary w-sm"
                                     onClick={handleNavigate}
                                   >
                                     Submit
