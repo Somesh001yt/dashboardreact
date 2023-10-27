@@ -53,7 +53,7 @@ const nonHeaderPages = [
   "/pages-maintenance",
   "/terms&conditon",
   "/reset-password/:id",
-  "/activate/:id"
+  "/activate/:id",
   "/confirm-password"
 ];
 const allowedHeaderPages = ["/"];
