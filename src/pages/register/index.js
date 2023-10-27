@@ -80,7 +80,7 @@ const Register = () => {
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-\/:-@\[-`{-~]).{8,}$/,
         "Your password should contain a combination of uppercase and lowercase letters, at least one number, and at least one special character."
       )
-      .required("Password is required"),
+      .required("This field is required."),
     confirmPassword: Yup.string()
       .matches(
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-\/:-@\[-`{-~]).{8,}$/,
@@ -130,9 +130,6 @@ const Register = () => {
       if (response?.success) {
         toast.success(response.message);
         toggleTab(activeTab + 1);
-        setTimeout(() => {
-          navigate("/login");
-        }, 3000);
       } else {
         toast.error(response.message);
       }
@@ -143,6 +140,8 @@ const Register = () => {
     }
   };
 
+  console.log(userType)
+
   return (
     <React.Fragment>
       <div>
@@ -151,7 +150,11 @@ const Register = () => {
           <CarouselPage />
 
           <Col xl={3}>
-              <div  className={`${"auth-full-page-content p-md-5 p-4"} ${styles.rightBar}`}>
+            <div
+              className={`${"auth-full-page-content p-md-5 p-4"} ${
+                styles.rightBar
+              }`}
+            >
               <div className="w-100">
                 <div className="d-flex flex-column h-100">
                   <div className="mb-4 mb-md-5">
@@ -173,7 +176,9 @@ const Register = () => {
                   </div>
                   <div className="my-auto">
                     <div>
-                      <h5 style={{fontSize:'20px'}} className="text-primary">Register account</h5>
+                      <h5 style={{ fontSize: "20px" }} className="text-primary">
+                        Register account
+                      </h5>
                       <p style={{ fontWeight: "600" }} className="text-muted">
                         Get your free Track Pilot account now.
                       </p>
@@ -202,7 +207,12 @@ const Register = () => {
                                     activeTab={activeTab}
                                     className="body"
                                   >
-                                    <TabPane className={`${styles.tabItem} ${activeTab === 1 && styles.active}`} tabId={1}>
+                                    <TabPane
+                                      className={`${styles.tabItem} ${
+                                        activeTab === 1 && styles.active
+                                      }`}
+                                      tabId={1}
+                                    >
                                       <div>
                                         <Row>
                                           <Col>
@@ -221,6 +231,11 @@ const Register = () => {
                                                     ? styles.selectedRadio
                                                     : styles.radioContainer
                                                 }
+                                                onClick={() =>
+                                                  setUserType("education")
+                                                }
+                                                // id="education"
+                                                // htmlFor="education"
                                               >
                                                 <div className="form-check">
                                                   <input
@@ -229,16 +244,18 @@ const Register = () => {
                                                     name="userType"
                                                     id="education"
                                                     value="education"
-                                                    defaultChecked
+                                                    defaultChecked={
+                                                      userType === "education"
+                                                    }
                                                     onClick={() =>
                                                       setUserType("education")
                                                     }
                                                   />
                                                   <label
                                                     className="form-check-label"
-                                                    htmlFor="exampleRadios1"
+                                                    htmlFor="education"
                                                   >
-                                                    For Education Purpose
+                                                    For Education
                                                   </label>
                                                 </div>
                                               </div>
@@ -248,6 +265,11 @@ const Register = () => {
                                                     ? styles.selectedRadio
                                                     : styles.radioContainer
                                                 }
+                                                onClick={() =>
+                                                  setUserType("corporate")
+                                                }
+                                                // id="corporate"
+                                                // htmlFor="corporate"
                                               >
                                                 <div className="form-check">
                                                   <input
@@ -256,15 +278,18 @@ const Register = () => {
                                                     name="userType"
                                                     id="corporate"
                                                     value="corporate"
+                                                    defaultChecked={
+                                                      userType === "corporate"
+                                                    }
                                                     onClick={() =>
                                                       setUserType("corporate")
                                                     }
                                                   />
                                                   <label
                                                     className="form-check-label"
-                                                    htmlFor="exampleRadios2"
+                                                    htmlFor="corporate"
                                                   >
-                                                    For Corporate Use
+                                                    For Corporate
                                                   </label>
                                                 </div>
                                               </div>
@@ -274,6 +299,12 @@ const Register = () => {
                                                     ? styles.selectedRadio
                                                     : styles.radioContainer
                                                 }
+                                                onClick={() =>
+                                                  setUserType("parent")
+                                                }
+                                                // id="parent"
+                                                // htmlFor="parent"
+
                                               >
                                                 <div className="form-check">
                                                   <input
@@ -282,13 +313,16 @@ const Register = () => {
                                                     name="userType"
                                                     id="parent"
                                                     value="parent"
+                                                    defaultChecked={
+                                                      userType === "parent"
+                                                    }
                                                     onClick={() =>
                                                       setUserType("parent")
                                                     }
                                                   />
                                                   <label
                                                     className="form-check-label"
-                                                    htmlFor="exampleRadios2"
+                                                    htmlFor="parent"
                                                   >
                                                     For Parents
                                                   </label>
@@ -299,7 +333,12 @@ const Register = () => {
                                         </Row>
                                       </div>
                                     </TabPane>
-                                    <TabPane className={`${styles.tabItem} ${activeTab === 2 && styles.active}`} tabId={2}>
+                                    <TabPane
+                                      className={`${styles.tabItem} ${
+                                        activeTab === 2 && styles.active
+                                      }`}
+                                      tabId={2}
+                                    >
                                       <div>
                                         <Row>
                                           <Col lg="12">
@@ -312,7 +351,7 @@ const Register = () => {
                                                 type="text"
                                                 className="form-control"
                                                 id="basicpill-pancard-input5"
-                                                placeholder="Enter here"
+                                                placeholder={`Please enter ${selectedUser[userType]} Name`}
                                                 onChange={
                                                   validation.handleChange
                                                 }
@@ -349,7 +388,7 @@ const Register = () => {
                                                 type="text"
                                                 className="form-control"
                                                 id="basicpill-cstno-input7"
-                                                placeholder="Enter here"
+                                                placeholder={`Please enter ${selectedUser[userType]} Email Address`}
                                                 onChange={
                                                   validation.handleChange
                                                 }
@@ -385,7 +424,7 @@ const Register = () => {
                                                 type="text"
                                                 className="form-control"
                                                 id="basicpill-companyuin-input9"
-                                                placeholder="Enter here"
+                                                placeholder={`Please enter ${selectedUser[userType]} Address`}
                                                 onChange={
                                                   validation.handleChange
                                                 }
@@ -451,7 +490,7 @@ const Register = () => {
                                                 type="text"
                                                 className="form-control"
                                                 id="basicpill-companyuin-input9"
-                                                placeholder="Enter here"
+                                                placeholder={`Please enter ${selectedUser[userType]} Contact Number`}
                                                 onChange={
                                                   validation.handleChange
                                                 }
@@ -489,7 +528,7 @@ const Register = () => {
                                                   }
                                                   className="form-control"
                                                   id="basicpill-expiration-input13"
-                                                  placeholder="Enter here"
+                                                  placeholder={`Please enter Password`}
                                                   onChange={
                                                     validation.handleChange
                                                   }
@@ -543,7 +582,7 @@ const Register = () => {
                                                   }
                                                   className="form-control"
                                                   id="basicpill-expiration-input13"
-                                                  placeholder="Enter here"
+                                                  placeholder={`Please enter Confirm Password`}
                                                   onChange={
                                                     validation.handleChange
                                                   }
@@ -588,7 +627,12 @@ const Register = () => {
                                       </div>
                                     </TabPane>
 
-                                    <TabPane className={`${styles.tabItem} ${activeTab === 3 && styles.active}`} tabId={3}>
+                                    <TabPane
+                                      className={`${styles.tabItem} ${
+                                        activeTab === 3 && styles.active
+                                      }`}
+                                      tabId={3}
+                                    >
                                       <div className="row justify-content-center">
                                         <Col lg="12">
                                           <div className="text-center">
@@ -596,10 +640,9 @@ const Register = () => {
                                               <i className="mdi mdi-check-circle-outline text-success display-4" />
                                             </div>
                                             <div>
-                                              <h5>Confirm Detail</h5>
+                                              <h5>Confirm Email</h5>
                                               <p className="text-muted">
-                                                If several languages coalesce,
-                                                the grammar of the resulting
+                                                Please confirm your email via clicking the link sent to your email address.
                                               </p>
                                             </div>
                                           </div>

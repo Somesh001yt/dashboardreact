@@ -151,7 +151,7 @@ const Login = () => {
                       >
                         <div className="mb-3">
                           <Label className="form-label">
-                            User name or Email
+                            Email Address
                           </Label>
                           <Input
                             name="username"
