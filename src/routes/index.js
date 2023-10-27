@@ -108,7 +108,7 @@ const MainRoutes = () => {
           <Route path="/login" element={localStorage.getItem("token") ? <Navigate to="/dashboard" /> : <Login/>}  />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<RecoverPassword />} />
-          <Route path="/confirm-email" element={<ConfirmMail />} />
+          <Route path="/activate/:id" element={<ConfirmMail />} />
           <Route path="/verify-email" element={<EmailVerification />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<UserProfile />} />

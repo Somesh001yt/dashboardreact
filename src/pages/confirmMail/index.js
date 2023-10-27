@@ -24,19 +24,14 @@ const ConfirmMail = () => {
                 <div className="w-100">
                   <div className="d-flex flex-column h-100">
                     <div className="mb-4 mb-md-5">
-                      <a href="/" className="d-block auth-logo">
+                      <a className="d-block auth-logo">
                         <img
                           src={logodark}
                           alt=""
                           height="18"
                           className="logo-dark-element"
                         />
-                        <img
-                          src={logolight}
-                          alt=""
-                          height="18"
-                          className="logo-light-element"
-                        />
+                       
                       </a>
                     </div>
                     <div className="my-auto">

@@ -226,7 +226,7 @@ const ChangePassword = () => {
                         </div>
                       </div>
 
-                      <div className="mt-4 d-grid">
+                      <div style={{display:'flex' , justifyContent:'center'}} className="mt-4 d-grid">
                         <button
                           className="btn btn-primary btn-block"
                           type="submit"

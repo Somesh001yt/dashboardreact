@@ -75,7 +75,7 @@ const ProfileMenu = (props) => {
             <i className="bx bx-wallet font-size-16 align-middle me-1" />
             {"My Wallet"}
           </DropdownItem>
-          <DropdownItem tag="a" href="/change-password">
+          <DropdownItem tag="a"  onClick={()=>navigate("/change-password")}>
             {/* <Link to={"/change-password"}> */}
               <i className="bx bx-wrench font-size-16 align-middle me-1" />
               {"Change Password"}{" "}
