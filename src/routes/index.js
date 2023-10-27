@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, Route, Routes, matchPath, useLocation, useMatch, useNavigate, useParams } from "react-router-dom";
 import Login from "../pages/login";
 import Register from "../pages/register";
 import RecoverPassword from "../pages/forgotPassword";
@@ -22,6 +22,8 @@ import { layoutTypes } from "../constants/layout";
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import ChangePassword from "../pages/changePassword";
+import TermsCondition from "../pages/terms&Condition";
+import ResetPassword from "../pages/resetPassword";
 
 const getLayout = (layoutType) => {
   let Layout = VerticalLayout;
@@ -38,22 +40,32 @@ const getLayout = (layoutType) => {
   return Layout;
 };
 
-const MainRoutes = () => {
-  const nonHeaderPages = [
-    "/",
-    "/login",
-    "/register",
-    "/forgot-password",
-    "/confirm-email",
-    "/verify-email",
-    "/pages-404",
-    "/pages-500",
-    "/pages-maintenance",
-    // "/change-password",
-  ];
+const nonHeaderPages = [
+  "/",
+  "/login",
+  "/register",
+  "/forgot-password",
+  "/confirm-email",
+  "/verify-email",
+  "/pages-404",
+  "/pages-500",
+  "/pages-maintenance",
+  "/terms&conditon",
+  "/reset-password/:id",
+];
+const allowedHeaderPages = ["/"];
 
-  const allowedHeaderPages = ["/"];
+const shouldHideHeader = (pathname) =>{
+  return nonHeaderPages.some(pattern=> !!matchPath(pattern,pathname));
+}
+
+const MainRoutes = () => {
+
+
   const location = useLocation();
+  // const match = useMatch('/reset-password/:id');
+  // console.log(match,'dd');
+  
 
   const selectLayoutState = (state) => state.Layout;
   const LayoutProperties = createSelector(selectLayoutState, (layout) => ({
@@ -61,6 +73,7 @@ const MainRoutes = () => {
   }));
 
   const { layoutType } = useSelector(LayoutProperties);
+
 
   const Layout = getLayout(layoutType);
 
@@ -71,12 +84,13 @@ const MainRoutes = () => {
   const onBoardingPages = ["/dashboard"];
   const hideHeader = onBoardingPages.includes(location.pathname) ? true : false;
   const [openMenu, setOpenMenu] = useState();
-
+ 
+  console.log(location.pathname, shouldHideHeader(location.pathname),"bhvg")
 
   return (
     <React.Fragment>
       <div>
-        {!nonHeaderPages.includes(location.pathname) &&
+        {shouldHideHeader(location.pathname) ?null:
           (layoutType === "horizontal" ? (
             <HorizontalLayout />
           ) : (
@@ -104,6 +118,8 @@ const MainRoutes = () => {
           <Route path="/pages-maintenance" element={<PagesMaintenance />} />
           <Route path="/form-advanced" element={<FormAdvanced />} />
           <Route path="/change-password" element={<ChangePassword />} />
+          <Route path="/terms&conditon" element={<TermsCondition/>} />
+          <Route path = '/reset-password/:id' element = {<ResetPassword/>}  />
         </Routes>
         {allowedHeaderPages.includes(location.pathname) && <OurPartner />}
         {allowedHeaderPages.includes(location.pathname) && <Footer />}
