@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   Col,
   Container,
@@ -25,15 +25,37 @@ import { API } from "../../Api/Api";
 import Spinner from "../../Components/Common/Spinner";
 
 const ResetPassword = () => {
-  const [loading, setLoader] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const [passwordShow, setPasswordShow] = useState(false); 
+  const [newPasswordShow, setNewPasswordShow] = useState(false);
+  const [confirmPasswordShow, setConfirmPasswordShow] = useState(false);
+
+  const { id } = useParams();
 
   //meta title
   document.title = "Reset Password | The Track Pilot ";
 
+  const resetPasswordApi = async (data) => {
+    data["token"] = id;
 
-
+    try {
+      setLoading(true);
+      const response = await API.resetPassword(data);
+      console.log(response);
+      if (response?.success) {
+        toast.success(response?.message);
+        navigate('/confirm-password')
+      } else {
+        console.log({ response });
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Network Error");
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Form validation
   const validation = useFormik({
@@ -45,11 +67,19 @@ const ResetPassword = () => {
       confirmPassword: "",
     },
     validationSchema: Yup.object({
-      newPassword: Yup.string().required("Please Enter Your Password"),
-      confirmPassword: Yup.string().required("Please Enter Your Password"),
+      newPassword: Yup.string()
+        .matches(
+          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-\/:-@\[-`{-~]).{8,}$/,
+          "Your password should contain a combination of uppercase and lowercase letters, at least one number, and at least one special character."
+        )
+        .required("Please Enter Your New Password"),
+      confirmPassword: Yup.string().oneOf(
+        [Yup.ref("newPassword"), null],
+        "Passwords must match"
+      ),
     }),
     onSubmit: (values) => {
-     console.log(values)
+      resetPasswordApi(values);
     },
   });
   return (
@@ -59,28 +89,39 @@ const ResetPassword = () => {
         <Row className="g-0">
           <CarouselPage />
 
-           <Col xl={3}>
-             <div className="auth-full-page-content p-md-5 p-4">
-               <div className="w-100">
-                 <div className="d-flex flex-column h-100">
-                   <div className="mb-4 mb-md-5">
-                     <Link style={{width:'100%' , display:'flex' , justifyContent:'center'}} className="card-logo">
-                       <img
-                         src={trackLogo}
-                         alt=""
-                         height="100"
-                         className="logo-dark-element"
-                       />
-                       
-                     </Link>
-                   </div>
-                   <div className="my-auto">
-                     <div>
-                       <h5 style={{fontSize:'20px'}} className="text-primary">Welcome Back !</h5>
-                       <p style={{fontWeight:'600'}} className="text-muted">
-                         Sign in to continue to The Track Pilot.
-                       </p>
-                     </div>
+          <Col xl={3}>
+            <div className="auth-full-page-content p-md-5 p-4">
+              <div className="w-100">
+                <div className="d-flex flex-column h-100">
+                  <div className="mb-4 mb-md-5">
+                    <Link
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                      className="card-logo"
+                    >
+                      <img
+                        src={trackLogo}
+                        alt=""
+                        height="100"
+                        className="logo-dark-element"
+                      />
+                    </Link>
+                  </div>
+                  <div className="my-auto">
+                    <div>
+                      <h5
+                        style={{ fontSize: "22px", fontWeight: "600" }}
+                        className="text-primary"
+                      >
+                        Recover Password{" "}
+                      </h5>
+                      <p style={{ fontWeight: "600" }} className="text-muted">
+                        Please Enter Your New Password
+                      </p>
+                    </div>
 
                     <div className="mt-4">
                       <Form
@@ -92,56 +133,78 @@ const ResetPassword = () => {
                         }}
                       >
                         <div className="mb-3">
-                          <Label className="form-label">
-                           New Password
-                          </Label>
-                          <Input
-                            name="newPassword"
-                            className="form-control"
-                            placeholder="Enter username"
-                            type="password"
-                            onChange={validation.handleChange}
-                            onBlur={validation.handleBlur}
-                            value={validation.values.username || ""}
-                            invalid={
-                              validation.touched.username &&
-                              validation.errors.username
-                                ? true
-                                : false
-                            }
-                          />
-                          {validation.touched.username &&
-                          validation.errors.username ? (
-                            <FormFeedback type="invalid">
-                              {validation.errors.username}
-                            </FormFeedback>
-                          ) : null}
+                          <Label className="form-label">New Password</Label>
+                          <div className="input-group auth-pass-inputgroup">
+                            <Input
+                              name="newPassword"
+                              value={validation.values.newPassword || ""}
+                              type={newPasswordShow ? "text" : "password"}
+                              placeholder="Enter New Password"
+                              onChange={validation.handleChange}
+                              onBlur={validation.handleBlur}
+                              invalid={
+                                validation.touched.newPassword &&
+                                validation.errors.newPassword
+                                  ? true
+                                  : false
+                              }
+                            />
+
+                            <button
+                              onClick={() =>
+                                setNewPasswordShow(!newPasswordShow)
+                              }
+                              className="btn btn-light "
+                              type="button"
+                              id="password-addon"
+                            >
+                              <i className="mdi mdi-eye-outline"></i>
+                            </button>
+                            {validation.touched.newPassword &&
+                            validation.errors.newPassword ? (
+                              <FormFeedback type="invalid">
+                                {validation.errors.newPassword}
+                              </FormFeedback>
+                            ) : null}
+                          </div>
                         </div>
 
-                         <div className="mb-3">
-                           <Label className="form-label">Confirm Password</Label>
-                           <div className="input-group auth-pass-inputgroup">
-                             <Input
-                               name="password"
-                               value={validation.values.confirmPassword || ""}
-                               type={passwordShow ? "text" : "password"}
-                               placeholder="Enter Password"
-                               onChange={validation.handleChange}
-                               onBlur={validation.handleBlur}
-                               invalid={
-                                 validation.touched.confirmPassword && validation.errors.confirmPassword ? true : false
-                               }
-                             />
-                             
-                             <button onClick={() => setPasswordShow(!passwordShow)} className="btn btn-light " type="button" id="password-addon">
-                               <i className="mdi mdi-eye-outline"></i></button>
-                               {validation.touched.confirmPassword && validation.errors.confirmPassword? (
-                             <FormFeedback type="invalid">{validation.errors.password}</FormFeedback>
-                           ) : null}
-                           </div>
-                          
-                         </div>
+                        <div className="mb-3">
+                          <Label className="form-label">Confirm Password</Label>
+                          <div className="input-group auth-pass-inputgroup">
+                            <Input
+                              name="confirmPassword"
+                              value={validation.values.confirmPassword || ""}
+                              type={confirmPasswordShow ? "text" : "password"}
+                              placeholder="Enter Password"
+                              onChange={validation.handleChange}
+                              onBlur={validation.handleBlur}
+                              invalid={
+                                validation.touched.confirmPassword &&
+                                validation.errors.confirmPassword
+                                  ? true
+                                  : false
+                              }
+                            />
 
+                            <button
+                              onClick={() =>
+                                setConfirmPasswordShow(!confirmPasswordShow)
+                              }
+                              className="btn btn-light "
+                              type="button"
+                              id="password-addon"
+                            >
+                              <i className="mdi mdi-eye-outline"></i>
+                            </button>
+                            {validation.touched.confirmPassword &&
+                            validation.errors.confirmPassword ? (
+                              <FormFeedback type="invalid">
+                                {validation.errors.confirmPassword}
+                              </FormFeedback>
+                            ) : null}
+                          </div>
+                        </div>
 
                         <div className="mt-3 d-grid">
                           <button
@@ -153,75 +216,41 @@ const ResetPassword = () => {
                                 <Spinner size={"sm"} color={"ffff"} />
                               </div>
                             ) : (
-                              "Log In"
+                              "Reset Password"
                             )}
                           </button>
                         </div>
                       </Form>
 
-                      {/* <Form action="dashboard">
-                         <div className="mt-4 text-center">
-                           <h5 className="font-size-14 mb-3">
-                             Sign in with
-                           </h5>
+                      <div className="mt-5 text-center">
+                          <p>
+                            Remember It ?{" "}
+                            <Link
+                              to="/login"
+                              className="fw-medium text-primary"
+                            >
+                              {" "}
+                              Sign In here
+                            </Link>{" "}
+                          </p>
+                        </div>
+                    </div>
+                  </div>
 
-                           <ul className="list-inline">
-                             <li className="list-inline-item">
-                               <Link
-                                 to="#"
-                                 className="social-list-item bg-primary text-white border-primary me-1"
-                               >
-                                 <i className="mdi mdi-facebook"></i>
-                               </Link>
-                             </li>
-                             <li className="list-inline-item">
-                               <Link
-                                 to="#"
-                                 className="social-list-item bg-info text-white border-info me-1"
-                               >
-                                 <i className="mdi mdi-twitter"></i>
-                               </Link>
-                             </li>
-                             <li className="list-inline-item">
-                               <Link
-                                 to="#"
-                                 className="social-list-item bg-danger text-white border-danger"
-                               >
-                                 <i className="mdi mdi-google"></i>
-                               </Link>
-                             </li>
-                           </ul>
-                         </div>
-                       </Form> */}
-                       <div className="mt-5 text-center">
-                         <p>
-                           Don&apos;t have an account ? {" "}
-                           <Link
-                             to="/register"
-                             className="fw-medium text-primary"
-                           >
-                             Signup now
-                           </Link>
-                         </p>
-                       </div>
-                     </div>
-                   </div>
-
-                   <div className="mt-4 mt-md-5 text-center">
-                     <p className="mb-0">
-                       © {new Date().getFullYear()} The Track Pilot. Crafted with{" "}
-                       <i className="mdi mdi-heart  heartColor"></i> by
-                       Eitbiz
-                     </p>
-                   </div>
-                 </div>
-               </div>
-             </div>
-           </Col>
-         </Row>
-       {/* </Container> */}
-     </div>
-   </React.Fragment>
+                  <div className="mt-4 mt-md-5 text-center">
+                    <p className="mb-0">
+                      © {new Date().getFullYear()} The Track Pilot. Crafted with{" "}
+                      <i className="mdi mdi-heart  heartColor"></i> by Eitbiz
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Col>
+        </Row>
+        {/* </Container> */}
+      </div>
+    </React.Fragment>
   );
 };
 
