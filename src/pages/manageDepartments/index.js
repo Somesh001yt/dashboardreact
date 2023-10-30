@@ -4,6 +4,7 @@ import TableContainer from "../../Components/Common/TableContainer";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
+import './manageDepartment.scss'
 
 //import components
 import Breadcrumbs from "../../Components/Common/Breadcrumb";
@@ -28,6 +29,7 @@ import { ToastContainer } from "react-toastify";
 import { listData } from "./listData";
 import { API } from "../../Api/Api";
 import Spinner from "../../Components/Common/Spinner";
+import { useSelector } from "react-redux";
 
 const JobNoTitle = (cell) => {
   return (
@@ -52,6 +54,27 @@ const ManageDepartment = () => {
 
   const [departmentData, setDepartmentData] = useState([]);
   const [job, setJob] = useState(null);
+
+  const selectLayoutState = useSelector((state) => state.Layout.layoutModeType);
+  const [isSubscribed, setIsSubscribed] = useState(true);
+
+  const handleTheme = (theme) => {
+    if (theme === "light") {
+      setIsSubscribed(true);
+    } else {
+      setIsSubscribed(false);
+    }
+  };
+
+  useEffect(() => {
+    handleTheme(selectLayoutState);
+  }, [selectLayoutState]);
+  
+  console.log(selectLayoutState , "xxx");
+  
+  console.log(isSubscribed , 'xxx')
+
+ 
 
   let userTypeName =
     UserData.user_type === "education"
@@ -197,7 +220,7 @@ const ManageDepartment = () => {
 
 
   const [deleteModal, setDeleteModal] = useState(false);
-  const [selectedItemIndex, setSelectedItemIndex] = useState(null);
+  
 
   const onClickDelete = (job) => {
     setJob(job);
@@ -239,14 +262,19 @@ const ManageDepartment = () => {
         Cell: (cellProps) => {
           return (
             <ul className="list-unstyled hstack gap-1 mb-0">
-              <li>
+              <li> 
                 <Link
                   to="#"
-                  className="btn btn-sm btn-soft-primary"
+                  className={`btn btn-sm ${isSubscribed ? 'btn-soft-primary' : 'btn-primary'}`}
+
+                  
                   onClick={() => {
                     const jobData = cellProps.row.original;
                     handleJobClick(jobData);
+                   
+                  
                   }}
+
                   id={`edittooltip-${cellProps.row.original.id}`}
                 >
                   <i className="mdi mdi-pencil-outline" />
@@ -283,7 +311,7 @@ const ManageDepartment = () => {
         },
       },
     ],
-    []
+    [isSubscribed]
   );
   return (
     <React.Fragment>

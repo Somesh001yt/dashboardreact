@@ -9,8 +9,8 @@ const DeleteModal = ({ show, onDeleteClick, onCloseClick }) => {
         <ModalBody className="px-4 py-5 text-center">
           <button type="button" onClick={onCloseClick} className="btn-close position-absolute end-0 top-0 m-3"></button>
           <div className="avatar-sm mb-4 mx-auto">
-            <div className="avatar-title bg-primary text-primary bg-opacity-10 font-size-20 rounded-3">
-              <i className="mdi mdi-trash-can-outline"></i>
+            <div className="avatar-title bg-primary text-primary  font-size-20 rounded-3">
+              <i className="mdi mdi-trash-can-outline text-white  "></i>
             </div>
           </div>
           <p className="text-muted font-size-16 mb-4">Are you sure you want to permanently erase the job.</p>

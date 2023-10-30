@@ -152,7 +152,7 @@ const SidebarContent = props => {
             <li className="menu-title">{("Menu")} </li>
             <li>
               <Link to="/dashboard" >
-                {/* <i className="bx bx-home-circle"></i> */}
+                <i className="bx bx-home-circle"></i>
                 <span>{("Dashboards")}</span>
               </Link>
            
@@ -160,11 +160,13 @@ const SidebarContent = props => {
             <li>
               <Link to="/manage-department" >
               <i className="bx bx-tone me-2"></i>
-                {UserData.user_type === "education"
+               <span style={{marginLeft:'-8px' , fontSize:'12px'}}>
+              {UserData.user_type === "education"
                       ? "Manage Class"
                       : UserData.user_type === "corporate"
                       ? "Manage Deaprtment"
                       : "Manage Users"}
+                         </span>
               </Link>
            
             </li>
