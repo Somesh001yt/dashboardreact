@@ -75,12 +75,12 @@ const ManageDepartment = () => {
       title: (job && job.title) || "",
     },
     validationSchema: Yup.object({
-      title: Yup.string().required("Please Enter Your Job Title"),
+      title: Yup.string().required("Please Enter Your Job Title").trim(),
     }),
     onSubmit: (values) => {
-      console.log(values);
       addOrEdit(values);
       toggle();
+      // validation.resetForm();
     },
   });
 
@@ -191,6 +191,7 @@ const ManageDepartment = () => {
   };
 
   const toggleModal = (state) => {
+
     if (state === "edit") {
       setIsEdit(true);
       toggle();
@@ -198,6 +199,8 @@ const ManageDepartment = () => {
       setIsEdit(false);
       toggle();
     }
+
+    validation.resetForm();
   };
 
   const [deleteModal, setDeleteModal] = useState(false);
@@ -222,6 +225,7 @@ const ManageDepartment = () => {
     } else {
       setModal(true);
     }
+    // validation.resetForm();
   };
 
   const columnList = useMemo(
