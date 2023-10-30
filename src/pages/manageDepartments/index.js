@@ -96,7 +96,6 @@ const ManageDepartment = () => {
     }
   };
 
-  console.log(departmentData);
 
   // Add List Api
 
