@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
-
 // //Import Scrollbar
 import SimpleBar from "simplebar-react";
 
@@ -14,7 +13,7 @@ import { Link } from "react-router-dom";
 //i18n
 // import { withTranslation } from "react-i18next";
 
-const SidebarContent = props => {
+const SidebarContent = (props) => {
   const ref = useRef();
   const activateParentDropdown = useCallback((item) => {
     item.classList.add("active");
@@ -127,7 +126,7 @@ const SidebarContent = props => {
   }, []);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
     activeMenu();
   }, [activeMenu]);
 
@@ -144,36 +143,46 @@ const SidebarContent = props => {
 
   const UserData = JSON.parse(userDataString);
 
+  function tToggle() {
+    var body = document.body;
+    if (window.screen.width <= 998) {
+      body.classList.toggle("sidebar-enable");
+    } else {
+      body.classList.toggle("vertical-collpsed");
+      body.classList.toggle("sidebar-enable");
+    }
+  }
+
   return (
     <React.Fragment>
       <SimpleBar className="h-100" ref={ref}>
         <div id="sidebar-menu">
           <ul className="metismenu list-unstyled" id="side-menu">
-            <li className="menu-title">{("Menu")} </li>
-            <li>
-              <Link to="/dashboard" >
+            <li className="menu-title">{"Menu"} </li>
+            <li
+              onClick={() => {
+                tToggle();
+              }}
+            >
+              <Link to="/dashboard">
                 <i className="bx bx-home-circle"></i>
-                <span>{("Dashboards")}</span>
+                <span>{"Dashboards"}</span>
               </Link>
-           
             </li>
-            <li>
-              <Link to="/manage-department" >
-              <i className="bx bx-tone me-2"></i>
-               <span style={{marginLeft:'-8px' , fontSize:'12px'}}>
-              {UserData.user_type === "education"
-                      ? "Manage Class"
-                      : UserData.user_type === "corporate"
-                      ? "Manage Deaprtment"
-                      : "Manage Users"}
-                         </span>
+            <li  onClick={() => {
+                tToggle();
+              }}>
+              <Link to="/manage-department">
+                <i className="bx bx-tone me-2"></i>
+                <span style={{ marginLeft: "-8px", fontSize: "12px" }}>
+                  {UserData.user_type === "education"
+                    ? "Manage Class"
+                    : UserData.user_type === "corporate"
+                    ? "Manage Deaprtment"
+                    : "Manage Users"}
+                </span>
               </Link>
-           
             </li>
-
-           
-           
-             
           </ul>
         </div>
       </SimpleBar>
@@ -186,5 +195,5 @@ SidebarContent.propTypes = {
   t: PropTypes.any,
 };
 
-export default withRouter((SidebarContent));
+export default withRouter(SidebarContent);
 // withTranslation()
