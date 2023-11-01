@@ -10,16 +10,22 @@ import {
 //i18n
 // import { withTranslation } from "react-i18next";
 // Redux
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import withRouter from "../../../Components/Common/withRouter";
 
 // users
-import user1 from "../../../assets/images/users/avatar-1.jpg";
+import user1 from "../../../assets/images/user-icon.png";
 
 const ProfileMenu = (props) => {
   // Declare a new state variable, which we'll call "menu"
   const [menu, setMenu] = useState(false);
+
+  const profileData = useSelector((state) => state.Profile.profileData);
+  console.log(profileData.profile_image)
+
+  const avatarImage =  user1;
+
 
   const [username, setusername] = useState("Admin");
 
@@ -58,8 +64,9 @@ const ProfileMenu = (props) => {
           tag="button"
         >
           <img
-            className="rounded-circle header-profile-user"
-            src={user1}
+            className="rounded-circle header-profile-user "
+            style={{width:'30px', height:'30px' , objectFit:'contain'}}
+            src={avatarImage}
             alt="Header Avatar"
           />
           <span className="d-none d-xl-inline-block ms-2 me-1">{username}</span>

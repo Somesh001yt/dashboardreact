@@ -39,7 +39,7 @@ const Navbar = (props) => {
                     // }}
                     to="/dashboard"
                   >
-                    Dasboard
+                    Dashboard
                   </Link>
                 </li>
 
@@ -50,11 +50,21 @@ const Navbar = (props) => {
                     style={{ textTransform: "capitalize" }}
                   >
                     <i className="bx bx-tone me-2"></i>
-                    {UserData.user_type === "education"
+                    {UserData?.user_type === "education"
                       ? "Manage Class"
-                      : UserData.user_type === "corporate"
+                      : UserData?.user_type === "corporate"
                       ? "Manage Deaprtment"
                       : "Manage Users"}
+                  </Link>
+                </li>
+                <li className="nav-item dropdown">
+                  <Link
+                    to="/manage-subusers"
+                    className="nav-link dropdown-toggle arrow-none "
+                    style={{ textTransform: "capitalize" }}
+                  >
+                    <i className="bx bx-tone me-2"></i>
+                    Sub User
                   </Link>
                 </li>
               </ul>

@@ -175,9 +175,9 @@ const SidebarContent = (props) => {
               <Link to="/manage-department">
                 <i className="bx bx-tone me-2"></i>
                 <span style={{ marginLeft: "-8px", fontSize: "12px" }}>
-                  {UserData.user_type === "education"
+                  {UserData?.user_type === "education"
                     ? "Manage Class"
-                    : UserData.user_type === "corporate"
+                    : UserData?.user_type === "corporate"
                     ? "Manage Deaprtment"
                     : "Manage Users"}
                 </span>

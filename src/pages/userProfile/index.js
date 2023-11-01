@@ -28,69 +28,78 @@ import withRouter from "../../Components/Common/withRouter";
 //Import Breadcrumb
 import Breadcrumb from "../../Components/Common/Breadcrumb";
 
-import avatar from "../../assets/images/users/avatar-1.jpg";
+import avatar from "../../assets/images/profile.png";
 // actions
-import { editProfile, resetProfileFlag } from "../../store/actions";
+import {
+  editProfile,
+  getProfileData,
+  resetProfileFlag,
+} from "../../store/actions";
+import { GET_PROFILE_DATA } from "../../store/auth/profie/actionType";
 import { event } from "jquery";
 import { API } from "../../Api/Api";
-import {  toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 const UserProfile = () => {
   //meta title
-  document.title = "Profile | Skote - React Admin & Dashboard Template";
+  document.title = "Profile | The Track Pilot";
+
+  const profileData = useSelector((state) => state.Profile.profileData);
+  console.log(profileData);
+
+  // const avatarImage =  ;
 
   const dispatch = useDispatch();
   const inputRef = useRef(null);
-
-  const [email, setemail] = useState("");
-  const [name, setname] = useState("");
   const [image, setImage] = useState("");
-  const [loading , setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
-  const selectProfileState = (state) => state.Profile;
-  const ProfileProperties = createSelector(selectProfileState, (profile) => ({
-    error: profile.error,
-    success: profile.success,
-  }));
+  const token = localStorage.getItem("token");
+  const usrData = JSON.parse(localStorage.getItem("userData"));
 
-  const { error, success } = useSelector(ProfileProperties);
-
-  const token = localStorage.getItem('token');
-  const usrData = JSON.parse(localStorage.getItem('userData'));
-
-  const [initialValues, setInitialValues] = useState({
-    username: usrData?.username || "name",
-    address: usrData?.address || "address",
-    phone: usrData?.phone_number || "phone",
-    profileImage: usrData?.profile_image || "profile",
-  });
+  const [initialValues, setInitialValues] = useState({});
 
   // console.log(data)
-  
 
-  const updateProfileApi = async (data  ) => {
-    // const formData = new FormData();
-    // formData.append("profileImage", image);
+  const avatarImage = profileData?.profile_image;
 
-    
-    
+  useEffect(() => {
+    getMyProfileApi();
+  }, []);
+
+  const getMyProfileApi = async () => {
+    try {
+      const response = await API.getMyProfile(token);
+      console.log(response);
+      if (response?.success) {
+        dispatch(getProfileData(response?.data));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateProfileApi = async (data) => {
+    const formData = new FormData();
+    if (image instanceof Blob || image instanceof File) {
+      formData.append("profileImage", image);
+    }
 
     try {
       setLoading(true);
-      const response = await API.updateProfile(data , token);
+      const response = await API.updateProfile(data, token);
       console.log(response);
-      if(response?.success){
-        toast.success(response?.message); 
-        // navigate("/dashboard");
-      }else {
-        console.log({response});
-        toast.error(response?.message );
+      if (response?.success) {
+        toast.success(response?.message);
+        getMyProfileApi();
+      } else {
+        console.log({ response });
+        toast.error(response?.message);
       }
-
     } catch (error) {
       console.error(error);
-    }finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -98,14 +107,18 @@ const UserProfile = () => {
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
 
-    initialValues: initialValues,
+    initialValues: {
+      username: profileData?.username || "",
+      address: profileData ? profileData?.address : "",
+      phone: profileData ? profileData?.phone_number : "",
+      profileImage: profileData ? profileData?.profile_image : avatar,
+    },
     validationSchema: Yup.object({
       username: Yup.string().required("Please Enter Your UserName"),
     }),
-    onSubmit: (values ) => {
-
-      updateProfileApi(values , token);
-      console.log(values , {token})
+    onSubmit: (values) => {
+      updateProfileApi(values, token);
+      console.log(values, { token });
     },
   });
 
@@ -115,10 +128,16 @@ const UserProfile = () => {
     inputRef.current.click();
   };
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    console.log(file);
-    setImage(event.target.files[0]);
+  const onSelectedFiles = (event) => {
+    const selectedFiles = event.target.files[0];
+    console.log(selectedFiles);
+    const selectedFilesArray = Array.from(selectedFiles);
+    const res = [...image, ...selectedFilesArray];
+    setImage(selectedFiles);
+
+    // const imageArray = selectedFilesArray.map((file) => {
+    //   return URL.createObjectURL(file);
+    // });
   };
 
   return (
@@ -127,9 +146,9 @@ const UserProfile = () => {
         <div className="page-content">
           <Container fluid>
             {/* Render Breadcrumb */}
-            <Breadcrumb title="Skote" breadcrumbItem="Profile" />
+            <Breadcrumb title="Faags" breadcrumbItem="Profile" />
 
-            <Row>
+            {/* <Row>
               <Col lg="12">
                 {error && error ? <Alert color="danger">{error}</Alert> : null}
                 {success ? <Alert color="success">{success}</Alert> : null}
@@ -137,33 +156,7 @@ const UserProfile = () => {
                 <Card>
                   <CardBody>
                     <div className="d-flex">
-                      <div
-                        className="ms-3"
-                        style={{ position: "relative" }}
-                        onClick={handleImageClick}
-                      >
-                        {image ? (
-                          <img
-                            src={URL.createObjectURL(image)}
-                            className="avatar-xl rounded-circle img-thumbnail"
-                          />
-                        ) : (
-                          <img
-                            src={avatar}
-                            alt=""
-                            className="avatar-xl rounded-circle img-thumbnail"
-                          />
-                        )}
-                        <i className="fas fa-pen-square  editIcon" />
-
-                        <input
-                          type="file"
-                          className="d-none"
-                          name="profileImage"
-                          onChange={handleImageChange}
-                          ref={inputRef}
-                        />
-                      </div>
+                    
                       <div className="flex-grow-1 align-self-center">
                         <div className="text-muted">
                           <h5>{name}</h5>
@@ -174,9 +167,7 @@ const UserProfile = () => {
                   </CardBody>
                 </Card>
               </Col>
-            </Row>
-
-            <h4 className="card-title mb-4">Change User Name</h4>
+            </Row> */}
 
             <Card>
               <CardBody>
@@ -188,6 +179,38 @@ const UserProfile = () => {
                     return false;
                   }}
                 >
+                  <div
+                    className="ms-3 mb-4"
+                    style={{ position: "relative" }}
+                    onClick={() => inputRef.current.click()}
+                  >
+                    {image ? (
+                      <img
+                        src={
+                          image instanceof Blob || image instanceof File
+                            ? URL.createObjectURL(image)
+                            : avatarImage
+                        }
+                        className="avatar-xl rounded-circle img-thumbnail"
+                      />
+                    ) : (
+                      <img
+                      src={`http://oursitedemo.com:4002/api/${avatarImage}`}
+                        // alt={avatar}
+                        className="avatar-xl rounded-circle img-thumbnail "
+                      />
+                    )}
+                    <i className="fas fa-pen-square  editIcon" />
+
+                    <input
+                      type="file"
+                      className="d-none"
+                      name="profileImage"
+                      accept="image/jpeg , image/png , image/webp"
+                      onChange={onSelectedFiles}
+                      ref={inputRef}
+                    />
+                  </div>
                   <div className="form-group">
                     <Label className="form-label">User Name</Label>
                     <Input
@@ -212,7 +235,7 @@ const UserProfile = () => {
                         {validation.errors.username}
                       </FormFeedback>
                     ) : null}
-                  
+
                     <Label className="form-label">Address</Label>
                     <Input
                       name="address"
@@ -224,14 +247,12 @@ const UserProfile = () => {
                       onBlur={validation.handleBlur}
                       value={validation.values.address || ""}
                       invalid={
-                        validation.touched.address &&
-                        validation.errors.address
+                        validation.touched.address && validation.errors.address
                           ? true
                           : false
                       }
                     />
-                    {validation.touched.address &&
-                    validation.errors.address ? (
+                    {validation.touched.address && validation.errors.address ? (
                       <FormFeedback type="invalid">
                         {validation.errors.address}
                       </FormFeedback>
@@ -247,26 +268,30 @@ const UserProfile = () => {
                       onBlur={validation.handleBlur}
                       value={validation.values.phone || ""}
                       invalid={
-                        validation.touched.phone &&
-                        validation.errors.phone
+                        validation.touched.phone && validation.errors.phone
                           ? true
                           : false
                       }
                     />
-                    {validation.touched.phone &&
-                    validation.errors.phone ? (
+                    {validation.touched.phone && validation.errors.phone ? (
                       <FormFeedback type="invalid">
                         {validation.errors.phone}
                       </FormFeedback>
                     ) : null}
                   </div>
-                  <div  className="text-center mt-4" >
-                    <Button style={{width:'170px'}} type="submit" color="primary">
-                    {    
-                              loading?
-                               <div >
-                              <Spinner  size={"sm"} color={"light"} /> 
-                              </div> : 'Update Username'  }
+                  <div className="text-center mt-4">
+                    <Button
+                      style={{ width: "170px" }}
+                      type="submit"
+                      color="primary"
+                    >
+                      {loading ? (
+                        <div>
+                          <Spinner size={"sm"} color={"light"} />
+                        </div>
+                      ) : (
+                        "Update"
+                      )}
                     </Button>
                   </div>
                 </Form>

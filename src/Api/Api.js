@@ -76,6 +76,22 @@ export const API = {
     }
   },
 
+  async getMyProfile(token){
+   try{
+    const response = await instance.get("user/profile", 
+    {
+      headers: {
+        "x-access-token": token,
+      },
+    }
+    )
+    console.log(response)
+    return response?.data
+   }catch(error){
+    console.log(error)
+   }
+  },
+
   async updateProfile(params, token) {
     console.log(params)
     let formData = new FormData();
@@ -191,5 +207,54 @@ export const API = {
     }catch (error){
       console.log(error)
     }
+  },
+
+  async getUserList (token ){
+    try{
+    const response = await instance.get('subUser',
+    {
+      headers: {
+        "x-access-token": token,
+      },
+    }
+    )
+    console.log(response)
+    return response?.data
+    }catch (error){
+      console.log(error)
+    }
+  },
+
+  async addSubUserList(params , token) {
+    try{
+      const response = await instance.post("subUser",
+      {...params},
+        {
+          headers: {
+            "x-access-token": token,
+          },
+        }
+      )
+      console.log(response)
+      return response?.data
+    } catch (error){
+     console.log(error)
+    }
+  },
+
+  async getSubUserDetails(token , id) {
+    try{
+      const response = await instance.get(`subUser/${id}`,
+      {
+        headers: {
+          "x-access-token": token,
+        },
+      }
+      )
+      console.log(response)
+      return response?.data
+      }catch (error){
+        console.log(error)
+      }
   }
 };

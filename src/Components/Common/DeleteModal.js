@@ -13,7 +13,7 @@ const DeleteModal = ({ show, onDeleteClick, onCloseClick }) => {
               <i className="mdi mdi-trash-can-outline text-white  "></i>
             </div>
           </div>
-          <p className="text-muted font-size-16 mb-4">Are you sure you want to permanently erase the job.</p>
+          <p className="text-muted font-size-16 mb-4">Are you sure you want to Delete!</p>
 
           <div className="hstack gap-2 justify-content-center mb-0">
             <button type="button" className="btn btn-primary" onClick={onDeleteClick}>Delete Now</button>

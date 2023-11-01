@@ -92,9 +92,9 @@ const ChangePassword = () => {
       <div className="page-content">
         <Container fluid>
           <div className="mt-4">
-            <Row>
-              <Col lg="12">
-                <Card>
+            <Row style={{display:'flex' , justifyContent:'center' , alignItems:'center', marginTop:'2rem'}}>
+              <Col lg="6" >
+                <Card >
                   <CardBody>
                     <form
                       className="form-horizontal"

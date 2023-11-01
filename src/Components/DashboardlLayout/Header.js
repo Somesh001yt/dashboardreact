@@ -140,31 +140,11 @@ const Header = (props) => {
               </Link>
             </div>
 
-            <button
-              type="button"
-              className="btn btn-sm px-3 font-size-16 d-lg-none header-item"
-              data-toggle="collapse"
-              onClick={() => {
-                props.toggleLeftmenu(!props.leftMenu);
-              }}
-              data-target="#topnav-menu-content"
-            >
-              <i className="fa fa-fw fa-bars" />
-            </button>
+         
           </div>
 
           <div className="d-flex">
-            <form className="app-search d-none d-lg-block">
-              <div className="position-relative">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search..."
-                />
-                <span className="bx bx-search-alt" />
-              </div>
-            </form>
-            <div className="dropdown d-none d-lg-inline-block ms-1">
+          <div className="dropdown d-none d-lg-inline-block ms-1 mt-1 ">
               <button
                 type="button"
                 className="btn header-item noti-icon "
@@ -176,10 +156,8 @@ const Header = (props) => {
                 <i className="bx bx-fullscreen" />
               </button>
             </div>
-            {/* <LanguageDropdown /> */}
-          </div>
 
-          <div className="d-flex">
+
             <div className="menuIcon" onClick={handleLayoutModeChange}>
               <i className="fas fa-align-justify " />
             </div>

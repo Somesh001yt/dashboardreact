@@ -43,7 +43,7 @@ const Dashboard = props => {
   ]
 
   //meta title
-  document.title = " Dashboard | Skote - React Admin & Dashboard Template"
+  document.title = " Dashboard | The Track Pilot"
 
   return (
     <React.Fragment>
