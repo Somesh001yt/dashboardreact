@@ -45,6 +45,7 @@ const ManageDepartment = () => {
   const [modal, setModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const userDataString = localStorage.getItem("userData");
+  const [error, setError] = useState(false); 
 
   const UserData = JSON.parse(userDataString);
 
@@ -140,6 +141,7 @@ const ManageDepartment = () => {
         toast.success(response?.message);
         getDepartementListData();
       } else {
+        setError(true); 
         toast.error(response?.message);
       }
     } catch (error) {
@@ -214,6 +216,7 @@ const ManageDepartment = () => {
     }
 
     validation.resetForm();
+    setError(false);
   };
 
 
@@ -339,7 +342,9 @@ const ManageDepartment = () => {
                       <div className="flex-shrink-0">
                         <Link
                           to="#!"
-                          onClick={() => toggleModal("add")}
+                          onClick={() => {
+                            setError(false);
+                            toggleModal("add")}}
                           className="btn btn-primary me-1"
                         >
                           {UserData.user_type === "education"

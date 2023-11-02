@@ -19,7 +19,7 @@ function GlobalFilter({
   setGlobalFilter,
   isJobListGlobalFilter,
 }) {
-  const count = preGlobalFilteredRows?.length
+  const count = preGlobalFilteredRows.length
   const [value, setValue] = React.useState(globalFilter)
   const onChange = useAsyncDebounce(value => {
     setGlobalFilter(value || undefined)
@@ -70,8 +70,8 @@ const TableContainer = ({
     previousPage,
     setPageSize,
     state,
-     //preGlobalFilteredRows,
-     setGlobalFilter,
+    preGlobalFilteredRows,
+    setGlobalFilter,
     state: { pageIndex, pageSize },
   } = useTable(
     {
@@ -124,7 +124,7 @@ const TableContainer = ({
 
         {isGlobalFilter && (
           <GlobalFilter
-            // preGlobalFilteredRows={preGlobalFilteredRows}
+            preGlobalFilteredRows={preGlobalFilteredRows}
             globalFilter={state.globalFilter}
             setGlobalFilter={setGlobalFilter}
             isJobListGlobalFilter={isJobListGlobalFilter}
