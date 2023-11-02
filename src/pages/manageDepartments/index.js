@@ -194,8 +194,8 @@ const ManageDepartment = () => {
   const handleJobClick = (arg) => {
     const job = arg;
     setJob({
-      id: job.id,
-      title: job.title,
+      id: job?.id,
+      title: job?.title,
     });
 
     setIsEdit(true);
@@ -253,6 +253,11 @@ const ManageDepartment = () => {
         Cell: (cellProps) => {
           return <JobNoTitle {...cellProps} />;
         },
+      },
+      {
+       Header : 'Posted Date',
+       accessor:'created_date',
+       filterable: false,
       },
 
       {
@@ -348,7 +353,7 @@ const ManageDepartment = () => {
                         </Link>
                       </div>
                     </div>
-                    {departmentData.length === 0 ? (
+                    {departmentData?.length === 0 ? (
                       <div className="text-center mt-4">No data found</div>
                     ) :   
                     <TableContainer

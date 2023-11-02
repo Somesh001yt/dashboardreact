@@ -256,5 +256,42 @@ export const API = {
       }catch (error){
         console.log(error)
       }
+  },
+
+
+  async updateSubUser (params, token , id) {
+    console.log(id)
+    try{
+      const response = await instance.put(`subUser/${id}`,
+      {
+        ...params,
+      },
+      {
+        headers: {
+          "x-access-token": token,
+        },
+      }
+      )
+      console.log(response)
+      return response?.data
+      }catch (error){
+        console.log(error)
+      }
+  }, 
+
+  async deleteSubUser (token , id){
+    try{
+      const response = await instance.delete(`subUser/${id}`,
+      {
+        headers: {
+          "x-access-token": token,
+        },
+      }
+      )
+      console.log(response)
+      return response?.data
+      }catch (error){
+        console.log(error)
+      }
   }
 };
