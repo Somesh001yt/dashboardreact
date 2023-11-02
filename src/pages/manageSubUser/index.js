@@ -41,6 +41,7 @@ import { API } from "../../Api/Api";
 import { toast } from "react-toastify";
 import Select from "react-select";
 import EditModal from "../../Components/EditModal";
+import moment from "moment";
 
 const ManageSubUser = () => {
   const selectLayoutState = useSelector((state) => state.Layout.layoutModeType);
@@ -329,7 +330,6 @@ const ManageSubUser = () => {
       },
       {
         Header: "Profile Image",
-        accessor: "profile_image",
         Cell: (cellProps) => {
           return <ProfileImage {...cellProps} />;
         },
@@ -338,12 +338,11 @@ const ManageSubUser = () => {
         Header: "Posted Date",
         accessor: "created_date",
         Cell: (cellProps) => {
-          return <PostedDate {...cellProps} />;
+          return  <span>{moment(cellProps.row.original.created_date)?.format("yyyy-MM-DD")}</span>;
         },
       },
       {
         Header: "Class Name",
-        accessor: "className",
         Cell: (cellProps) => {
           return <ClassName {...cellProps} />;
         },
@@ -351,7 +350,6 @@ const ManageSubUser = () => {
 
       {
         Header: "Action",
-        accessor: "action",
         disableFilters: true,
         Cell: (cellProps) => {
           return (
@@ -436,6 +434,9 @@ const ManageSubUser = () => {
                       </div>
                     </div>
                   </CardBody>
+                  {subUserList?.length === 0 ? (
+                      <div className="text-center mt-4">No data found</div>
+                    ) : (
                   <CardBody>
                     <TableContainer
                       columns={columns}
@@ -453,6 +454,7 @@ const ManageSubUser = () => {
                       pagination="pagination justify-content-end pagination-rounded"
                     />
                   </CardBody>
+                    )}
                 </Card>
               </Col>
             </Row>

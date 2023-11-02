@@ -1,5 +1,5 @@
-import React, { Fragment } from "react"
-import PropTypes from "prop-types"
+import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import {
   useTable,
   useGlobalFilter,
@@ -7,10 +7,10 @@ import {
   useSortBy,
   useExpanded,
   usePagination,
-} from "react-table"
-import { Table, Row, Col, Button } from "reactstrap"
-import JobListGlobalFilter from "../../Components/Common/GlobalSearchFilter"
-import { Link } from "react-router-dom"
+} from "react-table";
+import { Table, Row, Col, Button } from "reactstrap";
+import JobListGlobalFilter from "../../Components/Common/GlobalSearchFilter";
+import { Link } from "react-router-dom";
 
 // Define a default UI for filtering
 function GlobalFilter({
@@ -19,20 +19,32 @@ function GlobalFilter({
   setGlobalFilter,
   isJobListGlobalFilter,
 }) {
-  const count = preGlobalFilteredRows.length
-  const [value, setValue] = React.useState(globalFilter)
-  const onChange = useAsyncDebounce(value => {
-    setGlobalFilter(value || undefined)
-  }, 200)
+  const count = preGlobalFilteredRows.length;
+  const [value, setValue] = React.useState(globalFilter);
+  const onChange = useAsyncDebounce((value) => {
+    setGlobalFilter(value || undefined);
+  }, 200);
 
   return (
     <React.Fragment>
       <Col xxl={3} lg={6}>
-        <input type="search" className="form-control" id="search-bar-0" value={value || ""} placeholder={`${count} records...`} onChange={e => { setValue(e.target.value); onChange(e.target.value) }} />
+        <input
+          type="search"
+          className="form-control"
+          id="search-bar-0"
+          value={value || ""}
+          placeholder={`${count} records...`}
+          onChange={(e) => {
+            setValue(e.target.value);
+            onChange(e.target.value);
+          }}
+        />
       </Col>
-      {isJobListGlobalFilter && <JobListGlobalFilter setGlobalFilter={setGlobalFilter} />}
+      {isJobListGlobalFilter && (
+        <JobListGlobalFilter setGlobalFilter={setGlobalFilter} />
+      )}
     </React.Fragment>
-  )
+  );
 }
 
 const TableContainer = ({
@@ -54,7 +66,7 @@ const TableContainer = ({
   paginationDiv,
   pagination,
   tableClass,
-  theadClass
+  theadClass,
 }) => {
   const {
     getTableProps,
@@ -93,34 +105,34 @@ const TableContainer = ({
     useSortBy,
     useExpanded,
     usePagination
-  )
+  );
 
-  const generateSortingIndicator = column => {
-    return column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : ""
-  }
+  const generateSortingIndicator = (column) => {
+    return column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : "";
+  };
 
-  const onChangeInSelect = event => {
-    setPageSize(Number(event.target.value))
-  }
+  const onChangeInSelect = (event) => {
+    setPageSize(Number(event.target.value));
+  };
 
   return (
     <Fragment>
       <Row className="mb-2">
-        {iscustomPageSizeOptions &&
+        {iscustomPageSizeOptions && (
           <Col md={customPageSizeOptions ? 2 : 1}>
             <select
               className="form-select"
               value={pageSize}
               onChange={onChangeInSelect}
             >
-              {[10, 20, 30, 40, 50].map(pageSize => (
+              {[10, 20, 30, 40, 50].map((pageSize) => (
                 <option key={pageSize} value={pageSize}>
                   Show {pageSize}
                 </option>
               ))}
             </select>
           </Col>
-        }
+        )}
 
         {isGlobalFilter && (
           <GlobalFilter
@@ -180,77 +192,100 @@ const TableContainer = ({
       <div className="table-responsive">
         <Table {...getTableProps()} className={tableClass}>
           <thead className={theadClass}>
-            {headerGroups.map(headerGroup => (
+            {headerGroups.map((headerGroup) => (
               <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map(column => (
-                  <th key={column.id} className={column.isSort ? "sorting" : ''}>
-                    <div className="m-0" {...column.getSortByToggleProps()}>
-                      {column.render("Header")}
-                    </div>
-                    {/* <Filter column={column} /> */}
-                  </th>
+                {headerGroup.headers.map((column) => (
+                  
+                  <>
+                    <th
+                      key={column.id}
+                      className={column.isSort ? "sorting" : ""}
+                      onClick={()=>console.log(column)}
+                    >
+                      <div className="m-0" {...column.getSortByToggleProps()}>
+                        {column.render("Header")}
+                      </div>
+                   {/* <div className="d-flex">  {column?.canSort && <p>cd</p>} </div>  */}
+
+                      {/* <Filter column={column} /> */}
+                    </th>
+                    
+                  </>
                 ))}
               </tr>
             ))}
           </thead>
 
           <tbody {...getTableBodyProps()}>
-            {page.map(row => {
-              prepareRow(row)
+            {page.map((row) => {
+              prepareRow(row);
               return (
                 <Fragment key={row.getRowProps().key}>
                   <tr>
-                    {row.cells.map(cell => {
+                    {row.cells.map((cell) => {
                       return (
                         <td key={cell.id} {...cell.getCellProps()}>
                           {cell.render("Cell")}
                         </td>
-                      )
+                      );
                     })}
                   </tr>
                 </Fragment>
-              )
+              );
             })}
           </tbody>
         </Table>
       </div>
 
-      {
-        isPagination && (
-          <Row className="justify-content-between align-items-center">
-            {isShowingPageLength && <div className="col-sm">
-              <div className="text-muted">Showing <span className="fw-semibold">{page.length}</span> of <span className="fw-semibold">{data.length}</span> entries</div>
-            </div>}
-            <div className={paginationDiv}>
-              <ul className={pagination}>
-                <li className={`page-item ${!canPreviousPage ? "disabled" : ''}`}>
-                  <Link to="#" className="page-link" onClick={previousPage}>
-                    <i className="mdi mdi-chevron-left"></i>
-                  </Link>
-                </li>
-                {pageOptions.map((item, key) => (
-                  <React.Fragment key={key}>
-                    <li className={pageIndex === item ? "page-item active" : "page-item"}>
-                      <Link to="#" className="page-link" onClick={() => gotoPage(item)}>{item + 1}</Link>
-                    </li>
-                  </React.Fragment>
-                ))}
-                <li className={`page-item ${!canNextPage ? "disabled" : ''}`}>
-                  <Link to="#" className="page-link" onClick={nextPage}>
-                    <i className="mdi mdi-chevron-right"></i>
-                  </Link>
-                </li>
-              </ul>
+      {isPagination && (
+        <Row className="justify-content-between align-items-center">
+          {isShowingPageLength && (
+            <div className="col-sm">
+              <div className="text-muted">
+                Showing <span className="fw-semibold">{page.length}</span> of{" "}
+                <span className="fw-semibold">{data.length}</span> entries
+              </div>
             </div>
-          </Row>
-        )
-      }
+          )}
+          <div className={paginationDiv}>
+            <ul className={pagination}>
+              <li className={`page-item ${!canPreviousPage ? "disabled" : ""}`}>
+                <Link to="#" className="page-link" onClick={previousPage}>
+                  <i className="mdi mdi-chevron-left"></i>
+                </Link>
+              </li>
+              {pageOptions.map((item, key) => (
+                <React.Fragment key={key}>
+                  <li
+                    className={
+                      pageIndex === item ? "page-item active" : "page-item"
+                    }
+                  >
+                    <Link
+                      to="#"
+                      className="page-link"
+                      onClick={() => gotoPage(item)}
+                    >
+                      {item + 1}
+                    </Link>
+                  </li>
+                </React.Fragment>
+              ))}
+              <li className={`page-item ${!canNextPage ? "disabled" : ""}`}>
+                <Link to="#" className="page-link" onClick={nextPage}>
+                  <i className="mdi mdi-chevron-right"></i>
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </Row>
+      )}
     </Fragment>
-  )
-}
+  );
+};
 
 TableContainer.propTypes = {
   preGlobalFilteredRows: PropTypes.any,
-}
+};
 
-export default TableContainer
+export default TableContainer;

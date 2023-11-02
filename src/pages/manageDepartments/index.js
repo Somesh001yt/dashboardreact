@@ -4,7 +4,7 @@ import TableContainer from "../../Components/Common/TableContainer";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
-import './manageDepartment.scss'
+import "./manageDepartment.scss";
 
 //import components
 import Breadcrumbs from "../../Components/Common/Breadcrumb";
@@ -30,6 +30,7 @@ import { listData } from "./listData";
 import { API } from "../../Api/Api";
 import Spinner from "../../Components/Common/Spinner";
 import { useSelector } from "react-redux";
+import moment from "moment";
 
 const JobNoTitle = (cell) => {
   return (
@@ -45,7 +46,7 @@ const ManageDepartment = () => {
   const [modal, setModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const userDataString = localStorage.getItem("userData");
-  const [error, setError] = useState(false); 
+  const [error, setError] = useState(false);
 
   const UserData = JSON.parse(userDataString);
 
@@ -70,12 +71,10 @@ const ManageDepartment = () => {
   useEffect(() => {
     handleTheme(selectLayoutState);
   }, [selectLayoutState]);
-  
-  console.log(selectLayoutState , "xxx");
-  
-  console.log(isSubscribed , 'xxx')
 
- 
+  console.log(selectLayoutState, "xxx");
+
+  console.log(isSubscribed, "xxx");
 
   let userTypeName =
     UserData.user_type === "education"
@@ -91,14 +90,14 @@ const ManageDepartment = () => {
     enableReinitialize: true,
 
     initialValues: {
-      title: isEdit ? (job && job.title) : '',
+      title: isEdit ? job && job.title : "",
     },
     validationSchema: Yup.object({
       title: Yup.string().required("Please Enter Your Job Title").trim(),
     }),
     onSubmit: (values) => {
       addOrEdit(values);
-      toggle();
+
       // validation.resetForm();
     },
   });
@@ -120,7 +119,6 @@ const ManageDepartment = () => {
     }
   };
 
-
   // Add List Api
 
   const addOrEdit = (data) => {
@@ -134,14 +132,14 @@ const ManageDepartment = () => {
   const AddDepartmentList = async (data) => {
     setLoader(true);
     try {
-      
       const response = await API.addDepartmentList(data, token);
       console.log(response);
       if (response.success) {
         toast.success(response?.message);
         getDepartementListData();
+        toggle();
       } else {
-        setError(true); 
+        setError(true);
         toast.error(response?.message);
       }
     } catch (error) {
@@ -161,6 +159,7 @@ const ManageDepartment = () => {
       if (response?.success) {
         toast.success(response?.message);
         getDepartementListData();
+        toggle();
       } else {
         console.log({ response });
         toast.error(response?.message);
@@ -206,24 +205,17 @@ const ManageDepartment = () => {
   };
 
   const toggleModal = (state) => {
-
     if (state === "edit") {
       setIsEdit(true);
-      toggle();
     } else {
       setIsEdit(false);
-      toggle();
     }
 
     validation.resetForm();
     setError(false);
   };
 
-
-
-
   const [deleteModal, setDeleteModal] = useState(false);
-  
 
   const onClickDelete = (job) => {
     setJob(job);
@@ -249,7 +241,7 @@ const ManageDepartment = () => {
 
   const columnList = useMemo(
     () => [
-            {
+      {
         Header: "Title",
         accessor: "title",
         filterable: true,
@@ -258,31 +250,33 @@ const ManageDepartment = () => {
         },
       },
       {
-       Header : 'Posted Date',
-       accessor:'created_date',
-       filterable: false,
+        Header: "Posted Date",
+        accessor: "created_date",
+        filterable: false,
+        Cell: (cellProps) => {
+          return <span>{moment(cellProps.row.original.created_date)?.format("yyyy-MM-DD")}</span>;
+        },
       },
 
       {
         Header: "Action",
-        accessor: "action",
+        // accessor: "action",
         disableFilters: true,
         Cell: (cellProps) => {
           return (
             <ul className="list-unstyled hstack gap-1 mb-0">
-              <li> 
+              <li>
                 <Link
                   to="#"
-                  className={`btn btn-sm ${isSubscribed ? 'btn-soft-primary' : 'btn-primary'}`}
-
-                  
+                  className={`btn btn-sm ${
+                    isSubscribed ? "btn-soft-primary" : "btn-primary"
+                  }`}
                   onClick={() => {
                     const jobData = cellProps.row.original;
-                    handleJobClick(jobData);
-                   
-                  
-                  }}
+                    toggle();
 
+                    handleJobClick(jobData);
+                  }}
                   id={`edittooltip-${cellProps.row.original.id}`}
                 >
                   <i className="mdi mdi-pencil-outline" />
@@ -344,7 +338,10 @@ const ManageDepartment = () => {
                           to="#!"
                           onClick={() => {
                             setError(false);
-                            toggleModal("add")}}
+                            toggle();
+
+                            toggleModal("add");
+                          }}
                           className="btn btn-primary me-1"
                         >
                           {UserData.user_type === "education"
@@ -360,22 +357,22 @@ const ManageDepartment = () => {
                     </div>
                     {departmentData?.length === 0 ? (
                       <div className="text-center mt-4">No data found</div>
-                    ) :   
-                    <TableContainer
-                      columns={columnList}
-                      data={departmentData}
-                      isGlobalFilter={true}
-                      isAddOptions={false}
-                      // isJobListGlobalFilter={true}
-                      isPagination={true}
-                      iscustomPageSizeOptions={true}
-                      isShowingPageLength={true}
-                      customPageSize={5}
-                      tableClass="table-bordered align-middle nowrap mt-2"
-                      paginationDiv="col-sm-12 col-md-7"
-                      pagination="pagination justify-content-end pagination-rounded"
-                    /> 
-                    }
+                    ) : (
+                      <TableContainer
+                        columns={columnList}
+                        data={departmentData}
+                        isGlobalFilter={true}
+                        isAddOptions={false}
+                        // isJobListGlobalFilter={true}
+                        isPagination={true}
+                        iscustomPageSizeOptions={true}
+                        isShowingPageLength={true}
+                        customPageSize={5}
+                        tableClass="table-bordered align-middle nowrap mt-2"
+                        paginationDiv="col-sm-12 col-md-7"
+                        pagination="pagination justify-content-end pagination-rounded"
+                      />
+                    )}
                   </CardBody>
                 </Card>
               </Col>
