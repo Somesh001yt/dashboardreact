@@ -15,6 +15,7 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { API } from "../../Api/Api";
 import { toast } from "react-toastify";
+import Breadcrumb from "../../Components/Common/Breadcrumb";
 
 const ChangePassword = () => {
   const [oldPasswordShow, setOldPasswordShow] = useState(false);
@@ -91,7 +92,8 @@ const ChangePassword = () => {
     <div className="main-content">
       <div className="page-content">
         <Container fluid>
-          <div className="mt-4">
+        <Breadcrumb title="The Track Pilot" breadcrumbItem="Change Password" />
+          <div className="mt-5">
             <Row style={{display:'flex' , justifyContent:'center' , alignItems:'center', marginTop:'2rem'}}>
               <Col lg="6" >
                 <Card >

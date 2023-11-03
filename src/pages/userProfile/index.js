@@ -146,7 +146,7 @@ const UserProfile = () => {
         <div className="page-content">
           <Container fluid>
             {/* Render Breadcrumb */}
-            <Breadcrumb title="Faags" breadcrumbItem="Profile" />
+            <Breadcrumb title="The Track Pilot" breadcrumbItem="Profile" />
 
             {/* <Row>
               <Col lg="12">

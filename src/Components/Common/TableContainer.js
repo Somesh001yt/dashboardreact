@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import {
   useTable,
@@ -24,6 +24,7 @@ function GlobalFilter({
   const onChange = useAsyncDebounce((value) => {
     setGlobalFilter(value || undefined);
   }, 200);
+  const [sorted , setSorted] = useState(false)
 
   return (
     <React.Fragment>
@@ -108,7 +109,7 @@ const TableContainer = ({
   );
 
   const generateSortingIndicator = (column) => {
-    return column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : "";
+    return column.isSorted === true ? (column.isSortedDesc ? " 🔽" : " 🔼") : "";
   };
 
   const onChangeInSelect = (event) => {
@@ -208,7 +209,7 @@ const TableContainer = ({
                       <div className="m-0" {...column.getSortByToggleProps()}>
                         {column.render("Header")}
                       </div>
-                    <div >  {column?.canSort &&  <span className="mt-2" {...column.getSortByToggleProps()} ><i class={`fas fa-angle-${column?.isSortedDesc === false ? 'up' : 'down'}`}></i>   </span>} </div>  
+                    <div >  {column?.canSort &&  <span className="mt-2" {...column.getSortByToggleProps()} ><i class={`fas fa-angle-${column?.isSortedDesc === false  ?  'up' : 'down'}`}></i>   </span>} </div>  
                       </div>
 
                       {/* <Filter column={column} /> */}

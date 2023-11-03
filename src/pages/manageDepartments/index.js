@@ -51,7 +51,6 @@ const ManageDepartment = () => {
 
   const [loading, setLoader] = useState(false);
 
-
   const [deleteModal, setDeleteModal] = useState(false);
   const [departmentData, setDepartmentData] = useState([]);
   const [job, setJob] = useState(null);
@@ -70,8 +69,6 @@ const ManageDepartment = () => {
   useEffect(() => {
     handleTheme(selectLayoutState);
   }, [selectLayoutState]);
-
-
 
   let userTypeName =
     UserData?.user_type === "education"
@@ -212,8 +209,6 @@ const ManageDepartment = () => {
     setError(false);
   };
 
- 
-
   const onClickDelete = (job) => {
     setJob(job);
     setDeleteModal(true);
@@ -236,13 +231,8 @@ const ManageDepartment = () => {
     // validation.resetForm();
   };
 
- 
-
   const columnList = useMemo(() => {
-  
-
     return [
-  
       {
         Header: "Title",
         accessor: "title",
@@ -254,7 +244,13 @@ const ManageDepartment = () => {
         Header: "Posted Date",
         accessor: "created_date",
         Cell: (cellProps) => {
-          return <span>{moment(cellProps?.row?.original?.created_date)?.format("yyyy-MM-DD")}</span>;
+          return (
+            <span>
+              {moment(cellProps?.row?.original?.created_date)?.format(
+                "yyyy-MM-DD"
+              )}
+            </span>
+          );
         },
       },
 
@@ -312,10 +308,9 @@ const ManageDepartment = () => {
           );
         },
       },
-    ]
-    
-  },[isSubscribed])
-  
+    ];
+  }, [isSubscribed]);
+
   return (
     <React.Fragment>
       <DeleteModal
@@ -332,9 +327,9 @@ const ManageDepartment = () => {
             <Row>
               <Col lg="12">
                 <Card>
-                  <CardBody>
+                <CardBody className="border-bottom">
                     <div className="d-flex align-items-center">
-                      <h5 className="mb-0 card-title flex-grow-1"> </h5>
+                      <h5 className="mb-0 card-title flex-grow-1"> {userTypeName + '  List'}</h5>
                       <div className="flex-shrink-0">
                         <Link
                           to="#!"
@@ -357,25 +352,27 @@ const ManageDepartment = () => {
                         </Link>
                       </div>
                     </div>
-                    {departmentData?.length === 0 ? (
-                      <div className="text-center mt-4 mb-4">No data found</div>
-                    ) : (
-                      <TableContainer
-                        columns={columnList}
-                        data={departmentData}
-                        isGlobalFilter={true}
-                        isAddOptions={false}
-                        // isJobListGlobalFilter={true}
-                        isPagination={true}
-                        iscustomPageSizeOptions={true}
-                        isShowingPageLength={true}
-                        customPageSize={5}
-                        tableClass="table-bordered align-middle nowrap mt-2"
-                        paginationDiv="col-sm-12 col-md-7"
-                        pagination="pagination justify-content-end pagination-rounded"
-                      />
-                    )}
                   </CardBody>
+                  {departmentData?.length === 0 || !departmentData ? (
+                   <div className="text-center mb-4 mt-4">No data found</div>
+                  ) : (
+                    <CardBody>
+                    <TableContainer
+                      columns={columnList}
+                      data={departmentData || []}
+                      isGlobalFilter={true}
+                      isAddOptions={false}
+                      // isJobListGlobalFilter={true}
+                      isPagination={true}
+                      iscustomPageSizeOptions={true}
+                      isShowingPageLength={true}
+                      customPageSize={5}
+                      tableClass="table-bordered align-middle nowrap mt-2"
+                      paginationDiv="col-sm-12 col-md-7"
+                      pagination="pagination justify-content-end pagination-rounded"
+                    />
+                     </CardBody>
+                  )}
                 </Card>
               </Col>
             </Row>

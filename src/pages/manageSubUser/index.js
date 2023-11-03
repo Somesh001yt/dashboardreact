@@ -62,8 +62,6 @@ const ManageSubUser = () => {
 
   const token = localStorage.getItem("token");
 
-
-
   useEffect(() => {
     getSubUserListApi();
   }, [token]);
@@ -81,17 +79,16 @@ const ManageSubUser = () => {
 
   const getSubUserDetailsApi = async (id) => {
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await API.getSubUserDetails(token, id);
-      console.log(response,"xxxx");
-      setSubUserDetail(response?.data[0])
+      console.log(response, "xxxx");
+      setSubUserDetail(response?.data[0]);
     } catch (error) {
       console.log(error);
-    }finally{
+    } finally {
       setLoading(false);
     }
   };
-
 
   const getDepartementListApi = async (data) => {
     try {
@@ -125,12 +122,12 @@ const ManageSubUser = () => {
   };
 
   const updateSubUserApi = async (data) => {
-    console.log(data)
-    let id = subUserId
-    console.log(id)
+    console.log(data);
+    let id = subUserId;
+    console.log(id);
     try {
-      setLoading(true)
-      const response = await API.updateSubUser( data ,token, id);
+      setLoading(true);
+      const response = await API.updateSubUser(data, token, id);
       console.log(response);
       if (response?.success) {
         toast.success(response?.message);
@@ -141,8 +138,8 @@ const ManageSubUser = () => {
     } catch (error) {
       toast.error("Network Error");
       console.log(error);
-    }finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -173,28 +170,28 @@ const ManageSubUser = () => {
     } else {
       addSubUserListApi(data);
     }
-  };  
+  };
 
-  const initialValues= {
-    username:   "",
-    email:  "",
-    phone:  "",
+  const initialValues = {
+    username: "",
+    email: "",
+    phone: "",
     address: "",
-    profileImage:  "",
+    profileImage: "",
     classId: "",
-  }
+  };
 
   const validation = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
 
     initialValues: {
-      username:  isEdit ?  subUserDetail && subUserDetail?.username : "",
-      email:  isEdit ?  subUserDetail && subUserDetail?.email_address: "",
-      phone: isEdit ?  subUserDetail && subUserDetail?.phone_number : "",
-      address: isEdit ?   subUserDetail && subUserDetail?.address : "",
-      profileImage: isEdit ?  subUserDetail && subUserDetail?.profile_image : "",
-      classId:  isEdit ? subUserDetail && subUserDetail?.className : "",
+      username: isEdit ? subUserDetail && subUserDetail?.username : "",
+      email: isEdit ? subUserDetail && subUserDetail?.email_address : "",
+      phone: isEdit ? subUserDetail && subUserDetail?.phone_number : "",
+      address: isEdit ? subUserDetail && subUserDetail?.address : "",
+      profileImage: isEdit ? subUserDetail && subUserDetail?.profile_image : "",
+      classId: isEdit ? subUserDetail && subUserDetail?.className : "",
     },
     validationSchema: Yup.object({
       username: Yup.string().required("Please Enter Your Name").trim(),
@@ -202,7 +199,7 @@ const ManageSubUser = () => {
       address: Yup.string().required("Please Enter Your Address").trim(),
       phone: Yup.string().required("Please Enter Your Phone").trim(),
       classId: Yup.string().required("Please Enter Your Phone").trim(),
-      password :Yup.string().required("Please Enter Your Password").trim(),
+      password: Yup.string().required("Please Enter Your Password").trim(),
     }),
   });
 
@@ -221,9 +218,6 @@ const ManageSubUser = () => {
     validation.setFieldValue("classId", selectedOption);
   };
 
- 
-
- 
   const handleTheme = (theme) => {
     if (theme === "light") {
       setIsSubscribed(true);
@@ -232,9 +226,9 @@ const ManageSubUser = () => {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     getDepartementListApi();
-  },[])
+  }, []);
 
   useEffect(() => {
     handleTheme(selectLayoutState);
@@ -257,10 +251,10 @@ const ManageSubUser = () => {
     // console.log(data?.original);
 
     // setSubUserDetail(data?.original);
-    setSubUserId(arg)
+    setSubUserId(arg);
     setIsEditModalOpen(true);
 
-    getSubUserDetailsApi(arg)
+    getSubUserDetailsApi(arg);
 
     toggleModal("edit");
   };
@@ -331,21 +325,27 @@ const ManageSubUser = () => {
       {
         Header: "Profile Image",
         Cell: (cellProps) => {
-          return <span> {cellProps?.row?.original?.profile_image}</span> 
+          return <span> {cellProps?.row?.original?.profile_image}</span>;
         },
       },
       {
         Header: "Posted Date",
         accessor: "created_date",
         Cell: (cellProps) => {
-          return  <span>{moment(cellProps?.row?.original?.created_date)?.format("yyyy-MM-DD")}</span>;
+          return (
+            <span>
+              {moment(cellProps?.row?.original?.created_date)?.format(
+                "yyyy-MM-DD"
+              )}
+            </span>
+          );
         },
       },
       {
         Header: "Class Name",
         // accessor: 'className',
         Cell: (cellProps) => {
-          return <span> {cellProps?.row?.original?.className}</span> 
+          return <span> {cellProps?.row?.original?.className}</span>;
         },
       },
 
@@ -362,7 +362,10 @@ const ManageSubUser = () => {
                     isSubscribed ? "btn-soft-primary" : "btn-primary"
                   }`}
                   onClick={() =>
-                    handleEditClick(cellProps?.row?.original?.id, cellProps?.row)
+                    handleEditClick(
+                      cellProps?.row?.original?.id,
+                      cellProps?.row
+                    )
                   }
                   id={`edittooltip-${cellProps?.row?.original?.id}`}
                 >
@@ -436,27 +439,31 @@ const ManageSubUser = () => {
                       </div>
                     </div>
                   </CardBody>
-                  {subUserList?.length === 0 ? (
-                      <div className="text-center mt-4 mb-4">No data found</div>
-                    ) : (
-                  <CardBody>
-                    <TableContainer
-                      columns={columns}
-                      data={subUserList}
-                      isAddOptions={false}
-                      isGlobalFilter={true}
-                      // handleJobClicks={handleEditClick}
-                      // isJobListGlobalFilter={true}
-                      isPagination={true}
-                      iscustomPageSizeOptions={true}
-                      isShowingPageLength={true}
-                      customPageSize={5}
-                      tableClass="table-bordered align-middle nowrap mt-2"
-                      paginationDiv="col-sm-12 col-md-7"
-                      pagination="pagination justify-content-end pagination-rounded"
+                  {loading ? (
+                    <Spinner
+                      style={{ margin:'15px auto'}}
                     />
-                  </CardBody>
-                    )}
+                  ) : subUserList?.length === 0 ? (
+                    <div className="text-center mt-4 mb-4">No data found</div>
+                  ) : (
+                    <CardBody>
+                      <TableContainer
+                        columns={columns}
+                        data={subUserList || []}
+                        isAddOptions={false}
+                        isGlobalFilter={true}
+                        // handleJobClicks={handleEditClick}
+                        // isJobListGlobalFilter={true}
+                        isPagination={true}
+                        iscustomPageSizeOptions={true}
+                        isShowingPageLength={true}
+                        customPageSize={5}
+                        tableClass="table-bordered align-middle nowrap mt-2"
+                        paginationDiv="col-sm-12 col-md-7"
+                        pagination="pagination justify-content-end pagination-rounded"
+                      />
+                    </CardBody>
+                  )}
                 </Card>
               </Col>
             </Row>
@@ -469,8 +476,8 @@ const ManageSubUser = () => {
               handleFormSubmit={handleFormSubmit}
               departmentOptions={departmentOptions}
               onClassIdChange={handleClassIdChange}
-               addOrEdit={addOrEdit}
-             initialValues={initialValues}
+              addOrEdit={addOrEdit}
+              initialValues={initialValues}
             />
           </div>
         </div>
