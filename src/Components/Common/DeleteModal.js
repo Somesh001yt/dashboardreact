@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import React from "react"
-import { Modal, ModalBody } from "reactstrap"
+import { Modal, ModalBody, Spinner } from "reactstrap"
 
-const DeleteModal = ({ show, onDeleteClick, onCloseClick }) => {
+const DeleteModal = ({ show, onDeleteClick, onCloseClick  , loading}) => {
   return (
     <Modal size="md" isOpen={show} toggle={onCloseClick} centered={true}>
       <div className="modal-content">
@@ -16,7 +16,7 @@ const DeleteModal = ({ show, onDeleteClick, onCloseClick }) => {
           <p className="text-muted font-size-16 mb-4">Are you sure you want to Delete!</p>
 
           <div className="hstack gap-2 justify-content-center mb-0">
-            <button type="button" className="btn btn-primary" onClick={onDeleteClick}>Delete Now</button>
+            <button type="button" className="btn btn-primary" disabled={loading} onClick={onDeleteClick}> {loading ? <Spinner size={"sm"} /> : "Delete Now"}</button>
             <button type="button" className="btn btn-primary" onClick={onCloseClick}>Close</button>
           </div>
         </ModalBody>

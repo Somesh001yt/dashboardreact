@@ -211,7 +211,7 @@ const ManageSubUser = () => {
     toggle();
   };
 
-  const departmentOptions = departmentList.map((department) => ({
+  const departmentOptions = departmentList?.map((department) => ({
     label: department?.title,
     value: department?.id,
   }));
@@ -331,20 +331,21 @@ const ManageSubUser = () => {
       {
         Header: "Profile Image",
         Cell: (cellProps) => {
-          return <ProfileImage {...cellProps} />;
+          return <span> {cellProps?.row?.original?.profile_image}</span> 
         },
       },
       {
         Header: "Posted Date",
         accessor: "created_date",
         Cell: (cellProps) => {
-          return  <span>{moment(cellProps.row.original.created_date)?.format("yyyy-MM-DD")}</span>;
+          return  <span>{moment(cellProps?.row?.original?.created_date)?.format("yyyy-MM-DD")}</span>;
         },
       },
       {
         Header: "Class Name",
+        // accessor: 'className',
         Cell: (cellProps) => {
-          return <ClassName {...cellProps} />;
+          return <span> {cellProps?.row?.original?.className}</span> 
         },
       },
 
@@ -361,9 +362,9 @@ const ManageSubUser = () => {
                     isSubscribed ? "btn-soft-primary" : "btn-primary"
                   }`}
                   onClick={() =>
-                    handleEditClick(cellProps.row.original.id, cellProps?.row)
+                    handleEditClick(cellProps?.row?.original?.id, cellProps?.row)
                   }
-                  id={`edittooltip-${cellProps.row.original.id}`}
+                  id={`edittooltip-${cellProps?.row?.original?.id}`}
                 >
                   <i className="mdi mdi-pencil-outline" />
                   <UncontrolledTooltip
@@ -405,6 +406,7 @@ const ManageSubUser = () => {
     <React.Fragment>
       <DeleteModal
         show={deleteModal}
+        loading={loading}
         onDeleteClick={handleDeletejob}
         onCloseClick={() => setDeleteModal(false)}
       />
@@ -435,7 +437,7 @@ const ManageSubUser = () => {
                     </div>
                   </CardBody>
                   {subUserList?.length === 0 ? (
-                      <div className="text-center mt-4">No data found</div>
+                      <div className="text-center mt-4 mb-4">No data found</div>
                     ) : (
                   <CardBody>
                     <TableContainer

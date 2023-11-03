@@ -191,7 +191,7 @@ const EditModal = ({
                     onChange={onClassIdChange}
                     options={departmentOptions}
                     placeholder="Insert Position"
-                    onBlur={departmentOptions.value}
+                    onBlur={departmentOptions?.value}
                     value={validation.values.classId || ""}
                     // value={departmentId}
                     invalid={
@@ -213,7 +213,7 @@ const EditModal = ({
           <Row>
             <Col>
               <div className="text-end">
-                <button type="submit" className="btn btn-primary save-user">
+                <button type="submit" className="btn btn-primary save-user" disabled={loading}>
                   {loading ? <Spinner size={"sm"} /> : "Save"}
                 </button>
               </div>

@@ -201,11 +201,15 @@ const TableContainer = ({
                       key={column.id}
                       className={column.isSort ? "sorting" : ""}
                       onClick={()=>console.log(column)}
+                   
                     >
+                      <div className="d-flex gap-2 ">
+
                       <div className="m-0" {...column.getSortByToggleProps()}>
                         {column.render("Header")}
                       </div>
-                   {/* <div className="d-flex">  {column?.canSort && <p>cd</p>} </div>  */}
+                    <div >  {column?.canSort &&  <span className="mt-2" {...column.getSortByToggleProps()} ><i class={`fas fa-angle-${column?.isSortedDesc === false ? 'up' : 'down'}`}></i>   </span>} </div>  
+                      </div>
 
                       {/* <Filter column={column} /> */}
                     </th>

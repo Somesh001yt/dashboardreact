@@ -144,7 +144,7 @@ const Header = (props) => {
           </div>
 
           <div className="d-flex">
-          <div className="dropdown d-none d-lg-inline-block ms-1 mt-1 ">
+          <div className="dropdown d-none d-lg-inline-block ms-1 mt-1 " style={{marginRight:'8px'}}>
               <button
                 type="button"
                 className="btn header-item noti-icon "

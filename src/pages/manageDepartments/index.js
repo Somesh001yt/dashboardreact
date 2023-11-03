@@ -26,7 +26,6 @@ import {
 } from "reactstrap";
 import Spinners from "../../Components/Common/Spinner";
 import { ToastContainer } from "react-toastify";
-import { listData } from "./listData";
 import { API } from "../../Api/Api";
 import Spinner from "../../Components/Common/Spinner";
 import { useSelector } from "react-redux";
@@ -36,7 +35,7 @@ const JobNoTitle = (cell) => {
   return (
     <React.Fragment>
       <Link to="#" className="text-body fw-bold">
-        {cell.value ? cell.value : ""}
+        {cell?.value ? cell?.value : ""}
       </Link>
     </React.Fragment>
   );
@@ -52,8 +51,8 @@ const ManageDepartment = () => {
 
   const [loading, setLoader] = useState(false);
 
-  const [modalState, setModalstate] = useState("add");
 
+  const [deleteModal, setDeleteModal] = useState(false);
   const [departmentData, setDepartmentData] = useState([]);
   const [job, setJob] = useState(null);
 
@@ -72,14 +71,12 @@ const ManageDepartment = () => {
     handleTheme(selectLayoutState);
   }, [selectLayoutState]);
 
-  console.log(selectLayoutState, "xxx");
 
-  console.log(isSubscribed, "xxx");
 
   let userTypeName =
-    UserData.user_type === "education"
+    UserData?.user_type === "education"
       ? "Class"
-      : UserData.user_type === "corporate"
+      : UserData?.user_type === "corporate"
       ? "Deaprtment"
       : "Users";
 
@@ -215,7 +212,7 @@ const ManageDepartment = () => {
     setError(false);
   };
 
-  const [deleteModal, setDeleteModal] = useState(false);
+ 
 
   const onClickDelete = (job) => {
     setJob(job);
@@ -239,12 +236,16 @@ const ManageDepartment = () => {
     // validation.resetForm();
   };
 
-  const columnList = useMemo(
-    () => [
+ 
+
+  const columnList = useMemo(() => {
+  
+
+    return [
+  
       {
         Header: "Title",
         accessor: "title",
-        filterable: true,
         Cell: (cellProps) => {
           return <JobNoTitle {...cellProps} />;
         },
@@ -252,9 +253,8 @@ const ManageDepartment = () => {
       {
         Header: "Posted Date",
         accessor: "created_date",
-        filterable: false,
         Cell: (cellProps) => {
-          return <span>{moment(cellProps.row.original.created_date)?.format("yyyy-MM-DD")}</span>;
+          return <span>{moment(cellProps?.row?.original?.created_date)?.format("yyyy-MM-DD")}</span>;
         },
       },
 
@@ -272,17 +272,17 @@ const ManageDepartment = () => {
                     isSubscribed ? "btn-soft-primary" : "btn-primary"
                   }`}
                   onClick={() => {
-                    const jobData = cellProps.row.original;
+                    const jobData = cellProps?.row?.original;
                     toggle();
 
                     handleJobClick(jobData);
                   }}
-                  id={`edittooltip-${cellProps.row.original.id}`}
+                  id={`edittooltip-${cellProps?.row?.original?.id}`}
                 >
                   <i className="mdi mdi-pencil-outline" />
                   <UncontrolledTooltip
                     placement="top"
-                    target={`edittooltip-${cellProps.row.original.id}`}
+                    target={`edittooltip-${cellProps?.row?.original?.id}`}
                   >
                     Edit
                   </UncontrolledTooltip>
@@ -294,15 +294,15 @@ const ManageDepartment = () => {
                   to="#"
                   className="btn btn-sm btn-soft-danger"
                   onClick={() => {
-                    const jobData = cellProps.row.original;
+                    const jobData = cellProps?.row?.original;
                     onClickDelete(jobData);
                   }}
-                  id={`deletetooltip-${cellProps.row.original.id}`}
+                  id={`deletetooltip-${cellProps?.row?.original?.id}`}
                 >
                   <i className="mdi mdi-delete-outline" />
                   <UncontrolledTooltip
                     placement="top"
-                    target={`deletetooltip-${cellProps.row.original.id}`}
+                    target={`deletetooltip-${cellProps?.row?.original?.id}`}
                   >
                     Delete
                   </UncontrolledTooltip>
@@ -312,13 +312,15 @@ const ManageDepartment = () => {
           );
         },
       },
-    ],
-    [isSubscribed]
-  );
+    ]
+    
+  },[isSubscribed])
+  
   return (
     <React.Fragment>
       <DeleteModal
         show={deleteModal}
+        loading={loading}
         onDeleteClick={handleDeletejob}
         onCloseClick={() => setDeleteModal(false)}
       />
@@ -344,9 +346,9 @@ const ManageDepartment = () => {
                           }}
                           className="btn btn-primary me-1"
                         >
-                          {UserData.user_type === "education"
+                          {UserData?.user_type === "education"
                             ? "Add Class"
-                            : UserData.user_type === "corporate"
+                            : UserData?.user_type === "corporate"
                             ? "Add Deaprtment"
                             : "Add Users"}
                         </Link>
@@ -356,7 +358,7 @@ const ManageDepartment = () => {
                       </div>
                     </div>
                     {departmentData?.length === 0 ? (
-                      <div className="text-center mt-4">No data found</div>
+                      <div className="text-center mt-4 mb-4">No data found</div>
                     ) : (
                       <TableContainer
                         columns={columnList}
@@ -403,7 +405,7 @@ const ManageDepartment = () => {
                           }}
                           onChange={validation.handleChange}
                           onBlur={validation.handleBlur}
-                          value={validation.values.title || null}
+                          value={validation?.values?.title || null}
                           invalid={
                             validation.touched.title && validation.errors.title
                               ? true
@@ -412,7 +414,7 @@ const ManageDepartment = () => {
                         />
                         {validation.touched.title && validation.errors.title ? (
                           <FormFeedback type="invalid">
-                            {validation.errors.title}
+                            {validation?.errors?.title}
                           </FormFeedback>
                         ) : null}
                       </div>
@@ -424,6 +426,7 @@ const ManageDepartment = () => {
                         <button
                           type="submit"
                           className="btn btn-primary save-user"
+                          disabled={loading}
                         >
                           {loading ? <Spinner size={"sm"} /> : "Save"}
                         </button>

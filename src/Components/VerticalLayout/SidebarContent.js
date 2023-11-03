@@ -183,6 +183,15 @@ const SidebarContent = (props) => {
                 </span>
               </Link>
             </li>
+            <li  onClick={() => {
+                tToggle();
+              }}>
+              <Link to="/manage-subusers">
+                <i className="bx bx-user-circle"></i>
+                <span style={{  fontSize: "12px" }}>
+                  Sub Users                </span>
+              </Link>
+            </li>
           </ul>
         </div>
       </SimpleBar>
