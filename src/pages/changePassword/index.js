@@ -112,7 +112,7 @@ const ChangePassword = () => {
                           <Input
                             name="oldPassword"
                             type={oldPasswordShow ? "text" : "password"}
-                            placeholder="Enter Password"
+                            placeholder="Enter Your Old Password"
                             onChange={validation.handleChange}
                             onBlur={validation.handleBlur}
                             value={validation.values.oldPassword}
@@ -152,7 +152,7 @@ const ChangePassword = () => {
                           <Input
                             name="newPassword"
                             type={newPasswordShow ? "text" : "password"}
-                            placeholder="Enter Password"
+                            placeholder="Enter Your New Password"
                             onChange={validation.handleChange}
                             onBlur={validation.handleBlur}
                             value={validation.values.newPassword}
@@ -195,7 +195,7 @@ const ChangePassword = () => {
                           <Input
                             name="confirmPassword"
                             type={confirmPasswordShow ? "text" : "password"}
-                            placeholder="Enter Password"
+                            placeholder="Enter Your Confirm Password"
                             onChange={validation.handleChange}
                             onBlur={validation.handleBlur}
                             value={validation.values.confirmPassword}

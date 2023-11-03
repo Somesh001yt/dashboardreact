@@ -87,7 +87,7 @@ const ManageDepartment = () => {
       title: isEdit ? job && job.title : "",
     },
     validationSchema: Yup.object({
-      title: Yup.string().required("Please Enter Your Job Title").trim(),
+      title: Yup.string().required("Please Enter Your  Title").trim(),
     }),
     onSubmit: (values) => {
       addOrEdit(values);
@@ -354,7 +354,7 @@ const ManageDepartment = () => {
                     </div>
                   </CardBody>
                   {departmentData?.length === 0 || !departmentData ? (
-                   <div className="text-center mb-4 mt-4">No data found</div>
+                   <div className="text-center mb-4 mt-4">No data list</div>
                   ) : (
                     <CardBody>
                     <TableContainer

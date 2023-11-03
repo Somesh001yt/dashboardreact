@@ -21,11 +21,8 @@ const EditModal = ({
   isEdit,
   validation,
   loading,
-  handleFormSubmit,
-  initialValues,
   departmentOptions,
   onClassIdChange,
-  addOrEdit = { addOrEdit },
 }) => {
 
 
@@ -36,11 +33,14 @@ const EditModal = ({
       </ModalHeader>
       <ModalBody>
         <Form
+          validationSchema={validation.validationSchema}
           onSubmit={(e) => {
             e.preventDefault();
             validation.handleSubmit();
-            addOrEdit(validation.values); // Call addOrEdit with form values
-            toggle();
+          
+            // addOrEdit(validation.values); // Call addOrEdit with form values
+          
+            // toggle();
             return false;
           }}
         >
@@ -88,7 +88,7 @@ const EditModal = ({
                       : false
                   }
                 />
-                {validation.touched.email_address && validation.errors.email ? (
+                {validation.touched.email && validation.errors.email ? (
                   <FormFeedback type="invalid">
                     {validation.errors.email}
                   </FormFeedback>
@@ -130,7 +130,7 @@ const EditModal = ({
                       : false
                   }
                 />
-                {validation.touched.phone_number && validation.errors.phone ? (
+                {validation.touched.phone && validation.errors.phone ? (
                   <FormFeedback type="invalid">
                     {validation.errors.phone}
                   </FormFeedback>
@@ -191,6 +191,7 @@ const EditModal = ({
                     onChange={onClassIdChange}
                     options={departmentOptions}
                     placeholder="Insert Position"
+                    required  
                     onBlur={departmentOptions?.value}
                     value={validation.values.classId || ""}
                     // value={departmentId}

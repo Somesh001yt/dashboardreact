@@ -109,12 +109,15 @@ const ManageSubUser = () => {
       console.log(response);
       if (response?.success) {
         toast.success(response?.message);
+        setIsEditModalOpen(false);
         getSubUserListApi();
       } else {
         toast.error(response?.message);
+        setIsEditModalOpen(false);
       }
     } catch (error) {
       toast.message("Network Error");
+      setIsEditModalOpen(false);
       console.log(error);
     } finally {
       setLoading(false);
@@ -131,13 +134,16 @@ const ManageSubUser = () => {
       console.log(response);
       if (response?.success) {
         toast.success(response?.message);
+        setIsEditModalOpen(false);
         getSubUserListApi();
       } else {
         toast.error(response?.message);
+        setIsEditModalOpen(false);
       }
     } catch (error) {
       toast.error("Network Error");
       console.log(error);
+      setIsEditModalOpen(false);
     } finally {
       setLoading(false);
     }
@@ -195,18 +201,27 @@ const ManageSubUser = () => {
     },
     validationSchema: Yup.object({
       username: Yup.string().required("Please Enter Your Name").trim(),
-      email: Yup.string().required("Please Enter Your Email").trim(),
+      email: Yup.string().matches(
+        /^[A-Za-z0-9_%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+        "Invalid email format"
+      ).required("Please Enter Your Email"),
       address: Yup.string().required("Please Enter Your Address").trim(),
       phone: Yup.string().required("Please Enter Your Phone").trim(),
-      classId: Yup.string().required("Please Enter Your Phone").trim(),
-      password: Yup.string().required("Please Enter Your Password").trim(),
+      password: Yup.string() .matches(
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-\/:-@\[-`{-~]).{8,}$/,
+        "Your password should contain a combination of uppercase and lowercase letters, at least one number, and at least one special character."
+      ).required("Please Enter Your Password"),
     }),
+    onSubmit: (values) => {
+      addOrEdit(values);
+      toggle();
+    }
   });
 
-  const handleFormSubmit = (values) => {
-    addOrEdit(values);
-    toggle();
-  };
+  // const handleFormSubmit = (values) => {
+  //   addOrEdit(values);
+  //   toggle();
+  // };
 
   const departmentOptions = departmentList?.map((department) => ({
     label: department?.title,
@@ -444,7 +459,7 @@ const ManageSubUser = () => {
                       style={{ margin:'15px auto'}}
                     />
                   ) : subUserList?.length === 0 ? (
-                    <div className="text-center mt-4 mb-4">No data found</div>
+                    <div className="text-center mt-4 mb-4">No data list</div>
                   ) : (
                     <CardBody>
                       <TableContainer
@@ -473,10 +488,10 @@ const ManageSubUser = () => {
               validation={validation}
               isEdit={isEdit}
               loading={loading}
-              handleFormSubmit={handleFormSubmit}
+              // handleFormSubmit={handleFormSubmit}
               departmentOptions={departmentOptions}
               onClassIdChange={handleClassIdChange}
-              addOrEdit={addOrEdit}
+              // addOrEdit={addOrEdit}
               initialValues={initialValues}
             />
           </div>
