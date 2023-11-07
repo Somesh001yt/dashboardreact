@@ -94,6 +94,7 @@ const TableContainer = ({
       initialState: {
         pageIndex: 0,
         pageSize: customPageSize,
+        isSort :true,
         sortBy: [
           {
             desc: true,
@@ -108,9 +109,9 @@ const TableContainer = ({
     usePagination
   );
 
-  const generateSortingIndicator = (column) => {
-    return column.isSorted === true ? (column.isSortedDesc ? " 🔽" : " 🔼") : "";
-  };
+  // const generateSortingIndicator = (column) => {
+  //   return column.isSorted === true ? (column.isSortedDesc ? " 🔽" : " 🔼") : "";
+  // };
 
   const onChangeInSelect = (event) => {
     setPageSize(Number(event.target.value));
@@ -209,7 +210,10 @@ const TableContainer = ({
                       <div className="m-0" {...column.getSortByToggleProps()}>
                         {column.render("Header")}
                       </div>
-                    <div >  {column?.canSort &&  <span className="mt-2" {...column.getSortByToggleProps()} ><i class={`fas fa-angle-${column?.isSortedDesc === false  ?  'up' : 'down'}`}></i>   </span>} </div>  
+                    <div >  {column?.canSort &&  <span className="mt-2" {...column.getSortByToggleProps()} ><i class={`fas fa-angle-${column?.isSortedDesc === false  ?  'up' : 'down'}`}></i>   </span>
+                    
+                   
+                    } </div>  
                       </div>
 
                       {/* <Filter column={column} /> */}

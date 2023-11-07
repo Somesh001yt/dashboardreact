@@ -23,11 +23,12 @@ import {
   Label,
   Card,
   CardBody,
+  Spinner,
 } from "reactstrap";
-import Spinners from "../../Components/Common/Spinner";
+
 import { ToastContainer } from "react-toastify";
 import { API } from "../../Api/Api";
-import Spinner from "../../Components/Common/Spinner";
+
 import { useSelector } from "react-redux";
 import moment from "moment";
 
@@ -49,7 +50,7 @@ const ManageDepartment = () => {
 
   const UserData = JSON.parse(userDataString);
 
-  const [loading, setLoader] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [deleteModal, setDeleteModal] = useState(false);
   const [departmentData, setDepartmentData] = useState([]);
@@ -87,7 +88,7 @@ const ManageDepartment = () => {
       title: isEdit ? job && job.title : "",
     },
     validationSchema: Yup.object({
-      title: Yup.string().required("Please Enter Your  Title").trim(),
+      title: Yup.string().required("Please enter your title").trim(),
     }),
     onSubmit: (values) => {
       addOrEdit(values);
@@ -103,13 +104,17 @@ const ManageDepartment = () => {
   // get List Api
 
   const getDepartementListData = async (data) => {
+    setLoading(true);
     console.log(data);
     try {
       const response = await API.getDepartementList(data, token);
       console.log(response);
       setDepartmentData(response?.data);
     } catch (error) {
+      setLoading(false);
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -124,7 +129,7 @@ const ManageDepartment = () => {
   };
 
   const AddDepartmentList = async (data) => {
-    setLoader(true);
+    setLoading(true);
     try {
       const response = await API.addDepartmentList(data, token);
       console.log(response);
@@ -140,13 +145,13 @@ const ManageDepartment = () => {
       toast.error("Network Error");
       console.log(error);
     } finally {
-      setLoader(false);
+      setLoading(false);
     }
   };
 
   const updateDepartementData = async (data) => {
     console.log(data, job, "sasdasdsd");
-    setLoader(true);
+    setLoading(true);
     try {
       const response = await API.updateDepartmentList(data, token, job?.id);
       console.log(response);
@@ -162,13 +167,13 @@ const ManageDepartment = () => {
       toast.error("Network Error");
       console.log(error);
     } finally {
-      setLoader(false);
+      setLoading(false);
     }
   };
 
   const deleteDepartmentData = async () => {
     console.log(token, job, "sasdasdsd");
-    setLoader(true);
+    setLoading(true);
     try {
       const response = await API.deleteDepartmentList(token, job?.id);
       console.log(response);
@@ -182,7 +187,7 @@ const ManageDepartment = () => {
       console.log(error);
       toast.error("Network Error");
     } finally {
-      setLoader(false);
+      setLoading(false);
     }
   };
 
@@ -327,9 +332,12 @@ const ManageDepartment = () => {
             <Row>
               <Col lg="12">
                 <Card>
-                <CardBody className="border-bottom">
+                  <CardBody className="border-bottom">
                     <div className="d-flex align-items-center">
-                      <h5 className="mb-0 card-title flex-grow-1"> {userTypeName + '  List'}</h5>
+                      <h5 className="mb-0 card-title flex-grow-1">
+                        {" "}
+                        {userTypeName + "  List"}
+                      </h5>
                       <div className="flex-shrink-0">
                         <Link
                           to="#!"
@@ -353,25 +361,27 @@ const ManageDepartment = () => {
                       </div>
                     </div>
                   </CardBody>
-                  {departmentData?.length === 0 || !departmentData ? (
-                   <div className="text-center mb-4 mt-4">No data list</div>
+                  {loading ? (
+                    <Spinner style={{ margin: "15px auto" }} />
+                  ) : "" || departmentData?.length === 0 || !departmentData ? (
+                    <div className="text-center mb-4 mt-4">No data list</div>
                   ) : (
                     <CardBody>
-                    <TableContainer
-                      columns={columnList}
-                      data={departmentData || []}
-                      isGlobalFilter={true}
-                      isAddOptions={false}
-                      // isJobListGlobalFilter={true}
-                      isPagination={true}
-                      iscustomPageSizeOptions={true}
-                      isShowingPageLength={true}
-                      customPageSize={5}
-                      tableClass="table-bordered align-middle nowrap mt-2"
-                      paginationDiv="col-sm-12 col-md-7"
-                      pagination="pagination justify-content-end pagination-rounded"
-                    />
-                     </CardBody>
+                      <TableContainer
+                        columns={columnList}
+                        data={departmentData || []}
+                        isGlobalFilter={true}
+                        isAddOptions={false}
+                        // isJobListGlobalFilter={true}
+                        isPagination={true}
+                        iscustomPageSizeOptions={true}
+                        isShowingPageLength={true}
+                        customPageSize={5}
+                        tableClass="table-bordered align-middle nowrap mt-2"
+                        paginationDiv="col-sm-12 col-md-7"
+                        pagination="pagination justify-content-end pagination-rounded"
+                      />
+                    </CardBody>
                   )}
                 </Card>
               </Col>

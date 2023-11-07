@@ -119,7 +119,7 @@ const EditModal = ({
                 <Label className="form-label">Phone</Label>
                 <Input
                   name="phone"
-                  placeholder="Insert Location"
+                  placeholder="Insert your phone number"
                   type="text"
                   onChange={validation.handleChange}
                   onBlur={validation.handleBlur}
@@ -142,7 +142,7 @@ const EditModal = ({
                 <Input
                   name="password"
                   type="password"
-                  placeholder="Insert Experience"
+                  placeholder="Insert your password here"
                   onChange={validation.handleChange}
                   onBlur={validation.handleBlur}
                   value={validation.values.password || ""}
@@ -190,7 +190,7 @@ const EditModal = ({
                     type="text"
                     onChange={onClassIdChange}
                     options={departmentOptions}
-                    placeholder="Insert Position"
+                    placeholder="Select your class"
                     required  
                     onBlur={departmentOptions?.value}
                     value={validation.values.classId || ""}

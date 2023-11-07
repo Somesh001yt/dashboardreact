@@ -67,13 +67,18 @@ const ManageSubUser = () => {
   }, [token]);
 
   const getSubUserListApi = async () => {
+    setLoading(true)
     try {
       const response = await API.getUserList(token);
       if (response?.success) {
         setSubUserList(response?.data);
+        setLoading(false)
       }
     } catch (error) {
       console.log(error);
+      
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -197,21 +202,21 @@ const ManageSubUser = () => {
       classId: isEdit ? subUserDetail && subUserDetail?.className : "",
     },
     validationSchema: Yup.object({
-      username: Yup.string().required("Please Enter Your Name").trim(),
+      username: Yup.string().required("Please enter your name").trim(),
       email: Yup.string()
         .matches(
           /^[A-Za-z0-9_%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
           "Invalid email format"
         )
-        .required("Please Enter Your Email"),
-      address: Yup.string().required("Please Enter Your Address").trim(),
-      phone: Yup.string().required("Please Enter Your Phone").trim(),
+        .required("Please enter your email"),
+      address: Yup.string().required("Please enter your address").trim(),
+      phone: Yup.string().required("Please enter your phone").trim(),
       password: Yup.string()
         .matches(
           /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-\/:-@\[-`{-~]).{8,}$/,
           "Your password should contain a combination of uppercase and lowercase letters, at least one number, and at least one special character."
         )
-        .required("Please Enter Your Password"),
+        .required("Please enter your password"),
     }),
     onSubmit: (values) => {
       addOrEdit(values);
@@ -457,8 +462,8 @@ const ManageSubUser = () => {
                   </CardBody>
                   {loading ? (
                     <Spinner style={{ margin: "15px auto" }} />
-                  ) : subUserList?.length === 0 ? (
-                    <div className="text-center mt-4 mb-4">No data list</div>
+                  ) : "" || subUserList?.length === 0 || !subUserList ? (
+                    <div className="text-center mb-4 mt-4">No data list</div>
                   ) : (
                     <CardBody>
                       <TableContainer
