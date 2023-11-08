@@ -90,7 +90,6 @@ const MainRoutes = () => {
   const hideHeader = onBoardingPages.includes(location.pathname) ? true : false;
   const [openMenu, setOpenMenu] = useState();
  
-  console.log(location.pathname, shouldHideHeader(location.pathname),"bhvg")
 
   return (
     <React.Fragment>

@@ -22,7 +22,6 @@ const ProfileMenu = (props) => {
   const [menu, setMenu] = useState(false);
 
   const profileData = useSelector((state) => state.Profile.profileData);
-  console.log(profileData.profile_image)
 
   const avatarImage =  user1;
 

@@ -42,16 +42,13 @@ import {
 import { createSelector } from "reselect";
 
 const Header = (props) => {
-  const [menu, setMenu] = useState(false);
-  const [isSearch, setSearch] = useState(false);
-  const [socialDrp, setsocialDrp] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(true);
 
   const selectLayoutState = useSelector((state) => state.Layout.layoutModeType)
-  // console.log(selectLayoutState)
+
 
   const layoutChangeState =  useSelector((state)=> state.Layout.layoutType)
-  console.log(layoutChangeState)
+ 
 
 
   useEffect(()=>{

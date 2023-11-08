@@ -361,7 +361,7 @@ const ManageDepartment = () => {
                     </div>
                   </CardBody>
                   {loader ? (
-                    <Spinner style={{ margin: "15px auto" }} />
+                    <Spinner style={{ margin: "15px auto"  ,  color:'#00395C'}} />
                   ) : "" || departmentData?.length === 0 || !departmentData ? (
                     <div className="text-center mb-4 mt-4">No data list</div>
                   ) : (
