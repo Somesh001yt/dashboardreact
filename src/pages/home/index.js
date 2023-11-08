@@ -21,8 +21,8 @@ const HomePage = () => {
                         <h1>Increase Productivity & Cost-efficiency with Software Usage Tracking</h1>
                         <p>Track growth & productivity with Software usage monitoring. Save thousands in investment by tracking software usage. Track Pilot enables the monitoring of software licence usage with just one click. It helps you keep a track of computer activity, and observe what your employees, students, or children are doing on their desktop. Track Pilot helps you understand which software is being used the most and which software is not worth investing in.</p>
                         <div className={styles.cta}>
-                            <ButtonBox click={()=> navigate('/sign-up')} label="Start Tracking" />
-                            <ButtonBox click={()=> navigate('/sign-up')} primary label="Contact Us" />
+                            <ButtonBox click={()=> navigate('/register')} label="Start Tracking" />
+                            <ButtonBox click={()=> navigate('/')} primary label="Contact Us" />
                         </div>
                     </div>
                 </div>

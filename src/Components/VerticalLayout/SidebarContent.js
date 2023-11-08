@@ -159,20 +159,14 @@ const SidebarContent = (props) => {
         <div id="sidebar-menu">
           <ul className="metismenu list-unstyled" id="side-menu">
             <li className="menu-title">{"Menu"} </li>
-            <li
-              onClick={() => {
-                tToggle();
-              }}
-            >
+            <li>
               <Link to="/dashboard">
                 <i className="bx bx-home-circle"></i>
                 <span>{"Dashboards"}</span>
               </Link>
             </li>
-            <li  onClick={() => {
-                tToggle();
-              }}>
-              <Link to="/manage-department">
+            <li  >
+              <Link to="/manage-department"  >
                 <i className="bx bx-tone me-2"></i>
                 <span style={{ marginLeft: "-8px", fontSize: "12px" }}>
                   {UserData?.user_type === "education"
@@ -183,9 +177,7 @@ const SidebarContent = (props) => {
                 </span>
               </Link>
             </li>
-            <li  onClick={() => {
-                tToggle();
-              }}>
+            <li >
               <Link to="/manage-subusers">
                 <i className="bx bx-user-circle"></i>
                 <span style={{  fontSize: "12px" }}>

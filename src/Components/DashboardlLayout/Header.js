@@ -132,14 +132,29 @@ const Header = (props) => {
 
               <Link to="/" className="logo logo-light">
                 <span className="logo-sm">
-                  <img src={WhiteLogo} alt="" height="22" />
+                  <img src={WhiteLogo} alt="" height="30"  style={{objectFit:'contain'}}/>
                 </span>
                 <span className="logo-lg">
                   <img src={WhiteLogo} alt="" height="50" />
                 </span>
               </Link>
             </div>
+             
 
+            <button
+              type="button"
+              className="btn btn-sm px-3 font-size-16 d-lg-none header-item"
+              data-toggle="collapse"
+              onClick={() => {
+                props.toggleLeftmenu(!props.leftMenu);
+                console.log('Before toggle: ', props.leftMenu);
+                toggleLeftmenu(!props.leftMenu);
+                console.log('After toggle: ', props);
+              }}
+              data-target="#topnav-menu-content"
+            >
+              <i className="fa fa-fw fa-bars" />
+            </button>
          
           </div>
 
@@ -159,7 +174,7 @@ const Header = (props) => {
 
 
             <div className="menuIcon" onClick={handleLayoutModeChange}>
-              <i className="fas fa-align-justify " />
+              <i className="fas fa-align-justify " style={{transform: 'rotate(90deg)'}}/>
             </div>
 
             <div className="darkMode">

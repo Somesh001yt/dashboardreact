@@ -39,6 +39,7 @@ const Navbar = (props) => {
                     // }}
                     to="/dashboard"
                   >
+                     <i className="bx bx-home-circle me-2"></i>
                     Dashboard
                   </Link>
                 </li>
