@@ -51,6 +51,7 @@ const ManageDepartment = () => {
   const UserData = JSON.parse(userDataString);
 
   const [loading, setLoading] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   const [deleteModal, setDeleteModal] = useState(false);
   const [departmentData, setDepartmentData] = useState([]);
@@ -104,17 +105,16 @@ const ManageDepartment = () => {
   // get List Api
 
   const getDepartementListData = async (data) => {
-    setLoading(true);
+    setLoader(true);
     console.log(data);
     try {
       const response = await API.getDepartementList(data, token);
       console.log(response);
       setDepartmentData(response?.data);
     } catch (error) {
-      setLoading(false);
       console.log(error);
     } finally {
-      setLoading(false);
+      setLoader(false);
     }
   };
 
@@ -135,10 +135,9 @@ const ManageDepartment = () => {
       console.log(response);
       if (response.success) {
         toast.success(response?.message);
-        getDepartementListData();
         toggle();
+        getDepartementListData();
       } else {
-        setError(true);
         toast.error(response?.message);
       }
     } catch (error) {
@@ -361,7 +360,7 @@ const ManageDepartment = () => {
                       </div>
                     </div>
                   </CardBody>
-                  {loading ? (
+                  {loader ? (
                     <Spinner style={{ margin: "15px auto" }} />
                   ) : "" || departmentData?.length === 0 || !departmentData ? (
                     <div className="text-center mb-4 mt-4">No data list</div>

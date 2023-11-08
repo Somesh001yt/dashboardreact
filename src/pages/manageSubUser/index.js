@@ -52,6 +52,7 @@ const ManageSubUser = () => {
   const [subUserList, setSubUserList] = useState([]);
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [loader, setLoader] = useState(false);
   const [subUserDetail, setSubUserDetail] = useState({});
   const [departmentList, setDepartmentList] = useState([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -67,18 +68,18 @@ const ManageSubUser = () => {
   }, [token]);
 
   const getSubUserListApi = async () => {
-    setLoading(true)
+    setLoader(true)
     try {
       const response = await API.getUserList(token);
       if (response?.success) {
         setSubUserList(response?.data);
-        setLoading(false)
+        setLoader(false)
       }
     } catch (error) {
       console.log(error);
       
     }finally{
-      setLoading(false)
+      setLoader(false)
     }
   };
 
@@ -98,7 +99,6 @@ const ManageSubUser = () => {
   const getDepartementListApi = async (data) => {
     try {
       const response = await API.getDepartementList(data, token);
-      console.log(response);
       setDepartmentList(response?.data);
     } catch (error) {
       console.log(error);
@@ -107,6 +107,7 @@ const ManageSubUser = () => {
 
   const addSubUserListApi = async (data) => {
     data["classId"] = departmentId?.value;
+    console.log(data)
     console.log(departmentId);
     try {
       setLoading(true);
@@ -460,7 +461,7 @@ const ManageSubUser = () => {
                       </div>
                     </div>
                   </CardBody>
-                  {loading ? (
+                  {loader ? (
                     <Spinner style={{ margin: "15px auto" }} />
                   ) : "" || subUserList?.length === 0 || !subUserList ? (
                     <div className="text-center mb-4 mt-4">No data list</div>
