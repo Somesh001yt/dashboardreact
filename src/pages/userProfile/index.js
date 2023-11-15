@@ -114,6 +114,8 @@ const UserProfile = () => {
       profileImage: profileData ? profileData?.profile_image : avatar,
     },
     validationSchema: Yup.object({
+
+
       username: Yup.string().required("Please Enter Your UserName"),
     }),
     onSubmit: (values) => {

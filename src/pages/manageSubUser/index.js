@@ -218,6 +218,7 @@ const ManageSubUser = () => {
           "Your password should contain a combination of uppercase and lowercase letters, at least one number, and at least one special character."
         )
         .required("Please enter your password"),
+        classId: Yup.string().required("Please select atleast one class")
     }),
     onSubmit: (values) => {
       addOrEdit(values);
@@ -472,8 +473,7 @@ const ManageSubUser = () => {
                         data={subUserList || []}
                         isAddOptions={false}
                         isGlobalFilter={true}
-                        // handleJobClicks={handleEditClick}
-                        // isJobListGlobalFilter={true}
+                       
                         isPagination={true}
                         iscustomPageSizeOptions={true}
                         isShowingPageLength={true}

@@ -15,6 +15,7 @@ import {
 } from "reactstrap";
 import Select from "react-select";
 
+
 const EditModal = ({
   isOpen,
   toggle,
@@ -191,7 +192,6 @@ const EditModal = ({
                     onChange={onClassIdChange}
                     options={departmentOptions}
                     placeholder="Select your class"
-                    required  
                     onBlur={departmentOptions?.value}
                     value={validation.values.classId || ""}
                     // value={departmentId}
@@ -201,14 +201,16 @@ const EditModal = ({
                         : false
                     }
                   />
-                </div>
-              )}
-              {/* Display the selected file name separately */}
-              {validation.touched.classId && validation.errors.classId ? (
+                      {/* {validation.touched.classId && validation.errors.classId ? (
                 <FormFeedback type="invalid">
                   {validation.errors.classId}
                 </FormFeedback>
-              ) : null}
+              ) : null} */}
+                  <span style={{color:'red' , fontSize:'10px' , fontWeight : 100 , opacity: 0.8}}>{validation.errors.classId}</span>
+                </div>
+              )}
+              {/* Display the selected file name separately */}
+          
             </Col>
           </Row>
           <Row>

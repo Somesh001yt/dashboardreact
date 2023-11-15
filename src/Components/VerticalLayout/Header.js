@@ -39,10 +39,7 @@ import { createSelector } from "reselect";
 
 import { layoutTypes, layoutModeTypes } from "../../constants/layout";
 
-const Header = (props) => {
-  const [search, setsearch] = useState(false);
-  const [megaMenu, setmegaMenu] = useState(false);
-  const [socialDrp, setsocialDrp] = useState(false);
+const Header = (props) => { 
   const [isSubscribed, setIsSubscribed] = useState(true);
 
   const selectLayoutState = useSelector((state) => state.Layout.layoutModeType);

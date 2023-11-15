@@ -98,7 +98,7 @@ const RecoverPassword = () => {
                   <div className="my-auto">
                     <div>
                       <h5 style={{fontWeight:'600' , fontSize: "20px" }} className="text-primary"> Reset Password</h5>
-                      <p style={{fontWeight:'600' }} className="text-muted">Reset Password with Faags.</p>
+                      <p style={{fontWeight:'600' }} className="text-muted">Reset Password with The Track Pilot.</p>
                     </div>
 
                     <div className="mt-4">
@@ -171,7 +171,7 @@ const RecoverPassword = () => {
                   </div>
                   <div className="mt-4 mt-md-5 text-center">
                     <p className="mb-0">
-                      © {new Date().getFullYear()} Faags. Crafted with{" "}
+                      © {new Date().getFullYear()} The Track Pilot. Crafted with{" "}
                       <i className="mdi mdi-heart text-danger"></i> by Eitbiz
                     </p>
                   </div>

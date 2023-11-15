@@ -30,7 +30,7 @@ const TermsCondition = () => {
     <React.Fragment>
       <div className="page-content">
         <Container fluid>
-          <Breadcrumbs title="Faags" breadcrumbItem="Terms & Condtions" />
+          <Breadcrumbs title="The Track Pilot" breadcrumbItem="Terms & Condtions" />
           <Row>
             <Col lg={12}>
               <Card>
@@ -40,12 +40,12 @@ const TermsCondition = () => {
                       <div className="col-xl-8">
                         <div>
                           <div className="text-center">
-                            <h4>Terms and Conditions for Faags</h4>
+                            <h4>Terms and Conditions for the track pilot</h4>
                           </div>
 
                           <hr />
                           <p className="text-center">
-                            Welcome to Faags! These terms and conditions outline
+                            Welcome to The Track Pilot! These terms and conditions outline
                             the rules and regulations for the use of our
                             website.
                           </p>
@@ -56,7 +56,7 @@ const TermsCondition = () => {
                               <p>
                                 By accessing this website, we assume you accept
                                 these terms and conditions. Do not continue to
-                                use Faags if you do not agree to take all of the
+                                use The Track Pilot if you do not agree to take all of the
                                 terms and conditions stated on this page.
                               </p>
 
@@ -105,7 +105,7 @@ const TermsCondition = () => {
                               <h5 className="font-size-15">Cookies :</h5>
                               <p>
                                 We employ the use of cookies. By accessing
-                                Faags, you agreed to use cookies in agreement
+                                The Track Pilot, you agreed to use cookies in agreement
                                 with the Company’s Privacy Policy.
                               </p>
 
@@ -126,19 +126,19 @@ const TermsCondition = () => {
                             <p>
                               Unless otherwise stated, the Company and/or its
                               licensors own the intellectual property rights for
-                              all material on Faags. All intellectual property
+                              all material on The Track Pilot. All intellectual property
                               rights are reserved. You may access this from
-                              Faags for your own personal use subjected to
+                              The Track Pilot for your own personal use subjected to
                               restrictions set in these terms and conditions.
                             </p>
 
                             <h6 className="font-size-14">You must not:</h6>
                             <p>
-                              Republish material from Faags <br />
-                              Sell, rent or sub-license material from Faags{" "}
+                              Republish material from The Track Pilot <br />
+                              Sell, rent or sub-license material from The Track Pilot{" "}
                               <br /> Reproduce, duplicate, or copy material from
-                              Faags <br />
-                              Redistribute content from Faags
+                              The Track Pilot <br />
+                              Redistribute content from The Track Pilot
                             </p>
 
                             <hr />
