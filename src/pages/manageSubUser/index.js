@@ -218,7 +218,8 @@ const ManageSubUser = () => {
           "Your password should contain a combination of uppercase and lowercase letters, at least one number, and at least one special character."
         )
         .required("Please enter your password"),
-        classId: Yup.string().required("Please select atleast one class")
+        classId: Yup.string().required("Please select at least one class").transform(value => value && typeof value === 'object' ? value.label.replace(/\"/g, '') : value),
+
     }),
     onSubmit: (values) => {
       addOrEdit(values);
