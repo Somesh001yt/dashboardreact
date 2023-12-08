@@ -21,7 +21,7 @@ const instance = axios.create({
     console.log('error',error);
     return error.response
   
-    // return Promise.reject()
+    // return Promise.reject() 
   
   }
   )
