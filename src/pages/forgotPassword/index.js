@@ -118,7 +118,7 @@ const RecoverPassword = () => {
                         }}
                       >
                         <div className="mb-3">
-                          <Label className="form-label">Email</Label>
+                          <Label className="form-label">Email Address</Label>
                           <Input
                             name="email"
                             className="form-control"

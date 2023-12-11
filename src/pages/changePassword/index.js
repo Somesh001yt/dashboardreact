@@ -127,6 +127,7 @@ const ChangePassword = () => {
                               togglePasswordVisibility("oldPassword")
                             }
                             className="btn btn-light"
+                            style={{backgroundColor:oldPasswordShow ? '#b7c4d5' : '' }}
                             type="button"
                             id="password-addon"
                           >
@@ -169,6 +170,7 @@ const ChangePassword = () => {
                               togglePasswordVisibility("newPassword")
                             }
                             className="btn btn-light"
+                            style={{backgroundColor:newPasswordShow ? '#b7c4d5' : '' }}
                             type="button"
                             id="password-addon"
                           >
@@ -210,6 +212,7 @@ const ChangePassword = () => {
                               togglePasswordVisibility("confirmPassword")
                             }
                             className="btn btn-light"
+                            style={{backgroundColor:confirmPasswordShow ? '#b7c4d5' : '' }}
                             type="button"
                             id="password-addon"
                           >

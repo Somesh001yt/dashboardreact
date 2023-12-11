@@ -215,7 +215,8 @@ const Login = () => {
 
                             <button
                               onClick={() => setPasswordShow(!passwordShow)}
-                              className="btn btn-light "
+                              className={`btn btn-light  `}
+                              style={{backgroundColor:passwordShow ? '#b7c4d5' : '' }}
                               type="button"
                               id="password-addon"
                             >

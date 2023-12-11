@@ -93,19 +93,19 @@ export const API = {
   },
 
   async updateProfile(params, token) {
-    console.log(params)
-    let formData = new FormData();
-    Array.from(params?.profileImage).forEach((image) => {
-      formData.append("profileImage", image);
-    });
+    let formData = new FormData(); 
+      formData.append("profileImage", params?.profileImage); 
+      formData.append('username' , params?.username)
+      formData.append('phone' , params?.phone)
+      formData.append('address' , params?.address)
 
-
+      console.log(params)
     try {
       const response = await instance.post(
         "user/update-profile",
-        {
-          ...params,
-        },
+        
+        formData,
+          
         {
           headers: {
             "x-access-token": token,

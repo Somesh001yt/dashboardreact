@@ -349,7 +349,7 @@ const Register = () => {
                                           <Col lg="12">
                                             <div className="mb-3">
                                               <Label for="basicpill-pancard-input5">
-                                              {selectedUser[userType]?.charAt(0).toUpperCase() + selectedUser[userType]?.slice(1)} name *
+                                             Name *
                                               </Label>
                                               <Input
                                                 name="username"
@@ -385,13 +385,8 @@ const Register = () => {
                                           <Col lg="12">
                                             <div className="mb-3">
                                               <Label for="basicpill-cstno-input7">
-                                                {selectedUser[userType]
-                                                  ?.charAt(0)
-                                                  .toUpperCase() +
-                                                  selectedUser[userType]?.slice(
-                                                    1
-                                                  )}{" "}
-                                                email address *
+                                                
+                                                Email Address *
                                               </Label>
                                               <Input
                                                 name="email"
@@ -426,7 +421,7 @@ const Register = () => {
                                           <Col lg="12">
                                             <div className="mb-3">
                                               <Label for="basicpill-companyuin-input9">
-                                              {selectedUser[userType]?.charAt(0).toUpperCase() + selectedUser[userType]?.slice(1)} address
+                                             Address
                                                 *
                                               </Label>
                                               <Input
@@ -492,8 +487,8 @@ const Register = () => {
                                           <Col lg="12">
                                             <div className="mb-3">
                                               <Label for="basicpill-companyuin-input9">
-                                              {selectedUser[userType]?.charAt(0).toUpperCase() + selectedUser[userType]?.slice(1)} contact
-                                                number *
+                                             Contact
+                                                Number *
                                               </Label>
                                               <Input
                                                 name="phone"
@@ -558,7 +553,8 @@ const Register = () => {
                                                       !passwordShow
                                                     )
                                                   }
-                                                  className="btn btn-light "
+                                                  className="btn btn-light"
+                                                  style={{backgroundColor:passwordShow ? '#b7c4d5' : '' }}
                                                   type="button"
                                                   id="password-addon"
                                                 >
@@ -613,7 +609,8 @@ const Register = () => {
                                                       !confirmPasswordShow
                                                     )
                                                   }
-                                                  className="btn btn-light "
+                                                  className={`btn btn-light`}
+                                                  style={{backgroundColor:confirmPasswordShow ? '#b7c4d5' : '' }}
                                                   type="button"
                                                   id="password-addon"
                                                 >
@@ -669,7 +666,7 @@ const Register = () => {
                                       style={{
                                         width: "100%",
                                         display: "flex",
-                                        justifyContent: "center",
+                                        justifyContent:'center',
                                         marginBottom: "10px",
                                       }}
                                     >
@@ -681,16 +678,15 @@ const Register = () => {
                                     </div>
                                   ) : (
                                     <div
-                                      style={{
+                                      className="actions clearfix"
+                                    >
+                                      <ul style={{
                                         marginTop: "20px",
                                         marginBottom: "20px",
                                         display: "flex",
                                         width: "100%",
-                                        justifyContent: "center",
-                                      }}
-                                      className="actions clearfix"
-                                    >
-                                      <ul>
+                                        justifyContent: activeTab !== 1 ? 'space-between' : 'center',
+                                      }}>
                                         {activeTab !== 1 && (
                                           <li
                                             className={
@@ -724,7 +720,7 @@ const Register = () => {
                                                 : validation.handleSubmit();
                                             }}
                                           >
-                                            Next
+                                           {activeTab !==1 ? "Submit" : "Next"} 
                                           </Link>
                                         </li>
                                       </ul>
@@ -789,12 +785,12 @@ const Register = () => {
                               <FormFeedback type="invalid">{validation.errors.password}</FormFeedback>
                             ) : null}
                           </div> */}
-
+                        {activeTab === 1 &&
                         <div>
                           <p className="mb-0">
                             By registering you agree to the Track Pilot{" "}
                             <Link
-                              to={"/terms&conditon"}
+                              to={"/terms-and-condition"}
                               className="text-primary"
                               style={{ fontWeight: "600" }}
                             >
@@ -802,6 +798,7 @@ const Register = () => {
                             </Link>
                           </p>
                         </div>
+}
 
                         {/* <div className="mt-4 d-grid">
                           <button
@@ -847,7 +844,7 @@ const Register = () => {
                           </div>
                         </Form> */}
 
-                      <div className="mt-5 text-center">
+                      <div className="mt-4 text-center">
                         <p>
                           Already have an account ?{" "}
                           <Link

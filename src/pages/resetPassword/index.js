@@ -155,6 +155,7 @@ const ResetPassword = () => {
                                 setNewPasswordShow(!newPasswordShow)
                               }
                               className="btn btn-light "
+                              style={{backgroundColor:newPasswordShow ? '#b7c4d5' : '' }}
                               type="button"
                               id="password-addon"
                             >
@@ -191,6 +192,7 @@ const ResetPassword = () => {
                               onClick={() =>
                                 setConfirmPasswordShow(!confirmPasswordShow)
                               }
+                              style={{backgroundColor:confirmPasswordShow ? '#b7c4d5' : '' }}
                               className="btn btn-light "
                               type="button"
                               id="password-addon"

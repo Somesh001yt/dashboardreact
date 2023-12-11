@@ -45,6 +45,8 @@ const EditModal = ({
             return false;
           }}
         >
+          {/* {loading ? <Spinner  /> : } */}
+
           <Row>
             <Col className="col-12">
               <div className="mb-3">
@@ -152,12 +154,12 @@ const EditModal = ({
                       ? true
                       : false
                   }
-                />
-                {validation.touched.password && validation.errors.password ? (
-                  <FormFeedback type="invalid">
-                    {validation.errors.password}
-                  </FormFeedback>
-                ) : null}
+                  />
+                  {validation.touched.password && validation.errors.password ? (
+                    <FormFeedback type="invalid">
+                      {validation.errors.password}
+                    </FormFeedback>
+                  ) : null}
               </div>
               <div className="mb-3">
                 <Label className="form-label">Profile Image</Label>
@@ -182,7 +184,7 @@ const EditModal = ({
                   </FormFeedback>
                 ) : null}
               </div>
-              {!isEdit && (
+              {/* {!isEdit && ( */}
                 <div className="mb-3">
                   <Label className="form-label">Class Id</Label>
                   <Select
@@ -208,11 +210,12 @@ const EditModal = ({
               ) : null} */}
                   <span style={{color:'red' , fontSize:'10px' , fontWeight : 100 , opacity: 0.8}}>{validation.errors.classId}</span>
                 </div>
-              )}
+            
               {/* Display the selected file name separately */}
           
             </Col>
           </Row>
+
           <Row>
             <Col>
               <div className="text-end">
@@ -222,6 +225,7 @@ const EditModal = ({
               </div>
             </Col>
           </Row>
+
         </Form>
       </ModalBody>
     </Modal>

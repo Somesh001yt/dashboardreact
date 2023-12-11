@@ -53,7 +53,7 @@ const nonHeaderPages = [
   "/pages-404",
   "/pages-500",
   "/pages-maintenance",
-  "/terms&conditon",
+  "/terms-and-condition",
   "/reset-password/:id",
   "/activate/:id",
   "/confirm-password"
@@ -114,7 +114,7 @@ const MainRoutes = () => {
           <Route path="/forgot-password" element={<RecoverPassword />} />
           <Route path="/activate/:id" element={<ConfirmMail />} />
           <Route path="/verify-email" element={<EmailVerification />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={ localStorage.getItem('token')? <Dashboard /> : <Navigate to="/login" /> } />
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/job-list" element={<JobList />} />
           <Route path="/pages-404" element={<Pages404 />} />
@@ -122,7 +122,7 @@ const MainRoutes = () => {
           <Route path="/pages-maintenance" element={<PagesMaintenance />} />
           <Route path="/form-advanced" element={<FormAdvanced />} />
           <Route path="/change-password" element={<ChangePassword />} />
-          <Route path="/terms&conditon" element={<TermsCondition/>} />
+          <Route path="/terms-and-condition" element={<TermsCondition/>} />
           <Route path = '/reset-password/:id' element = {<ResetPassword/>}  />
           <Route path = '/confirm-password' element = {<ConfirmPassword/>}  />
           <Route path = '/manage-department' element = {<ManageDepartment/>}  />

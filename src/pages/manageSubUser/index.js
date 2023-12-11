@@ -63,6 +63,66 @@ const ManageSubUser = () => {
 
   const token = localStorage.getItem("token");
 
+  const initialValues = {
+    username: "",
+    email: "",
+    phone: "",
+    address: "",
+    profileImage: "",
+    classId: "",
+  };
+
+ 
+  
+
+  const getClassValue = () => {
+    return departmentList?.map((item) => ({
+      label: item.title,
+      value: item.id
+    }));
+  };
+  
+
+  const validation = useFormik({
+    // enableReinitialize : use this flag when initial values needs to be changed
+    enableReinitialize: true,
+
+    initialValues: {
+      username: isEdit ? subUserDetail && subUserDetail?.username : "",
+      email: isEdit ? subUserDetail && subUserDetail?.email_address : "",
+      phone: isEdit ? subUserDetail && subUserDetail?.phone_number : "",
+      address: isEdit ? subUserDetail && subUserDetail?.address : "",
+      profileImage: isEdit ? subUserDetail && subUserDetail?.profile_image : "",
+      classId: isEdit
+      ? subUserDetail && getClassValue().find(item => item.value === subUserDetail.class_id)
+      : getClassValue()[0],
+    },
+    validationSchema: Yup.object({
+      username: Yup.string().required("Please enter your name").trim(),
+      email: Yup.string()
+        .matches(
+          /^[A-Za-z0-9_%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+          "Invalid email format"
+        )
+        .required("Please enter your email"),
+      address: Yup.string().required("Please enter your address").trim(),
+      phone: Yup.string().required("Please enter your phone").trim(),
+      password: Yup.string()
+        .matches(
+          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-\/:-@\[-`{-~]).{8,}$/,
+          "Your password should contain a combination of uppercase and lowercase letters, at least one number, and at least one special character."
+        )
+        .required("Please enter your password"),
+        class_id: Yup.string().required("Please select at least one class").transform(value => value && typeof value === 'object' ? value.label.replace(/\"/g, '') : value),
+
+    }),
+    onSubmit: (values) => {
+      addOrEdit(values);
+      toggle();
+    },
+  });
+
+
   useEffect(() => {
     getSubUserListApi();
   }, [token]);
@@ -171,62 +231,30 @@ const ManageSubUser = () => {
     }
   };
 
+  const toggleModal = (state) => {
+    console.log(state)
+    if (state === "edit") {
+      setIsEdit(true);
+      toggle();
+    } else {
+      setIsEdit(false);
+      toggle();
+    }
+
+    validation.resetForm();
+  };
+
   const addOrEdit = (data) => {
     console.log(isEdit);
     if (isEdit) {
-      const { classId, ...dataWithoutClassId } = data;
+       const { classId, ...dataWithoutClassId } = data;
       updateSubUserApi(dataWithoutClassId);
     } else {
       addSubUserListApi(data);
     }
   };
 
-  const initialValues = {
-    username: "",
-    email: "",
-    phone: "",
-    address: "",
-    profileImage: "",
-    classId: "",
-  };
-
-  const validation = useFormik({
-    // enableReinitialize : use this flag when initial values needs to be changed
-    enableReinitialize: true,
-
-    initialValues: {
-      username: isEdit ? subUserDetail && subUserDetail?.username : "",
-      email: isEdit ? subUserDetail && subUserDetail?.email_address : "",
-      phone: isEdit ? subUserDetail && subUserDetail?.phone_number : "",
-      address: isEdit ? subUserDetail && subUserDetail?.address : "",
-      profileImage: isEdit ? subUserDetail && subUserDetail?.profile_image : "",
-      classId: isEdit ? subUserDetail && subUserDetail?.className : "",
-    },
-    validationSchema: Yup.object({
-      username: Yup.string().required("Please enter your name").trim(),
-      email: Yup.string()
-        .matches(
-          /^[A-Za-z0-9_%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
-          "Invalid email format"
-        )
-        .required("Please enter your email"),
-      address: Yup.string().required("Please enter your address").trim(),
-      phone: Yup.string().required("Please enter your phone").trim(),
-      password: Yup.string()
-        .matches(
-          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-\/:-@\[-`{-~]).{8,}$/,
-          "Your password should contain a combination of uppercase and lowercase letters, at least one number, and at least one special character."
-        )
-        .required("Please enter your password"),
-        classId: Yup.string().required("Please select at least one class").transform(value => value && typeof value === 'object' ? value.label.replace(/\"/g, '') : value),
-
-    }),
-    onSubmit: (values) => {
-      addOrEdit(values);
-      toggle();
-    },
-  });
-
+ 
   // const handleFormSubmit = (values) => {
   //   addOrEdit(values);
   //   toggle();
@@ -271,16 +299,17 @@ const ManageSubUser = () => {
   };
 
   const handleEditClick = (arg, data) => {
+    
+        toggleModal("edit");
+    getSubUserDetailsApi(arg);
     console.log(arg);
-    // console.log(data?.original);
+    console.log(data?.original);
 
     // setSubUserDetail(data?.original);
-    setSubUserId(arg);
+     setSubUserId(arg);
     setIsEditModalOpen(true);
 
-    getSubUserDetailsApi(arg);
-
-    toggleModal("edit");
+     
   };
 
   const handleDeletejob = (id) => {
@@ -290,17 +319,7 @@ const ManageSubUser = () => {
     }
   };
 
-  const toggleModal = (state) => {
-    if (state === "edit") {
-      setIsEdit(true);
-      toggle();
-    } else {
-      setIsEdit(false);
-      toggle();
-    }
-
-    validation.resetForm();
-  };
+  
 
   const toggle = () => {
     if (modal) {

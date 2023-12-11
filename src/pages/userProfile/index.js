@@ -45,23 +45,23 @@ const UserProfile = () => {
   document.title = "Profile | The Track Pilot";
 
   const profileData = useSelector((state) => state.Profile.profileData);
-  console.log(profileData);
 
-  // const avatarImage =  ;
+
 
   const dispatch = useDispatch();
   const inputRef = useRef(null);
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState({});
   const [loading, setLoading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const token = localStorage.getItem("token");
   const usrData = JSON.parse(localStorage.getItem("userData"));
 
   const [initialValues, setInitialValues] = useState({});
 
-  // console.log(data)
 
   const avatarImage = profileData?.profile_image;
+  console.log(avatarImage)
 
   useEffect(() => {
     getMyProfileApi();
@@ -80,10 +80,8 @@ const UserProfile = () => {
   };
 
   const updateProfileApi = async (data) => {
-    const formData = new FormData();
-    if (image instanceof Blob || image instanceof File) {
-      formData.append("profileImage", image);
-    }
+   data.profileImage=image
+     
 
     try {
       setLoading(true);
@@ -120,7 +118,7 @@ const UserProfile = () => {
     }),
     onSubmit: (values) => {
       updateProfileApi(values, token);
-      console.log(values, { token });
+      console.log('val' ,values)
     },
   });
 
@@ -131,10 +129,7 @@ const UserProfile = () => {
   };
 
   const onSelectedFiles = (event) => {
-    const selectedFiles = event.target.files[0];
-    console.log(selectedFiles);
-    const selectedFilesArray = Array.from(selectedFiles);
-    const res = [...image, ...selectedFilesArray];
+    const selectedFiles = event.target.files[0];  
     setImage(selectedFiles);
 
     // const imageArray = selectedFilesArray.map((file) => {
@@ -185,19 +180,20 @@ const UserProfile = () => {
                     className="ms-3 mb-4"
                     style={{ position: "relative" }}
                     onClick={() => inputRef.current.click()}
-                  >
-                    {image ? (
+                  > 
+                  {console.log(image,"seb")}
+                    {( image instanceof Blob || image instanceof File) ? ( 
                       <img
                         src={
                           image instanceof Blob || image instanceof File
-                            ? URL.createObjectURL(image)
-                            : avatarImage
+                          ? URL.createObjectURL(image)
+                          : `http://oursitedemo.com:4002/images/logo/${avatarImage}`
                         }
                         className="avatar-xl rounded-circle img-thumbnail"
                       />
                     ) : (
                       <img
-                      src={`http://oursitedemo.com:4002/api/${avatarImage}`}
+                      src={`http://oursitedemo.com:4002/images/logo/${avatarImage}`}
                         // alt={avatar}
                         className="avatar-xl rounded-circle img-thumbnail "
                       />
