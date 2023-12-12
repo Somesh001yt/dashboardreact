@@ -58,6 +58,10 @@ const ManageSubUser = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [departmentId, setDepartmentId] = useState();
   const [subUserId, setSubUserId] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [subUserImg , setSubUserImg] = useState(null)
+  const [resetImage , setResetImage] = useState(false)
+
 
   const dispatch = useDispatch();
 
@@ -68,8 +72,7 @@ const ManageSubUser = () => {
     email: "",
     phone: "",
     address: "",
-    profileImage: "",
-    classId: "",
+   
   };
 
  
@@ -92,7 +95,7 @@ const ManageSubUser = () => {
       email: isEdit ? subUserDetail && subUserDetail?.email_address : "",
       phone: isEdit ? subUserDetail && subUserDetail?.phone_number : "",
       address: isEdit ? subUserDetail && subUserDetail?.address : "",
-      profileImage: isEdit ? subUserDetail && subUserDetail?.profile_image : "",
+      // profileImage: isEdit ? subUserDetail && subUserDetail?.profile_image : "",
       classId: isEdit
       ? subUserDetail && getClassValue().find(item => item.value === subUserDetail.class_id)
       : getClassValue()[0],
@@ -107,13 +110,8 @@ const ManageSubUser = () => {
         .required("Please enter your email"),
       address: Yup.string().required("Please enter your address").trim(),
       phone: Yup.string().required("Please enter your phone").trim(),
-      password: Yup.string()
-        .matches(
-          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-\/:-@\[-`{-~]).{8,}$/,
-          "Your password should contain a combination of uppercase and lowercase letters, at least one number, and at least one special character."
-        )
-        .required("Please enter your password"),
-        class_id: Yup.string().required("Please select at least one class").transform(value => value && typeof value === 'object' ? value.label.replace(/\"/g, '') : value),
+     
+      //  class_id: Yup.string().required("Please select at least one class")
 
     }),
     onSubmit: (values) => {
@@ -147,7 +145,8 @@ const ManageSubUser = () => {
     try {
       setLoading(true);
       const response = await API.getSubUserDetails(token, id);
-      console.log(response, "xxxx");
+      console.log(response?.data[0].profile_image, "xxxx");
+      setSubUserImg(response?.data[0].profile_image,)
       setSubUserDetail(response?.data[0]);
     } catch (error) {
       console.log(error);
@@ -167,6 +166,7 @@ const ManageSubUser = () => {
 
   const addSubUserListApi = async (data) => {
     data["classId"] = departmentId?.value;
+    data["profileImage"] = selectedImage
     console.log(data)
     console.log(departmentId);
     try {
@@ -190,6 +190,8 @@ const ManageSubUser = () => {
   };
 
   const updateSubUserApi = async (data) => {
+    data["classId"] = departmentId?.value;
+    data["profileImage"] = selectedImage
     console.log(data);
     let id = subUserId;
     console.log(id);
@@ -231,10 +233,18 @@ const ManageSubUser = () => {
     }
   };
 
+
+  const handleImageChange = (image) => {
+    setSelectedImage(image);
+    console.log(selectedImage, 'ss')
+   
+  };
+
   const toggleModal = (state) => {
     console.log(state)
     if (state === "edit") {
       setIsEdit(true);
+
       toggle();
     } else {
       setIsEdit(false);
@@ -509,8 +519,10 @@ const ManageSubUser = () => {
             </Row>
             <EditModal
               isOpen={isEditModalOpen}
-              toggle={() => setIsEditModalOpen(false)}
+              toggle={() => {setIsEditModalOpen(false) 
+                setResetImage(false)}}
               validation={validation}
+              resetImage={resetImage}
               isEdit={isEdit}
               loading={loading}
               // handleFormSubmit={handleFormSubmit}
@@ -518,6 +530,8 @@ const ManageSubUser = () => {
               onClassIdChange={handleClassIdChange}
               // addOrEdit={addOrEdit}
               initialValues={initialValues}
+              onImageChange={handleImageChange}
+              imageData = {subUserImg}
             />
           </div>
         </div>

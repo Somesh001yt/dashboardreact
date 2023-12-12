@@ -1,6 +1,6 @@
 // EditModal.js
 
-import React, { useState } from "react";
+import React, { useState , useRef, useEffect } from "react";
 import {
   Modal,
   ModalHeader,
@@ -14,7 +14,7 @@ import {
   Spinner,
 } from "reactstrap";
 import Select from "react-select";
-
+import avatar from "../../assets/images/profile.png";
 
 const EditModal = ({
   isOpen,
@@ -24,8 +24,39 @@ const EditModal = ({
   loading,
   departmentOptions,
   onClassIdChange,
+  onImageChange,
+  imageData , 
+  resetImage
 }) => {
+  const [passwordShow, setPasswordShow] = useState(false);
+  const [image, setImage] = useState(null);
+  const inputRef = useRef(null);
 
+  // useEffect(()=>{
+  //   setImage(null)
+  // },[resetImage])
+
+
+  const onSelectedFiles = (event) => {
+    const selectedFiles = event.target.files[0]; 
+    
+    if(selectedFiles){
+
+      setImage(selectedFiles);
+      console.log(image)
+      onImageChange(selectedFiles);
+    } else{
+      setImage(null)
+    }
+  };
+
+  useEffect(() => {
+    if (!isOpen) {
+      setImage(null);
+    }
+  }, [isOpen]);
+
+  console.log(imageData)
 
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
@@ -38,9 +69,9 @@ const EditModal = ({
           onSubmit={(e) => {
             e.preventDefault();
             validation.handleSubmit();
-          
+
             // addOrEdit(validation.values); // Call addOrEdit with form values
-          
+
             // toggle();
             return false;
           }}
@@ -49,12 +80,52 @@ const EditModal = ({
 
           <Row>
             <Col className="col-12">
+              <div
+                className="mb-3"
+                style={{
+                  position: "relative",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                onClick={() => inputRef.current.click()}
+              >
+               {( image instanceof Blob || image instanceof File) ? ( 
+                      <img
+                        src={
+                          image instanceof Blob || image instanceof File
+                          ? URL.createObjectURL(image)
+                          : `http://oursitedemo.com:4002/images/logo/${imageData}`
+                        }
+                        className="avatar-xl rounded-circle img-thumbnail"
+                      />
+                    ) : (
+                      <img
+                      src={
+                        imageData !== null
+                          ? `http://oursitedemo.com:4002/images/logo/${imageData}`
+                          : avatar
+                      }
+
+                      className="avatar-xl rounded-circle img-thumbnail "
+                      />
+                    )}
+                <i className="fas fa-pen-square  editIcon" />
+                <input
+                      type="file"
+                      className="d-none"
+                      name="profileImage"
+                      accept="image/jpeg , image/png , image/webp"
+                      onChange={onSelectedFiles}
+                      ref={inputRef}
+                    />
+              </div>
               <div className="mb-3">
-                <Label className="form-label"> First Name</Label>
+                <Label className="form-label"> Full Name</Label>
                 <Input
                   name="username"
                   type="text"
-                  placeholder="Insert your first name"
+                  placeholder="Insert your full name"
                   validate={{
                     required: { value: true },
                   }}
@@ -74,7 +145,7 @@ const EditModal = ({
                 ) : null}
               </div>
               <div className="mb-3">
-                <Label className="form-label">Email</Label>
+                <Label className="form-label">Email Address</Label>
                 <Input
                   name="email"
                   type="email"
@@ -119,7 +190,7 @@ const EditModal = ({
                 ) : null}
               </div>
               <div className="mb-3">
-                <Label className="form-label">Phone</Label>
+                <Label className="form-label">Contact Number</Label>
                 <Input
                   name="phone"
                   placeholder="Insert your phone number"
@@ -142,90 +213,91 @@ const EditModal = ({
 
               <div className="mb-3">
                 <Label className="form-label">Password</Label>
-                <Input
-                  name="password"
-                  type="password"
-                  placeholder="Insert your password here"
-                  onChange={validation.handleChange}
-                  onBlur={validation.handleBlur}
-                  value={validation.values.password || ""}
-                  invalid={
-                    validation.touched.password && validation.errors.password
-                      ? true
-                      : false
-                  }
-                  />
-                  {validation.touched.password && validation.errors.password ? (
-                    <FormFeedback type="invalid">
-                      {validation.errors.password}
-                    </FormFeedback>
-                  ) : null}
-              </div>
-              <div className="mb-3">
-                <Label className="form-label">Profile Image</Label>
-                <Input
-                  name="profileImage"
-                  type="file"
-                  accept="image/jpeg , image/png , image/webp"
-                  placeholder="Insert Position"
-                  onChange={validation.handleChange}
-                  onBlur={validation.handleBlur}
-                  invalid={
-                    validation.touched.profileImage &&
-                    validation.errors.profileImage
-                      ? true
-                      : false
-                  }
-                />
-                {validation.touched.profileImage &&
-                validation.errors.profileImage ? (
-                  <FormFeedback type="invalid">
-                    {validation.errors.profileImage}
-                  </FormFeedback>
-                ) : null}
-              </div>
-              {/* {!isEdit && ( */}
-                <div className="mb-3">
-                  <Label className="form-label">Class Id</Label>
-                  <Select
-                    className="select2-selection"
-                    name="classId"
-                    type="text"
-                    onChange={onClassIdChange}
-                    options={departmentOptions}
-                    placeholder="Select your class"
-                    onBlur={departmentOptions?.value}
-                    value={validation.values.classId || ""}
-                    // value={departmentId}
+                <div className="input-group auth-pass-inputgroup">
+                  <Input
+                    name="password"
+                    type={!passwordShow ? "password" : "text"}
+                    placeholder="Insert your password here"
+                    onChange={validation.handleChange}
+                    onBlur={validation.handleBlur}
+                    value={validation.values.password || ""}
                     invalid={
-                      validation.touched.classId && validation.errors.classId
+                      validation.touched.password && validation.errors.password
                         ? true
                         : false
                     }
                   />
-                      {/* {validation.touched.classId && validation.errors.classId ? (
+                  <button
+                    onClick={() => setPasswordShow(!passwordShow)}
+                    className="btn btn-light"
+                    style={{ backgroundColor: passwordShow ? "#b7c4d5" : "" }}
+                    type="button"
+                    id="password-addon"
+                  >
+                    <i className="mdi mdi-eye-outline"></i>
+                  </button>
+                  {/* {validation.touched.password && validation.errors.password ? (
+                    <FormFeedback type="invalid">
+                      {validation.errors.password}
+                    </FormFeedback>
+                  ) : null} */}
+                
+                </div>
+              </div>
+
+              {/* {!isEdit && ( */}
+              <div className="mb-3">
+                <Label className="form-label">Class Id</Label>
+                <Select
+                  className="select2-selection"
+                  name="classId"
+                  type="text"
+                  onChange={onClassIdChange}
+                  options={departmentOptions}
+                  placeholder="Select your class"
+                  onBlur={departmentOptions?.value}
+                  value={validation.values.classId || ""}
+                  // value={departmentId}
+                  invalid={
+                    validation.touched.classId && validation.errors.classId
+                      ? true
+                      : false
+                  }
+                />
+                {/* {validation.touched.classId && validation.errors.classId ? (
                 <FormFeedback type="invalid">
                   {validation.errors.classId}
                 </FormFeedback>
               ) : null} */}
-                  <span style={{color:'red' , fontSize:'10px' , fontWeight : 100 , opacity: 0.8}}>{validation.errors.classId}</span>
-                </div>
-            
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "10px",
+                    fontWeight: 100,
+                    opacity: 0.8,
+                  }}
+                >
+                  {validation.errors.classId}
+                </span>
+              </div>
+
               {/* Display the selected file name separately */}
-          
             </Col>
           </Row>
 
           <Row>
             <Col>
               <div className="text-end">
-                <button type="submit" className="btn btn-primary save-user" disabled={loading}>
+                <button
+                  type="submit"
+                  className="btn btn-primary save-user"
+                  disabled={loading}
+                >
                   {loading ? <Spinner size={"sm"} /> : "Save"}
                 </button>
               </div>
             </Col>
           </Row>
-
         </Form>
       </ModalBody>
     </Modal>

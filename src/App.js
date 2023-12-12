@@ -1,10 +1,11 @@
 import logo from "./logo.svg";
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 
 import { layoutTypes } from "./constants/layout";
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
+import { changeLanguageData } from "./i18n";
 
 // Import scss
 import "./assets/scss/theme.scss";
@@ -14,6 +15,13 @@ import "./assets/scss/theme.scss";
 import MainRoutes from "./routes";
 
 function App() {
+  const userData = localStorage.getItem('userData')
+
+  useEffect(()=>{
+    if(userData){
+    changeLanguageData()
+    }
+  },[])
 
   return (
     <React.Fragment>

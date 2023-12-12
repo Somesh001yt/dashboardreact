@@ -165,7 +165,9 @@ const UserProfile = () => {
                 </Card>
               </Col>
             </Row> */}
-
+            
+            <Row style={{display:'flex' , justifyContent:'center' , alignItems:'center', marginTop:'2rem'}}>
+              <Col lg="6">
             <Card>
               <CardBody>
                 <Form
@@ -178,10 +180,9 @@ const UserProfile = () => {
                 >
                   <div
                     className="ms-3 mb-4"
-                    style={{ position: "relative" }}
+                    style={{ position: "relative", display:'flex' , justifyContent:'center' , alignItems:'center'}}
                     onClick={() => inputRef.current.click()}
                   > 
-                  {console.log(image,"seb")}
                     {( image instanceof Blob || image instanceof File) ? ( 
                       <img
                         src={
@@ -193,7 +194,11 @@ const UserProfile = () => {
                       />
                     ) : (
                       <img
-                      src={`http://oursitedemo.com:4002/images/logo/${avatarImage}`}
+                      src={
+                        avatarImage !== null
+                          ? `http://oursitedemo.com:4002/images/logo/${avatarImage}`
+                          : avatar
+                      }
                         // alt={avatar}
                         className="avatar-xl rounded-circle img-thumbnail "
                       />
@@ -295,6 +300,8 @@ const UserProfile = () => {
                 </Form>
               </CardBody>
             </Card>
+            </Col>
+           </Row>
           </Container>
         </div>
       </div>

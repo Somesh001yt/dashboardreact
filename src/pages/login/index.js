@@ -24,6 +24,7 @@ import { toast } from "react-toastify";
 import { API } from "../../Api/Api";
 import Spinner from "../../Components/Common/Spinner";
 import "./module.login.scss";
+import { changeLanguageData } from "../../i18n";
 
 const Login = () => {
   const [passwordShow, setPasswordShow] = useState(false);
@@ -69,7 +70,8 @@ const Login = () => {
         const data = response?.data;
         const userDataJSON = JSON.stringify(data);
         localStorage.setItem("userData", userDataJSON);
-
+        changeLanguageData(data?.user_type)
+        // console.log(data?.user_type)
         toast.success(response?.message);
         localStorage.setItem("token", data?.token);
         navigate("/dashboard");

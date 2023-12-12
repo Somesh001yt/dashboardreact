@@ -65,6 +65,7 @@ const ProfileMenu = (props) => {
 
   const handleLogout = () => {
     localStorage.removeItem('token')
+    localStorage.removeItem('userData')
     navigate('/login')
   }
 
@@ -83,14 +84,14 @@ const ProfileMenu = (props) => {
           <img
             className="rounded-circle header-profile-user "
             style={{width:'30px', height:'30px' , objectFit:'contain'}}
-            src={profileData?.profile_image !== null
+            src={profileData?.profile_image 
               ? `http://oursitedemo.com:4002/images/logo/${avatarImage}`
               : user1
             }
             
             alt="Header Avatar"
           />
-          <span className="d-none d-xl-inline-block ms-2 me-1">{username}</span>
+          <span className="d-none d-xl-inline-block ms-2 me-1">{profileData?.username}</span>
           <i className="mdi mdi-chevron-down d-none d-xl-inline-block" />
         </DropdownToggle>
         <DropdownMenu className="dropdown-menu-end">

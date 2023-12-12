@@ -9,11 +9,14 @@ import classname from "classnames";
 // import { withTranslation } from "react-i18next";
 
 import { connect } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const Navbar = (props) => {
   const userDataString = localStorage.getItem("userData");
-
+  const { t, i18n } = useTranslation();
   const UserData = JSON.parse(userDataString);
+
+ 
 
 
   return (
@@ -51,11 +54,7 @@ const Navbar = (props) => {
                     style={{ textTransform: "capitalize" }}
                   >
                     <i className="bx bx-tone me-2"></i>
-                    {UserData?.user_type === "education"
-                      ? "Manage Class"
-                      : UserData?.user_type === "corporate"
-                      ? "Manage Deaprtment"
-                      : "Manage Users"}
+                    {t('class')}
                   </Link>
                 </li>
                 <li className="nav-item dropdown">
@@ -65,7 +64,8 @@ const Navbar = (props) => {
                     style={{ textTransform: "capitalize" }}
                   >
                    <i className="bx bx-user-circle " style={{marginRight:'8px' , marginTop:'4px'}}></i>
-                    Sub User
+                  {t('subuser')}
+                  {console.log(t('subuser') , 'sss')}
                   </Link>
                 </li>
               </ul>

@@ -349,7 +349,7 @@ const Register = () => {
                                           <Col lg="12">
                                             <div className="mb-3">
                                               <Label for="basicpill-pancard-input5">
-                                             Name *
+                                            Full Name *
                                               </Label>
                                               <Input
                                                 name="username"

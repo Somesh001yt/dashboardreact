@@ -226,10 +226,18 @@ export const API = {
   },
 
   async addSubUserList(params , token) {
-    
+    let formData = new FormData(); 
+      formData.append("profileImage", params?.profileImage); 
+      formData.append('username' , params?.username)
+      formData.append('phone' , params?.phone)
+      formData.append('address' , params?.address)
+      formData.append('email' , params?.email)
+      formData.append('classId' , params?.classId)
+      formData.append('password' , params?.password)
+
     try{
       const response = await instance.post("subUser",
-      {...params},
+      formData,
         {
           headers: {
             "x-access-token": token,
@@ -261,12 +269,20 @@ export const API = {
 
 
   async updateSubUser (params, token , id) {
-    console.log(id)
+    let formData = new FormData(); 
+    formData.append("profileImage", params?.profileImage); 
+    formData.append('username' , params?.username)
+    formData.append('phone' , params?.phone)
+    formData.append('address' , params?.address)
+    formData.append('email' , params?.email)
+    formData.append('classId' , params?.classId)
+    formData.append('password' , params?.password)
+
+ 
     try{
       const response = await instance.put(`subUser/${id}`,
-      {
-        ...params,
-      },
+      formData
+      ,
       {
         headers: {
           "x-access-token": token,
