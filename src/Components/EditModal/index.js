@@ -105,7 +105,7 @@ const EditModal = ({
                     ) : (
                       <img
                       src={
-                        imageData !== ""
+                        imageData !== "" && isEdit
                           ? `http://oursitedemo.com:4002/images/logo/${imageData}`
                           : avatar
                       }

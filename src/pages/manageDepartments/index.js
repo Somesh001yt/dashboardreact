@@ -328,7 +328,7 @@ const ManageDepartment = () => {
       <div className="main-content">
         <div className="page-content">
           <div className="container-fluid">
-            <Breadcrumbs breadcrumbItem={"Manage " + userTypeName} />
+            <Breadcrumbs breadcrumbItem={t('class')} />
 
             <Row>
               <Col lg="12">
@@ -349,7 +349,7 @@ const ManageDepartment = () => {
                           }}
                           className="btn btn-primary me-1"
                         >
-                         {t("class")}
+                        {t('add')}
                         </Link>
                         <Link to="#!" className="btn btn-light me-1">
                           <i className="mdi mdi-refresh"></i>

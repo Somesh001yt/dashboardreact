@@ -65,7 +65,16 @@ const Navbar = (props) => {
                   >
                    <i className="bx bx-user-circle " style={{marginRight:'8px' , marginTop:'4px'}}></i>
                   {t('subuser')}
-                  {console.log(t('subuser') , 'sss')}
+                  </Link>
+                  </li>
+                <li className="nav-item dropdown">
+                  <Link
+                    to="/manage-software"
+                    className="nav-link dropdown-toggle arrow-none "
+                    style={{ textTransform: "capitalize" }}
+                  >
+                   <i className="bx bx bx-globe " style={{marginRight:'8px' , marginTop:'4px'}}></i>
+                  {t('software')}
                   </Link>
                 </li>
               </ul>

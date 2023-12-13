@@ -2,6 +2,9 @@
     "class": "Manage Users",
     "subuser": "Manage Child",
     "list" : "Child List",
-    "classlist" : "Users List"
+    "classlist" : "Users List",
+    "software" : "Manage Software",
+    "add" : "Add User",
+    "addSubUser" : "Add Child"
   }
   

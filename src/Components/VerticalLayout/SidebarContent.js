@@ -9,6 +9,7 @@ import SimpleBar from "simplebar-react";
 import MetisMenu from "metismenujs";
 import withRouter from "../../Components/Common/withRouter";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 //i18n
 // import { withTranslation } from "react-i18next";
@@ -98,6 +99,7 @@ const SidebarContent = (props) => {
   };
 
   const path = useLocation();
+  const {t} = useTranslation()
   const activeMenu = useCallback(() => {
     const pathName = path.pathname;
     let matchingMenuItem = null;
@@ -169,11 +171,7 @@ const SidebarContent = (props) => {
               <Link to="/manage-department"  >
                 <i className="bx bx-tone me-2"></i>
                 <span style={{ marginLeft: "-8px", fontSize: "12px" }}>
-                  {UserData?.user_type === "education"
-                    ? "Manage Class"
-                    : UserData?.user_type === "corporate"
-                    ? "Manage Deaprtment"
-                    : "Manage Users"}
+                {t('class')}
                 </span>
               </Link>
             </li>
@@ -181,7 +179,14 @@ const SidebarContent = (props) => {
               <Link to="/manage-subusers">
                 <i className="bx bx-user-circle"></i>
                 <span style={{  fontSize: "12px" }}>
-                  Sub Users                </span>
+                {t('subuser')}             </span>
+              </Link>
+            </li>
+            <li >
+              <Link to="/manage-software">
+                <i className="bx bx bx-globe"></i>
+                <span style={{  fontSize: "12px" }}>
+                {t('software')}               </span>
               </Link>
             </li>
           </ul>

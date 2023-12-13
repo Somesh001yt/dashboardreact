@@ -499,7 +499,7 @@ const ManageSubUser = () => {
                           onClick={handleAddUser}
                           className="btn btn-primary me-1"
                         >
-                          Add New User
+                         {t("addSubUser")}
                         </Link>
                         <Link to="#!" className="btn btn-light me-1">
                           <i className="mdi mdi-refresh"></i>

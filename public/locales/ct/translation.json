@@ -2,6 +2,9 @@
     "class": "Manage Departments",
     "subuser": "Manage Employee",
     "list" : "Employer List",
-    "classlist" : "Departments List"
+    "classlist" : "Departments List",
+    "software" : "Manage Software",
+    "add" : "Add Department",
+    "addSubUser" : "Add Employee"
   }
   

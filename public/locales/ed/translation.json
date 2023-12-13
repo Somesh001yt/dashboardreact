@@ -2,5 +2,8 @@
   "class": "Manage Class",
   "subuser": "Manage Students",
   "list" : "Student List",
-  "classlist" : "Class List"
+  "classlist" : "Class List",
+  "software" : "Manage Software",
+  "add" : "Add Class",
+  "addSubUser" : "Add Students"
 }
