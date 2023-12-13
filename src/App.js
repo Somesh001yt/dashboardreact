@@ -16,10 +16,12 @@ import MainRoutes from "./routes";
 
 function App() {
   const userData = localStorage.getItem('userData')
+   const UserData = JSON.parse(userData);
+ 
 
   useEffect(()=>{
-    if(userData){
-    changeLanguageData()
+    if(UserData){
+    changeLanguageData(UserData?.user_type)
     }
   },[])
 

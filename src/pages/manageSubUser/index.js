@@ -23,6 +23,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import avatar from "../../assets/images/profile.png"
 
 import {
   FirstName,
@@ -72,7 +73,7 @@ const ManageSubUser = () => {
     email: "",
     phone: "",
     address: "",
-   
+    classId : ""
   };
 
  
@@ -111,7 +112,7 @@ const ManageSubUser = () => {
       address: Yup.string().required("Please enter your address").trim(),
       phone: Yup.string().required("Please enter your phone").trim(),
      
-      //  class_id: Yup.string().required("Please select at least one class")
+      //  classId: Yup.string().required("Please select at least one class")
 
     }),
     onSubmit: (values) => {
@@ -190,9 +191,11 @@ const ManageSubUser = () => {
   };
 
   const updateSubUserApi = async (data) => {
-    data["classId"] = departmentId?.value;
+    const newClassId = departmentId?.value !== undefined ? departmentId.value : data?.classId;
+
+    data["classId"] = newClassId
     data["profileImage"] = selectedImage
-    console.log(data);
+    console.log(selectedImage, "selec");
     let id = subUserId;
     console.log(id);
     try {
@@ -234,7 +237,8 @@ const ManageSubUser = () => {
   };
 
 
-  const handleImageChange = (image) => {
+  const handleImageChange = (image) => { 
+    console.log(image,"sen");
     setSelectedImage(image);
     console.log(selectedImage, 'ss')
    
@@ -344,6 +348,20 @@ const ManageSubUser = () => {
   const columns = useMemo(
     () => [
       {
+        Header: "Profile Image",
+        Cell: (cellProps) => {
+          const profileImage = cellProps?.row?.original?.profile_image;
+          return (
+            <img
+              src={profileImage ? `http://oursitedemo.com:4002/images/logo/${profileImage}` : avatar}
+              alt="Profile"
+              className="avatar-md rounded-circle img-thumbnail "
+            />
+          );
+        },
+      }
+,      
+      {
         Header: "User Name",
         accessor: "username",
         filterable: false,
@@ -375,12 +393,7 @@ const ManageSubUser = () => {
           return <Phone {...cellProps} />;
         },
       },
-      {
-        Header: "Profile Image",
-        Cell: (cellProps) => {
-          return <span> {cellProps?.row?.original?.profile_image}</span>;
-        },
-      },
+     
       {
         Header: "Posted Date",
         accessor: "created_date",
@@ -530,7 +543,7 @@ const ManageSubUser = () => {
               onClassIdChange={handleClassIdChange}
               // addOrEdit={addOrEdit}
               initialValues={initialValues}
-              onImageChange={handleImageChange}
+              onImageChange={(e)=>handleImageChange(e)}
               imageData = {subUserImg}
             />
           </div>

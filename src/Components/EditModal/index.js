@@ -16,6 +16,7 @@ import {
 import Select from "react-select";
 import avatar from "../../assets/images/profile.png";
 
+
 const EditModal = ({
   isOpen,
   toggle,
@@ -39,24 +40,25 @@ const EditModal = ({
 
   const onSelectedFiles = (event) => {
     const selectedFiles = event.target.files[0]; 
-    
+        console.log(selectedFiles,"sen");
     if(selectedFiles){
 
       setImage(selectedFiles);
-      console.log(image)
+      console.log(selectedFiles)
       onImageChange(selectedFiles);
     } else{
-      setImage(null)
+      setImage(null) 
+      onImageChange("");
     }
   };
 
   useEffect(() => {
     if (!isOpen) {
-      setImage(null);
+      setImage(null); 
+      onImageChange("");
     }
   }, [isOpen]);
 
-  console.log(imageData)
 
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
@@ -64,6 +66,7 @@ const EditModal = ({
         {isEdit ? "Edit " : "Add "}
       </ModalHeader>
       <ModalBody>
+        {loading ? <Spinner style={{ margin: "60% 200px" , color:'#00395C'}} /> :  
         <Form
           validationSchema={validation.validationSchema}
           onSubmit={(e) => {
@@ -76,7 +79,7 @@ const EditModal = ({
             return false;
           }}
         >
-          {/* {loading ? <Spinner  /> : } */}
+         
 
           <Row>
             <Col className="col-12">
@@ -102,7 +105,7 @@ const EditModal = ({
                     ) : (
                       <img
                       src={
-                        imageData !== null
+                        imageData !== ""
                           ? `http://oursitedemo.com:4002/images/logo/${imageData}`
                           : avatar
                       }
@@ -110,6 +113,7 @@ const EditModal = ({
                       className="avatar-xl rounded-circle img-thumbnail "
                       />
                     )}
+                  
                 <i className="fas fa-pen-square  editIcon" />
                 <input
                       type="file"
@@ -299,6 +303,7 @@ const EditModal = ({
             </Col>
           </Row>
         </Form>
+}
       </ModalBody>
     </Modal>
   );

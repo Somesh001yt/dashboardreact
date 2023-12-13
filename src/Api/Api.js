@@ -270,14 +270,20 @@ export const API = {
 
   async updateSubUser (params, token , id) {
     let formData = new FormData(); 
-    formData.append("profileImage", params?.profileImage); 
     formData.append('username' , params?.username)
     formData.append('phone' , params?.phone)
     formData.append('address' , params?.address)
     formData.append('email' , params?.email)
-    formData.append('classId' , params?.classId)
     formData.append('password' , params?.password)
 
+    if(params?.profileImage !== ""){
+
+      formData.append("profileImage", params?.profileImage); 
+    }  
+    formData.append('classId', params?.classId);
+  
+   
+    console.log(params)
  
     try{
       const response = await instance.put(`subUser/${id}`,
