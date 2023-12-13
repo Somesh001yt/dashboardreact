@@ -1,5 +1,7 @@
 {
     "class": "Manage Users",
-    "subuser": "Manage Child"
+    "subuser": "Manage Child",
+    "list" : "Child List",
+    "classlist" : "Users List"
   }
   

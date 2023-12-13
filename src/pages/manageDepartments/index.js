@@ -31,6 +31,7 @@ import { API } from "../../Api/Api";
 
 import { useSelector } from "react-redux";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 const JobNoTitle = (cell) => {
   return (
@@ -56,6 +57,7 @@ const ManageDepartment = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [departmentData, setDepartmentData] = useState([]);
   const [job, setJob] = useState(null);
+  const {t} = useTranslation()
 
   const selectLayoutState = useSelector((state) => state.Layout.layoutModeType);
   const [isSubscribed, setIsSubscribed] = useState(true);
@@ -334,8 +336,7 @@ const ManageDepartment = () => {
                   <CardBody className="border-bottom">
                     <div className="d-flex align-items-center">
                       <h5 className="mb-0 card-title flex-grow-1">
-                        {" "}
-                        {userTypeName + "  List"}
+                        {t("classlist")}
                       </h5>
                       <div className="flex-shrink-0">
                         <Link
@@ -348,11 +349,7 @@ const ManageDepartment = () => {
                           }}
                           className="btn btn-primary me-1"
                         >
-                          {UserData?.user_type === "education"
-                            ? "Add Class"
-                            : UserData?.user_type === "corporate"
-                            ? "Add Deaprtment"
-                            : "Add Users"}
+                         {t("class")}
                         </Link>
                         <Link to="#!" className="btn btn-light me-1">
                           <i className="mdi mdi-refresh"></i>

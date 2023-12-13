@@ -43,6 +43,7 @@ import { toast } from "react-toastify";
 import Select from "react-select";
 import EditModal from "../../Components/EditModal";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 const ManageSubUser = () => {
   const selectLayoutState = useSelector((state) => state.Layout.layoutModeType);
@@ -62,8 +63,9 @@ const ManageSubUser = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [subUserImg , setSubUserImg] = useState(null)
   const [resetImage , setResetImage] = useState(false)
-
-
+  
+  
+  const {t} = useTranslation()
   const dispatch = useDispatch();
 
   const token = localStorage.getItem("token");
@@ -482,14 +484,14 @@ const ManageSubUser = () => {
       <div className="main-content">
         <div className="page-content">
           <div className="container-fluid">
-            <Breadcrumbs breadcrumbItem={"Manage SubUsers"} />
+            <Breadcrumbs breadcrumbItem={t('subuser')} />
             <Row>
               <Col lg="12">
                 <Card>
                   <CardBody className="border-bottom">
                     <div className="d-flex align-items-center">
                       <h5 className="mb-0 card-title flex-grow-1">
-                        Sub User Lists
+                       {t('list')}
                       </h5>
                       <div className="flex-shrink-0">
                         <Link

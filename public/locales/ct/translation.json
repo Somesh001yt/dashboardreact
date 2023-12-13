@@ -1,5 +1,7 @@
 {
     "class": "Manage Departments",
-    "subuser": "Manage Employee"
+    "subuser": "Manage Employee",
+    "list" : "Employer List",
+    "classlist" : "Departments List"
   }
   
