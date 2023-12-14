@@ -32,7 +32,7 @@ const EditModal = ({
   const [passwordShow, setPasswordShow] = useState(false);
   const [image, setImage] = useState(null);
   const inputRef = useRef(null);
-
+  const apiUrl = process.env.REACT_APP_API_URL;
   // useEffect(()=>{
   //   setImage(null)
   // },[resetImage])
@@ -98,7 +98,7 @@ const EditModal = ({
                         src={
                           image instanceof Blob || image instanceof File
                           ? URL.createObjectURL(image)
-                          : `http://oursitedemo.com:4002/images/logo/${imageData}`
+                          : `${apiUrl}/images/logo/${imageData}`
                         }
                         className="avatar-xl rounded-circle img-thumbnail"
                       />
@@ -106,7 +106,7 @@ const EditModal = ({
                       <img
                       src={
                         imageData !== "" && isEdit
-                          ? `http://oursitedemo.com:4002/images/logo/${imageData}`
+                          ? `${apiUrl}/images/logo/${imageData}`
                           : avatar
                       }
 

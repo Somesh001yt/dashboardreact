@@ -127,7 +127,7 @@ const MainRoutes = () => {
           <Route path="/reset-password/:id"element = {<ResetPassword/>}  />
           <Route path="/confirm-password" element = {<ConfirmPassword/>}  />
           <Route path="/manage-department" element = {<ManageDepartment/>}  />
-          <Route path="/manage-subusers" element = {<ManageSubUser/>}  />
+          <Route path="/manage-subusers" element = {<ManageSubUser  />}  />
           <Route path="/manage-software" element = {<ManageSoftware/>}  />
         </Routes>
         {allowedHeaderPages.includes(location.pathname) && <OurPartner />}

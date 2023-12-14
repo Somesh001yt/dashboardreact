@@ -6,8 +6,8 @@
     "software" : "Manage Software",
     "add" : "Add User",
     "addSubUser" : "Add Child",
-    "addTitle" : "Users Name",
+    "addTitle" : "User Name",
     "placeholder": "Enter User Name",
-    "sublistName" : "Childs Name"
+    "sublistName" : "Child Name"
   }
   

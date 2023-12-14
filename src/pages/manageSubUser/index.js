@@ -63,6 +63,8 @@ const ManageSubUser = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [subUserImg , setSubUserImg] = useState(null)
   const [resetImage , setResetImage] = useState(false)
+  const [localTrans , setLocalTrans] = useState({})
+  const apiUrl = process.env.REACT_APP_API_URL;
   
   
   const {t} = useTranslation()
@@ -347,6 +349,11 @@ const ManageSubUser = () => {
     // validation.resetForm();
   };
 
+  const userData = localStorage.getItem('userData')
+   const UserData = JSON.parse(userData);
+
+
+
   const columns = useMemo(
     () => [
       {
@@ -355,7 +362,7 @@ const ManageSubUser = () => {
           const profileImage = cellProps?.row?.original?.profile_image;
           return (
             <img
-              src={profileImage ? `http://oursitedemo.com:4002/images/logo/${profileImage}` : avatar}
+              src={profileImage ? `${apiUrl}/images/logo/${profileImage}` : avatar}
               alt="Profile"
               className="avatar-md rounded-circle img-thumbnail "
             />
@@ -364,10 +371,11 @@ const ManageSubUser = () => {
       }
 ,      
       {
-        Header: `${t('sublistName')}`,
+        Header: t('sublistName'),
         accessor: "username",
         filterable: false,
         Cell: (cellProps) => {
+          console.log(t('sublistName'))
           return <FirstName {...cellProps} />;
         },
       },
@@ -471,8 +479,10 @@ const ManageSubUser = () => {
         },
       },
     ],
-    [isSubscribed]
+    [isSubscribed,t ]
   );
+  console.log(t('sublistName'))
+
   return (
     <React.Fragment>
       <DeleteModal

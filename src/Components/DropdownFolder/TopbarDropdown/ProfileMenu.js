@@ -29,7 +29,7 @@ const ProfileMenu = (props) => {
   const avatarImage = profileData?.profile_image;
   const [username, setusername] = useState("Admin");
   const token = localStorage.getItem("token");
-
+  const apiUrl = process.env.REACT_APP_API_URL;
   const navigate = useNavigate()
 
   const getMyProfileApi = async () => {
@@ -85,7 +85,7 @@ const ProfileMenu = (props) => {
             className="rounded-circle header-profile-user "
             style={{width:'30px', height:'30px' , objectFit:'contain'}}
             src={profileData?.profile_image 
-              ? `http://oursitedemo.com:4002/images/logo/${avatarImage}`
+              ? `${apiUrl}/images/logo/${avatarImage}`
               : user1
             }
             

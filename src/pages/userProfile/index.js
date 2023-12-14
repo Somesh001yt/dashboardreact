@@ -58,7 +58,7 @@ const UserProfile = () => {
   const usrData = JSON.parse(localStorage.getItem("userData"));
 
   const [initialValues, setInitialValues] = useState({});
-
+  const apiUrl = process.env.REACT_APP_API_URL
 
   const avatarImage = profileData?.profile_image;
   console.log(avatarImage)
@@ -188,7 +188,7 @@ const UserProfile = () => {
                         src={
                           image instanceof Blob || image instanceof File
                           ? URL.createObjectURL(image)
-                          : `http://oursitedemo.com:4002/images/logo/${avatarImage}`
+                          : `${apiUrl}/images/logo/${avatarImage}`
                         }
                         className="avatar-xl rounded-circle img-thumbnail"
                       />
@@ -196,7 +196,7 @@ const UserProfile = () => {
                       <img
                       src={
                         avatarImage !== null
-                          ? `http://oursitedemo.com:4002/images/logo/${avatarImage}`
+                          ? `${apiUrl}/images/logo/${avatarImage}`
                           : avatar
                       }
                         // alt={avatar}
@@ -265,7 +265,7 @@ const UserProfile = () => {
                       name="phone"
                       // value={name}
                       className="form-control "
-                      placeholder="Enter Your Contact Info"
+                      placeholder="Enter Your Contact Number"
                       type="text"
                       onChange={validation.handleChange}
                       onBlur={validation.handleBlur}

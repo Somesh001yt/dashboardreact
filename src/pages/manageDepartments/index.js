@@ -59,6 +59,8 @@ const ManageDepartment = () => {
   const [job, setJob] = useState(null);
   const {t} = useTranslation()
 
+  
+
   const selectLayoutState = useSelector((state) => state.Layout.layoutModeType);
   const [isSubscribed, setIsSubscribed] = useState(true);
 
@@ -237,6 +239,8 @@ const ManageDepartment = () => {
     // validation.resetForm();
   };
 
+ 
+
   const columnList = useMemo(() => {
     return [
       {
@@ -315,7 +319,7 @@ const ManageDepartment = () => {
         },
       },
     ];
-  }, [isSubscribed]);
+  }, [isSubscribed , t ]);
 
   return (
     <React.Fragment>

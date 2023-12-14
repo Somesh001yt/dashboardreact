@@ -316,5 +316,24 @@ export const API = {
       }catch (error){
         console.log(error)
       }
+  },
+
+  async addSoftware (params , token) {
+   try{
+   const response = await instance.post('addSoftware' , 
+   {
+    ...params
+   },
+   {
+    headers: {
+      "x-access-token": token,
+    },
+  }
+   )
+   console.log(response)
+   return response?.data
+   }catch (error){
+    console.log(error)
+   }
   }
 };

@@ -16,11 +16,12 @@ import Select from "react-select";
 const EditModal = ({
     isEdit,
     isOpen,
-    toggle
+    toggled,
+    validation
 }) => {
   return (
-    <Modal isOpen={isOpen} toggle={toggle}>
-    <ModalHeader toggle={toggle} tag="h4">
+    <Modal isOpen={isOpen} toggle={toggled}>
+    <ModalHeader toggle={toggled} tag="h4">
       {isEdit ? "Edit " : "Add "}
     </ModalHeader>
     <ModalBody>
@@ -28,8 +29,8 @@ const EditModal = ({
       <Form
         // validationSchema={validation.validationSchema}
         onSubmit={(e) => {
-        //   e.preventDefault();
-        //   validation.handleSubmit();
+          e.preventDefault();
+          validation.handleSubmit();
 
           // addOrEdit(validation.values); // Call addOrEdit with form values
 
@@ -45,20 +46,20 @@ const EditModal = ({
             <div className="mb-3">
               <Label className="form-label"> Software Name</Label>
               <Input
-                name="software"
+                name="SoftwareName"
                 type="text"
                 placeholder="Enter Your Software Name"
-                // validate={{
-                //   required: { value: true },
-                // }}
-                // onChange={validation.handleChange}
-                // onBlur={validation.handleBlur}
-                // value={validation.values.username || ""}
-                // invalid={
-                //   validation.touched.username && validation.errors.username
-                //     ? true
-                //     : false
-                // }
+                validate={{
+                  required: { value: true },
+                }}
+                onChange={validation.handleChange}
+                onBlur={validation.handleBlur}
+                value={validation.values.SoftwareName || ""}
+                invalid={
+                  validation.touched.SoftwareName && validation.errors.SoftwareName
+                    ? true
+                    : false
+                }
               />
               {/* {validation.touched.username && validation.errors.username ? (
                 <FormFeedback type="invalid">
@@ -69,19 +70,19 @@ const EditModal = ({
             <div className="mb-3">
               <Label className="form-label">Start Date</Label>
               <Input
-                name="startDate"
+                name="StartDate"
                 type="date"
-                // validate={{
-                //   required: { value: true },
-                // }}
-                // onChange={validation.handleChange}
-                // onBlur={validation.handleBlur}
-                // value={validation.values.email || ""}
-                // invalid={
-                //   validation.touched.email && validation.errors.email
-                //     ? true
-                //     : false
-                // }
+                validate={{
+                  required: { value: true },
+                }}
+                onChange={validation.handleChange}
+                onBlur={validation.handleBlur}
+                value={validation.values.StartDate || ""}
+                invalid={
+                  validation.touched.StartDate && validation.errors.StartDate
+                    ? true
+                    : false
+                }
               />
               {/* {validation.touched.email && validation.errors.email ? (
                 <FormFeedback type="invalid">
@@ -92,7 +93,7 @@ const EditModal = ({
             <div className="mb-3">
               <Label className="form-label">End Date</Label>
               <Input
-                name="endDate"
+                name="EndDate"
                 type="date"
                 // onChange={validation.handleChange}
                 // onBlur={validation.handleBlur}
@@ -112,7 +113,7 @@ const EditModal = ({
             <div className="mb-3">
               <Label className="form-label">License File</Label>
               <Input
-                name="license"
+                name="LicenseFile"
                 placeholder="Add Your License File"
                 type="file"
                 // onChange={validation.handleChange}
@@ -135,7 +136,7 @@ const EditModal = ({
               <Label className="form-label">Description</Label>
               <div className="input-group auth-pass-inputgroup">
                 <Input
-                  name="description"
+                  name="Description"
                   type={ "text"}
                   placeholder="Enter Your Description"
                 //   onChange={validation.handleChange}
@@ -164,6 +165,63 @@ const EditModal = ({
               
               </div>
             </div>
+            <div className="mb-3">
+                <Label className="form-label">Category</Label>
+                <Select
+                  className="select2-selection"
+                  name="Category"
+                  type="text"
+                  // onChange={onClassIdChange}
+                  // options={departmentOptions}
+                  placeholder="Select Your Category"
+            
+                  // value={validation.values.classId || ""}
+                  // invalid={
+                  //   validation.touched.classId && validation.errors.classId
+                  //     ? true
+                  //     : false
+                  // }
+                />
+                {/* <span
+                  style={{
+                    color: "red",
+                    fontSize: "10px",
+                    fontWeight: 100,
+                    opacity: 0.8,
+                  }}
+                >
+                  {validation.errors.classId}
+                </span> */}
+              </div>
+            <div className="mb-3">
+                <Label className="form-label">Number Of Users</Label>
+                <Select
+                  className="select2-selection"
+                  name="NumberOfUser"
+                  type="text"
+                  // onChange={onClassIdChange}
+                  // options={departmentOptions}
+                  placeholder="Enter Number Of User"
+            
+                  // value={validation.values.classId || ""}
+                  // invalid={
+                  //   validation.touched.classId && validation.errors.classId
+                  //     ? true
+                  //     : false
+                  // }
+                />
+                {/* <span
+                  style={{
+                    color: "red",
+                    fontSize: "10px",
+                    fontWeight: 100,
+                    opacity: 0.8,
+                  }}
+                >
+                  {validation.errors.classId}
+                </span> */}
+              </div>
+
           </Col>
         </Row>
 

@@ -177,7 +177,7 @@ const ResetPassword = () => {
                               name="confirmPassword"
                               value={validation.values.confirmPassword || ""}
                               type={confirmPasswordShow ? "text" : "password"}
-                              placeholder="Enter Password"
+                              placeholder="Enter Confirm Password"
                               onChange={validation.handleChange}
                               onBlur={validation.handleBlur}
                               invalid={

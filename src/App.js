@@ -23,7 +23,7 @@ function App() {
     if(UserData){
     changeLanguageData(UserData?.user_type)
     }
-  },[])
+  },[UserData])
 
   return (
     <React.Fragment>
