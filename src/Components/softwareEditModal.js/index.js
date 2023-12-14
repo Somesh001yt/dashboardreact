@@ -43,11 +43,11 @@ const EditModal = ({
           <Col className="col-12">
             
             <div className="mb-3">
-              <Label className="form-label"> Full Name</Label>
+              <Label className="form-label"> Software Name</Label>
               <Input
-                name="username"
+                name="software"
                 type="text"
-                placeholder="Insert your full name"
+                placeholder="Enter Your Software Name"
                 // validate={{
                 //   required: { value: true },
                 // }}
@@ -67,11 +67,10 @@ const EditModal = ({
               ) : null} */}
             </div>
             <div className="mb-3">
-              <Label className="form-label">Email Address</Label>
+              <Label className="form-label">Start Date</Label>
               <Input
-                name="email"
-                type="email"
-                placeholder="Insert your email"
+                name="startDate"
+                type="date"
                 // validate={{
                 //   required: { value: true },
                 // }}
@@ -91,11 +90,10 @@ const EditModal = ({
               ) : null} */}
             </div>
             <div className="mb-3">
-              <Label className="form-label">Address</Label>
+              <Label className="form-label">End Date</Label>
               <Input
-                name="address"
-                type="text"
-                placeholder="Insert yout address"
+                name="endDate"
+                type="date"
                 // onChange={validation.handleChange}
                 // onBlur={validation.handleBlur}
                 // value={validation.values.address || ""}
@@ -112,11 +110,11 @@ const EditModal = ({
               ) : null} */}
             </div>
             <div className="mb-3">
-              <Label className="form-label">Contact Number</Label>
+              <Label className="form-label">License File</Label>
               <Input
-                name="phone"
-                placeholder="Insert your phone number"
-                type="text"
+                name="license"
+                placeholder="Add Your License File"
+                type="file"
                 // onChange={validation.handleChange}
                 // onBlur={validation.handleBlur}
                 // value={validation.values.phone || ""}
@@ -134,12 +132,12 @@ const EditModal = ({
             </div>
 
             <div className="mb-3">
-              <Label className="form-label">Password</Label>
+              <Label className="form-label">Description</Label>
               <div className="input-group auth-pass-inputgroup">
                 <Input
-                  name="password"
+                  name="description"
                   type={ "text"}
-                  placeholder="Insert your password here"
+                  placeholder="Enter Your Description"
                 //   onChange={validation.handleChange}
                 //   onBlur={validation.handleBlur}
                 //   value={validation.values.password || ""}

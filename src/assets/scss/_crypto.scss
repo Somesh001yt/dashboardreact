@@ -112,7 +112,6 @@
 
                 &:hover, &.active{
                     color:  rgba($white, 0.9);
-
                     @media (max-width: 991.98px) {
                         color: $primary;
                     }

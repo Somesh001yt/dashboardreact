@@ -5,6 +5,9 @@
     "classlist" : "Users List",
     "software" : "Manage Software",
     "add" : "Add User",
-    "addSubUser" : "Add Child"
+    "addSubUser" : "Add Child",
+    "addTitle" : "Users Name",
+    "placeholder": "Enter User Name",
+    "sublistName" : "Childs Name"
   }
   

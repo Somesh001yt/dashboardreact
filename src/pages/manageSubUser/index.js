@@ -364,7 +364,7 @@ const ManageSubUser = () => {
       }
 ,      
       {
-        Header: "User Name",
+        Header: `${t('sublistName')}`,
         accessor: "username",
         filterable: false,
         Cell: (cellProps) => {
@@ -422,7 +422,7 @@ const ManageSubUser = () => {
         disableFilters: true,
         Cell: (cellProps) => {
           return (
-            <ul className="list-unstyled hstack gap-1 mb-0">
+            <ul className="list-unstyled hstack gap-1 mb-0 " style={{cursor:'pointer'}}>
               <li>
                 <Link
                   to="#"

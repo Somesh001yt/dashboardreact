@@ -32,7 +32,7 @@ const Navbar = (props) => {
               className="navbar-collapse"
               id="topnav-menu-content"
             >
-              <ul className="navbar-nav">
+              <ul className="navbar-nav" style={{display: "flex" , alignItems:'center'}}>
                 <li className="nav-item ">
                   <Link
                     className="nav-link "
@@ -53,7 +53,7 @@ const Navbar = (props) => {
                     className="nav-link dropdown-toggle arrow-none "
                     style={{ textTransform: "capitalize" }}
                   >
-                    <i className="bx bx-tone me-2"></i>
+                    <i className="bx bx-tone me-2" style={{position:'relative' , top:"2px"}}></i>
                     {t('class')}
                   </Link>
                 </li>
@@ -63,7 +63,7 @@ const Navbar = (props) => {
                     className="nav-link dropdown-toggle arrow-none "
                     style={{ textTransform: "capitalize" }}
                   >
-                   <i className="bx bx-user-circle " style={{marginRight:'8px' , marginTop:'4px'}}></i>
+                   <i className="bx bx-user-circle " style={{position:'relative' , top:"2px", marginRight: '8px'}}></i>
                   {t('subuser')}
                   </Link>
                   </li>
@@ -73,7 +73,7 @@ const Navbar = (props) => {
                     className="nav-link dropdown-toggle arrow-none "
                     style={{ textTransform: "capitalize" }}
                   >
-                   <i className="bx bx bx-globe " style={{marginRight:'8px' , marginTop:'4px'}}></i>
+                   <i className="bx bx bx-globe " style={{position:'relative' , top:"2px" , marginRight: '8px'}}></i>
                   {t('software')}
                   </Link>
                 </li>

@@ -5,5 +5,8 @@
   "classlist" : "Class List",
   "software" : "Manage Software",
   "add" : "Add Class",
-  "addSubUser" : "Add Students"
+  "addSubUser" : "Add Students",
+  "addTitle" : "Class Name",
+  "placeholder": "Enter Class Name",
+  "sublistName" : "Student Name"
 }

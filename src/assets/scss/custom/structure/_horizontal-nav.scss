@@ -30,6 +30,8 @@
             &:focus, &:hover{
                 color: var(--#{$prefix}menu-item-active-color);
                 background-color: transparent;
+                font-size: 14px;
+                font-weight: 500;
             }
         }
         

@@ -78,7 +78,7 @@ const ManageDepartment = () => {
     UserData?.user_type === "education"
       ? "Class"
       : UserData?.user_type === "corporate"
-      ? "Deaprtment"
+      ? "Department"
       : "Users";
 
   const token = localStorage.getItem("token");
@@ -240,7 +240,7 @@ const ManageDepartment = () => {
   const columnList = useMemo(() => {
     return [
       {
-        Header: "Title",
+        Header: `${t('addTitle')}`,
         accessor: "title",
         Cell: (cellProps) => {
           return <JobNoTitle {...cellProps} />;
@@ -398,11 +398,11 @@ const ManageDepartment = () => {
                   <Row>
                     <Col className="col-12">
                       <div className="mb-3">
-                        <Label className="form-label"> Title</Label>
+                        <Label className="form-label"> {t('addTitle')}</Label>
                         <Input
                           name="title"
                           type="text"
-                          placeholder="Insert Title"
+                          placeholder={t('placeholder')}
                           validate={{
                             required: { value: true },
                           }}

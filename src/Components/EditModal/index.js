@@ -129,7 +129,7 @@ const EditModal = ({
                 <Input
                   name="username"
                   type="text"
-                  placeholder="Insert your full name"
+                  placeholder="Enter Your Full Name"
                   validate={{
                     required: { value: true },
                   }}
@@ -153,7 +153,7 @@ const EditModal = ({
                 <Input
                   name="email"
                   type="email"
-                  placeholder="Insert your email"
+                  placeholder="Enter Your Email Address"
                   validate={{
                     required: { value: true },
                   }}
@@ -177,7 +177,7 @@ const EditModal = ({
                 <Input
                   name="address"
                   type="text"
-                  placeholder="Insert yout address"
+                  placeholder="Enter Your Address"
                   onChange={validation.handleChange}
                   onBlur={validation.handleBlur}
                   value={validation.values.address || ""}
@@ -197,7 +197,7 @@ const EditModal = ({
                 <Label className="form-label">Contact Number</Label>
                 <Input
                   name="phone"
-                  placeholder="Insert your phone number"
+                  placeholder="Enter Your Contact Number"
                   type="text"
                   onChange={validation.handleChange}
                   onBlur={validation.handleBlur}
@@ -221,7 +221,7 @@ const EditModal = ({
                   <Input
                     name="password"
                     type={!passwordShow ? "password" : "text"}
-                    placeholder="Insert your password here"
+                    placeholder="Enter Your Password "
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
                     value={validation.values.password || ""}
@@ -251,14 +251,14 @@ const EditModal = ({
 
               {/* {!isEdit && ( */}
               <div className="mb-3">
-                <Label className="form-label">Class Id</Label>
+                <Label className="form-label">Class</Label>
                 <Select
                   className="select2-selection"
                   name="classId"
                   type="text"
                   onChange={onClassIdChange}
                   options={departmentOptions}
-                  placeholder="Select your class"
+                  placeholder="Select Your Class"
                   onBlur={departmentOptions?.value}
                   value={validation.values.classId || ""}
                   // value={departmentId}

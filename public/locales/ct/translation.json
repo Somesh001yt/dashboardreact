@@ -5,6 +5,9 @@
     "classlist" : "Departments List",
     "software" : "Manage Software",
     "add" : "Add Department",
-    "addSubUser" : "Add Employee"
+    "addSubUser" : "Add Employee",
+    "addTitle" : "Department Name",
+    "placeholder": "Enter Department Name",
+    "sublistName" : "Employee Name"
   }
   

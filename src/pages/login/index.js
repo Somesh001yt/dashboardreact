@@ -172,7 +172,7 @@ const Login = () => {
                           <Input
                             name="username"
                             className="form-control"
-                            placeholder="Enter email address"
+                            placeholder="Enter Email Address"
                             type="text"
                             onChange={validation.handleChange}
                             onBlur={validation.handleBlur}

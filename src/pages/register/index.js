@@ -349,14 +349,14 @@ const Register = () => {
                                           <Col lg="12">
                                             <div className="mb-3">
                                               <Label for="basicpill-pancard-input5">
-                                            Full Name *
+                                               Full Name *
                                               </Label>
                                               <Input
                                                 name="username"
                                                 type="text"
                                                 className="form-control"
                                                 id="basicpill-pancard-input5"
-                                                placeholder={`Enter ${selectedUser[userType]} name`}
+                                                placeholder={`Enter Your Full Name`}
                                                 onChange={
                                                   validation.handleChange
                                                 }
@@ -393,7 +393,7 @@ const Register = () => {
                                                 type="text"
                                                 className="form-control"
                                                 id="basicpill-cstno-input7"
-                                                placeholder={`Enter ${selectedUser[userType]} email address`}
+                                                placeholder={`Enter Your Email Address`}
                                                 onChange={
                                                   validation.handleChange
                                                 }
@@ -429,7 +429,7 @@ const Register = () => {
                                                 type="text"
                                                 className="form-control"
                                                 id="basicpill-companyuin-input9"
-                                                placeholder={`Enter ${selectedUser[userType]} address`}
+                                                placeholder={`Enter Your Address`}
                                                 onChange={
                                                   validation.handleChange
                                                 }
@@ -495,7 +495,7 @@ const Register = () => {
                                                 type="text"
                                                 className="form-control"
                                                 id="basicpill-companyuin-input9"
-                                                placeholder={`Enter ${selectedUser[userType]} contact number`}
+                                                placeholder={`Enter Your Contact Number`}
                                                 onChange={
                                                   validation.handleChange
                                                 }
@@ -533,7 +533,7 @@ const Register = () => {
                                                   }
                                                   className="form-control"
                                                   id="basicpill-expiration-input13"
-                                                  placeholder={`Enter password`}
+                                                  placeholder={`Enter Password`}
                                                   onChange={
                                                     validation.handleChange
                                                   }
@@ -588,7 +588,7 @@ const Register = () => {
                                                   }
                                                   className="form-control"
                                                   id="basicpill-expiration-input13"
-                                                  placeholder={`Enter confirm password`}
+                                                  placeholder={`Enter Confirm Password`}
                                                   onChange={
                                                     validation.handleChange
                                                   }
