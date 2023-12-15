@@ -41,11 +41,12 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
+  Spinner,
 } from "reactstrap";
-import Spinners from "../../Components/Common/Spinner";
-import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import EditModal from "../../Components/softwareEditModal.js";
 import { API } from "../../Api/Api.js";
+import moment from "moment";
 
 const softwareData = [
   {
@@ -64,34 +65,226 @@ const ManageSoftware = () => {
   const [isSubscribed, setIsSubscribed] = useState(true);
   const [software, setSoftware] = useState(softwareData);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [softwareList, setSoftwareList] = useState([]);
+  const [selectFile, setSelectFile] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
+  const [job, setJob] = useState(null);
   const token = localStorage.getItem("token");
+  const [softwareId, setSoftwareId] = useState();
+  const [softId, setSoftId] = useState([]);
+  const [softDetails, setSoftDetails] = useState({});
+  const [loader, setLoader] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const softwareOption = [
+    { id: "1", title: "apple" },
+    { id: "2", title: "microsoft" },
+    { id: "3", title: "safari" },
+    { id: "4", title: "indigo" },
+  ];
+
+  const getSoftwareValue = () => {
+    return softwareOption?.map((item) => ({
+      label: item.title,
+      value: item.id,
+    }));
+  };
+
+
 
   const validation = useFormik({
     enableReinitialize: true,
 
-    initialValues: {},
-    validationSchema: Yup.object({}),
+    initialValues: {
+      SoftwareName: isEdit ? softDetails && softDetails?.SoftwareName : "",
+      StartDate: isEdit ? (softDetails && moment(softDetails.StartDate).format("yyyy-MM-DD")) || null : null,
+      EndDate: isEdit ? (softDetails && moment(softDetails.EndDate).format("yyyy-MM-DD")) || null : null,
+      Category: isEdit
+        ? softDetails &&
+          getSoftwareValue().find((item) => item.value === softDetails?.Category)
+        : '',
+      LicenseFile: isEdit ? softDetails && softDetails?.LicenseFile : "",
+      Description: isEdit ? softDetails && softDetails?.Description : "",
+      NumberOfUsers: isEdit ? softDetails && softDetails?.NumberOfUsers : "",
+    },
+    validationSchema: Yup.object({
+      SoftwareName: Yup.string()
+        .required("Please enter you software name")
+        .trim(),
+      StartDate: Yup.date()
+        .required("Start Date is required")
+        .typeError("Invalid date format"),
+      EndDate: Yup.date()
+        .required("End Date is required")
+        .typeError("Invalid date format")
+        .min(
+          Yup.ref("StartDate"),
+          "End Date must be greater than or equal to Start Date"
+        ),
+      Description: Yup.string().required("Please provide some description"),
+      NumberOfUsers: Yup.string().required("Please enter number of users"),
+    }),
     onSubmit: (values) => {
-      addSoftwareFunction(values);
+      addOrEdit(values);
     },
   });
 
+
+   console.log(getSoftwareValue()[0].label , 'fn');
+
+  //  Add Software Api Function
+
   const addSoftwareFunction = async (data) => {
+    data["Category"] = softwareId?.value;
+    data["LicenseFile"] = selectFile;
+  
+
     try {
+      setLoading(true);
       const response = await API.addSoftware(data, token);
       console.log(response);
+      if (response?.success) {
+        toast.success(response?.message);
+        setIsEditModalOpen(false);
+        getSoftwareListFunction();
+      } else {
+        toast.error(response?.message);
+      }
     } catch (error) {
+      toast.message("Network Error");
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
+  /// Get Software List Api function
+
+  const getSoftwareListFunction = async () => {
+    setLoader(true);
+    try {
+      const response = await API.getSoftwareList(token);
+      console.log(response);
+      if (response?.success) {
+        setSoftwareList(response?.softwareList);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  // Get Software List Details APi
+
+  const getSoftwareDetailsFunction = async (id) => {
+    try {
+      setLoading(true);
+      const response = await API.getSoftwareDetails(token, id);
+      console.log(response);
+      setSoftDetails(response?.softwareDetails);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  console.log(softDetails ,'ssss');
+
+  
+
+
+  useEffect(() => {
+    getSoftwareListFunction();
+  }, []);
+
+  // Update Sote Api function
+
+  const updateSoftwareFunction = async (data) => {
+    const newClassId =  softwareId?.value !== undefined ? softwareId.value : data?.Category;
+    console.log(data?.Category)
+    data["Category"] = newClassId;
+    data["LicenseFile"] = selectFile;
+    let id = softId;
+
+
+    try {
+      setLoading(true);
+      const response = await API.updateSoftware(data, token, id);
+      console.log(response);
+      if (response?.success) {
+        toast.success(response?.message);
+        setIsEditModalOpen(false);
+        getSoftwareListFunction();
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Network Error");
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  //  Delete Software Api function
+
+  const deleteSoftwareFunction = async () => {
+    try {
+      setLoading(true);
+      const response = await API.deleteSoftware(token, job?.SoftwareID);
+      console.log(response);
+      if (response.success) {
+        toast.success(response?.message);
+        setDeleteModal(false);
+        getSoftwareListFunction();
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Network Error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const addOrEdit = (data) => {
+    console.log(isEdit);
+    if (isEdit) {
+      updateSoftwareFunction(data);
+    } else {
+      addSoftwareFunction(data);
+    }
+  };
+
+  const softwareOptions = softwareOption?.map((item) => ({
+    label: item?.title,
+    value: item?.id,
+  }));
+
+  const handleClassIdChange = (selectedOption) => {
+    console.log('Selected Option:', selectedOption);
+  
+    if (selectedOption) {
+      setSoftwareId(selectedOption);
+      validation.setFieldValue("Category", selectedOption);
+    } else {
+      setSoftwareId('');
+      validation.setFieldValue("Category", '');
+    }
+    
+  };
+  
+
   const toggleModal = (state) => {
-    console.log(state);
+    console.log(state , 'state');
     if (state === "edit") {
       setIsEdit(true);
+     
     } else {
       setIsEdit(false);
+ 
     }
 
     validation.resetForm();
@@ -105,7 +298,7 @@ const ManageSoftware = () => {
 
   const onClickDelete = (job) => {
     console.log(job);
-    // setJob(job);
+    setJob(job);
     setDeleteModal(true);
   };
 
@@ -118,26 +311,27 @@ const ManageSoftware = () => {
     // validation.resetForm();
   };
 
+
+
   const handleEditClick = (arg, data) => {
     toggleModal("edit");
+    getSoftwareDetailsFunction(data?.original?.SoftwareID);
+    setSoftId(data?.original?.SoftwareID);
     setIsEditModalOpen(true);
   };
 
-  const handleDeletejob = () => {};
+  const handleDeletejob = () => {
+    deleteSoftwareFunction();
+    if (job && job.id) {
+      setDeleteModal(false);
+    }
+  };
 
   const columns = useMemo(
     () => [
       {
-        Header: "No",
-        accessor: "id",
-        filterable: true,
-        Cell: (cellProps) => {
-          return <No {...cellProps} />;
-        },
-      },
-      {
         Header: "Software Name",
-        accessor: "softwareName",
+        accessor: "SoftwareName",
         filterable: true,
         Cell: (cellProps) => {
           return <SoftwareName {...cellProps} />;
@@ -145,23 +339,33 @@ const ManageSoftware = () => {
       },
       {
         Header: "Start Date",
-        accessor: "startDate",
+        accessor: "StartDate",
         filterable: true,
         Cell: (cellProps) => {
-          return <StartDate {...cellProps} />;
+          return (
+            <span>
+              {moment(cellProps?.row?.original?.StartDate)?.format(
+                "yyyy-MM-DD"
+              )}
+            </span>
+          );
         },
       },
       {
         Header: "End Date",
-        accessor: "endDate",
+        accessor: "EndDate",
         filterable: true,
         Cell: (cellProps) => {
-          return <EndDate {...cellProps} />;
+          return (
+            <span>
+              {moment(cellProps?.row?.original?.EndDate)?.format("yyyy-MM-DD")}
+            </span>
+          );
         },
       },
       {
         Header: "LicenseFile",
-        accessor: "licenseFile",
+        accessor: "LicenseFile",
         filterable: true,
         Cell: (cellProps) => {
           return <LicenseFile {...cellProps} />;
@@ -169,14 +373,24 @@ const ManageSoftware = () => {
       },
       {
         Header: "Description",
-        accessor: "description",
+        accessor: "Description",
         Cell: (cellProps) => {
           return <Description {...cellProps} />;
         },
       },
       {
+        Header: "Category",
+        accessor: "Category",
+        Cell: (cellProps) => {
+          const categoryValue = cellProps?.row?.original?.Category;
+          const categoryLabel = getSoftwareValue().find((item) => item.value === categoryValue)?.label;
+      
+          return <span>{categoryLabel}</span>;
+        },
+      },
+      {
         Header: "NumberOfUsers",
-        accessor: "users",
+        accessor: "NumberOfUsers",
         Cell: (cellProps) => {
           return <NumberOfUsers {...cellProps} />;
         },
@@ -243,6 +457,7 @@ const ManageSoftware = () => {
     <React.Fragment>
       <DeleteModal
         show={deleteModal}
+        loading={loading}
         onDeleteClick={handleDeletejob}
         onCloseClick={() => setDeleteModal(false)}
       />
@@ -279,25 +494,33 @@ const ManageSoftware = () => {
                       </div>
                     </div>
                   </CardBody>
-                  <CardBody>
-                    <TableContainer
-                      columns={columns}
-                      data={software || []}
-                      isGlobalFilter={true}
-                      isAddOptions={false}
-                      isPagination={true}
-                      iscustomPageSizeOptions={true}
-                      isShowingPageLength={true}
-                      customPageSize={5}
-                      tableClass="table-bordered align-middle nowrap mt-2"
-                      paginationDiv="col-sm-12 col-md-7"
-                      pagination="pagination justify-content-end pagination-rounded"
+                  {loader ? (
+                    <Spinner
+                      style={{ margin: "15px auto", color: "#00395C" }}
                     />
-                  </CardBody>
+                  ) : "" || softwareList?.length === 0 || !softwareList ? (
+                    <div className="text-center mb-4 mt-4">No data list</div>
+                  ) : (
+                    <CardBody>
+                      <TableContainer
+                        columns={columns}
+                        data={softwareList || []}
+                        isGlobalFilter={true}
+                        isAddOptions={false}
+                        isPagination={true}
+                        iscustomPageSizeOptions={true}
+                        isShowingPageLength={true}
+                        customPageSize={5}
+                        tableClass="table-bordered align-middle nowrap mt-2"
+                        paginationDiv="col-sm-12 col-md-7"
+                        pagination="pagination justify-content-end pagination-rounded"
+                      />
+                    </CardBody>
+                  )}
                 </Card>
               </Col>
             </Row>
-              <Modal isOpen={modal} toggle={handleModal}>
+            <Modal isOpen={modal} toggle={handleModal}>
               <ModalHeader toggle={handleModal} tag="h4">
                 Add Category
               </ModalHeader>
@@ -305,7 +528,6 @@ const ManageSoftware = () => {
                 <Form
                   onSubmit={(e) => {
                     e.preventDefault();
-                   
                   }}
                 >
                   <Row>
@@ -352,19 +574,21 @@ const ManageSoftware = () => {
                 </Form>
               </ModalBody>
             </Modal>
-            
           </div>
         </div>
       </div>
       <EditModal
-              isEdit={isEdit}
-              isOpen={isEditModalOpen}
-                validation={validation}
-              toggled={() => {
-                setIsEditModalOpen(false);
-              }}
-            />
-      <ToastContainer />
+        isEdit={isEdit}
+        isOpen={isEditModalOpen}
+        validation={validation}
+        softwareData={softwareOptions}
+        selectedFile={setSelectFile}
+        loading={loading}
+        onSoftwareClick={handleClassIdChange}
+        toggled={() => {
+          setIsEditModalOpen(false);
+        }}
+      />
     </React.Fragment>
   );
 };

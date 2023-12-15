@@ -319,11 +319,20 @@ export const API = {
   },
 
   async addSoftware (params , token) {
+    let formData = new FormData();
+
+    formData.append("SoftwareName", params?.SoftwareName); 
+    formData.append('StartDate' , params?.StartDate)
+    formData.append('EndDate' , params?.EndDate)
+    formData.append('Category' , params?.Category)
+    formData.append('LicenseFile' , params?.LicenseFile)
+    formData.append('Description' , params?.Description)
+    formData.append('NumberOfUsers' , params?.NumberOfUsers)
+
    try{
    const response = await instance.post('addSoftware' , 
-   {
-    ...params
-   },
+     formData
+     ,
    {
     headers: {
       "x-access-token": token,
@@ -335,5 +344,85 @@ export const API = {
    }catch (error){
     console.log(error)
    }
+  },
+
+  async getSoftwareList ( token){
+    try{
+      const response = await instance.get('softwareList',
+      {
+        headers: {
+          "x-access-token": token,
+        },
+      }
+      )
+      console.log(response)
+      return response?.data
+    }catch (error){
+      console.log(error)
+    }
+  },
+
+  
+  async getSoftwareDetails (token , id){
+    try{
+      const response = await instance.get(`softwareDetail/${id}`,
+      {
+        headers: {
+          "x-access-token": token,
+        },
+      }
+      )
+      console.log(response)
+      return response?.data
+      }catch (error){
+        console.log(error)
+      }
+  },
+
+
+  async updateSoftware (params , token  , id){
+    let formData = new FormData();
+
+    formData.append("SoftwareName", params?.SoftwareName); 
+    formData.append('StartDate' , params?.StartDate)
+    formData.append('EndDate' , params?.EndDate)
+    formData.append('Category' , params?.Category)
+    formData.append('LicenseFile' , params?.LicenseFile)
+    formData.append('Description' , params?.Description)
+    formData.append('NumberOfUsers' , params?.NumberOfUsers)
+    
+    try{
+      const response = await instance.put(`softwareUpdate/${id}`,
+      formData
+      ,
+      {
+        headers: {
+          "x-access-token": token,
+        },
+      }
+      )
+      console.log(response)
+      return response?.data
+      }catch (error){
+        console.log(error)
+      }
+  },
+
+
+  async deleteSoftware (token , id){
+    try{
+      const response = await instance.delete(`softwareDelete/${id}`,
+      {
+        headers: {
+          "x-access-token": token,
+        },
+      }
+      )
+      console.log(response)
+      return response?.data
+    }catch(error){
+      console.log(error)
+    }
   }
+
 };
