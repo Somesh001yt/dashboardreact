@@ -102,7 +102,7 @@ const ManageSoftware = () => {
       Category: isEdit
         ? softDetails &&
           getSoftwareValue().find((item) => item.value === softDetails?.Category)
-        : '',
+        :getSoftwareValue()[0],
       LicenseFile: isEdit ? softDetails && softDetails?.LicenseFile : "",
       Description: isEdit ? softDetails && softDetails?.Description : "",
       NumberOfUsers: isEdit ? softDetails && softDetails?.NumberOfUsers : "",
@@ -190,8 +190,6 @@ const ManageSoftware = () => {
     }
   };
 
-  console.log(softDetails ,'ssss');
-
   
 
 
@@ -202,8 +200,8 @@ const ManageSoftware = () => {
   // Update Sote Api function
 
   const updateSoftwareFunction = async (data) => {
-    const newClassId =  softwareId?.value !== undefined ? softwareId.value : data?.Category;
-    console.log(data?.Category)
+    const newClassId =  softwareId?.value !== undefined ? softwareId.value : data?.Category.value;
+    console.log(data?.Category.value)
     data["Category"] = newClassId;
     data["LicenseFile"] = selectFile;
     let id = softId;

@@ -177,10 +177,10 @@ const EditModal = ({
                     name="Category"
                     type="text"
                     // onChange={onClassIdChange}
-                    value={validation.values.Category || ""}
                     onChange={onSoftwareClick}
                     options={softwareData}
                     onBlur={softwareData?.value}
+                    value={validation.values.Category || ""}
                     invalid={
                       validation.touched.Category && validation.errors.Category
                         ? true
