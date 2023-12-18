@@ -103,7 +103,7 @@ const ManageSubUser = () => {
       // profileImage: isEdit ? subUserDetail && subUserDetail?.profile_image : "",
       classId: isEdit
       ? subUserDetail && getClassValue().find(item => item.value === subUserDetail.class_id)
-      : getClassValue()[0],
+      : "",
     },
     validationSchema: Yup.object({
       username: Yup.string().required("Please enter your name").trim(),
@@ -116,7 +116,7 @@ const ManageSubUser = () => {
       address: Yup.string().required("Please enter your address").trim(),
       phone: Yup.string().required("Please enter your phone").trim(),
      
-      //  classId: Yup.string().required("Please select at least one class")
+      
 
     }),
     onSubmit: (values) => {
@@ -150,7 +150,6 @@ const ManageSubUser = () => {
     try {
       setLoading(true);
       const response = await API.getSubUserDetails(token, id);
-      console.log(response?.data[0].profile_image, "xxxx");
       setSubUserImg(response?.data[0].profile_image,)
       setSubUserDetail(response?.data[0]);
     } catch (error) {
@@ -172,8 +171,7 @@ const ManageSubUser = () => {
   const addSubUserListApi = async (data) => {
     data["classId"] = departmentId?.value;
     data["profileImage"] = selectedImage
-    console.log(data)
-    console.log(departmentId);
+   
     try {
       setLoading(true);
       const response = await API.addSubUserList(data, token);
@@ -195,13 +193,14 @@ const ManageSubUser = () => {
   };
 
   const updateSubUserApi = async (data) => {
-    const newClassId = departmentId?.value !== undefined ? departmentId.value : data?.classId;
+    // const newClassId = departmentId?.value !== undefined ? departmentId.value : data?.classId;
+    const newClassId = departmentId?.value !== undefined  ? departmentId.value : typeof data?.classId === "object"
+        ? data?.classId.value
+        : data?.classId;
 
     data["classId"] = newClassId
     data["profileImage"] = selectedImage
-    console.log(selectedImage, "selec");
     let id = subUserId;
-    console.log(id);
     try {
       setLoading(true);
       const response = await API.updateSubUser(data, token, id);
@@ -242,14 +241,11 @@ const ManageSubUser = () => {
 
 
   const handleImageChange = (image) => { 
-    console.log(image,"sen");
     setSelectedImage(image);
-    console.log(selectedImage, 'ss')
    
   };
 
   const toggleModal = (state) => {
-    console.log(state)
     if (state === "edit") {
       setIsEdit(true);
 
@@ -263,10 +259,9 @@ const ManageSubUser = () => {
   };
 
   const addOrEdit = (data) => {
-    console.log(isEdit);
     if (isEdit) {
        const { classId, ...dataWithoutClassId } = data;
-      updateSubUserApi(dataWithoutClassId);
+      updateSubUserApi(data);
     } else {
       addSubUserListApi(data);
     }
@@ -311,7 +306,6 @@ const ManageSubUser = () => {
   };
 
   const onClickDelete = (job) => {
-    console.log(job);
     setJob(job);
     setDeleteModal(true);
   };
@@ -320,8 +314,6 @@ const ManageSubUser = () => {
     
         toggleModal("edit");
     getSubUserDetailsApi(arg);
-    console.log(arg);
-    console.log(data?.original);
 
     // setSubUserDetail(data?.original);
      setSubUserId(arg);
@@ -375,7 +367,6 @@ const ManageSubUser = () => {
         accessor: "username",
         filterable: false,
         Cell: (cellProps) => {
-          console.log(t('sublistName'))
           return <FirstName {...cellProps} />;
         },
       },
@@ -481,7 +472,7 @@ const ManageSubUser = () => {
     ],
     [isSubscribed,t ]
   );
-  console.log(t('sublistName'))
+
 
   return (
     <React.Fragment>

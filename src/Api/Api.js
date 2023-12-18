@@ -234,6 +234,7 @@ export const API = {
       formData.append('email' , params?.email)
       formData.append('classId' , params?.classId)
       formData.append('password' , params?.password)
+      
 
     try{
       const response = await instance.post("subUser",
@@ -280,6 +281,7 @@ export const API = {
 
       formData.append("profileImage", params?.profileImage); 
     }  
+    
     formData.append('classId', params?.classId);
   
    
@@ -387,9 +389,14 @@ export const API = {
     formData.append('StartDate' , params?.StartDate)
     formData.append('EndDate' , params?.EndDate)
     formData.append('Category' , params?.Category)
-    formData.append('LicenseFile' , params?.LicenseFile)
     formData.append('Description' , params?.Description)
     formData.append('NumberOfUsers' , params?.NumberOfUsers)
+    // formData.append("LicenseFile", params?.LicenseFile);
+
+    if(params?.LicenseFile !== ""){
+      formData.append("LicenseFile", params?.LicenseFile); 
+    }  
+
     
     try{
       const response = await instance.put(`softwareUpdate/${id}`,

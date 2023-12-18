@@ -22,27 +22,32 @@ const EditModal = ({
   onSoftwareClick,
   selectedFile,
   loading,
+  softwareDetails
 }) => {
+ 
+  const [isEditing, setIsEditing] = useState(false);
+
   const handleFileUpload = (event) => {
-    const fileInput = event.target;
-    const file = fileInput.files[0];
-    console.log(file , 'file')
-    if(file){
-      selectedFile(file);
+    const fileInput = event.target.files[0]; 
+    if(fileInput){
+      selectedFile(fileInput);
     }else{
-      selectedFile('')
+      selectedFile('');
     }
-    console.log(file);
   };
 
+  const handleEditClick = () => {
+    setIsEditing(true)
+  }
 
   useEffect(() => {
     if (!isOpen) {
-      // setImage(null); 
       selectedFile("");
-      onSoftwareClick('')
+      setIsEditing(false)
+     
     }
   }, [isOpen]);
+
 
   return (
     <Modal isOpen={isOpen} toggle={toggled}>
@@ -136,12 +141,19 @@ const EditModal = ({
                 </div>
                 <div className="mb-3">
                   <Label className="form-label">License File</Label>
+
+                  {  !isEditing && isEdit && softwareDetails?.LicenseFile ?
+                    <div className="form-control">
+                      <span>{softwareDetails?.LicenseFile}</span>
+                      <i className="bx bx-edit " style={{marginLeft:'5px'}} onClick={handleEditClick} ></i>
+                    </div>  :
                   <Input
                     name="LicenseFile"
                     placeholder="Add Your License File"
                     type="file"
                     onChange={handleFileUpload}
                   />
+                  }
                 </div>
 
                 <div className="mb-3">

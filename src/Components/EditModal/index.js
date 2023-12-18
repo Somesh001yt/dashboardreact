@@ -56,6 +56,7 @@ const EditModal = ({
     if (!isOpen) {
       setImage(null); 
       onImageChange("");
+      onClassIdChange("")
     }
   }, [isOpen]);
 
@@ -256,6 +257,7 @@ const EditModal = ({
                   className="select2-selection"
                   name="classId"
                   type="text"
+                  required
                   onChange={onClassIdChange}
                   options={departmentOptions}
                   placeholder="Select Your Class"

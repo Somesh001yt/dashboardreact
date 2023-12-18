@@ -90,19 +90,25 @@ const ManageSoftware = () => {
     }));
   };
 
-
-
   const validation = useFormik({
     enableReinitialize: true,
 
     initialValues: {
       SoftwareName: isEdit ? softDetails && softDetails?.SoftwareName : "",
-      StartDate: isEdit ? (softDetails && moment(softDetails.StartDate).format("yyyy-MM-DD")) || null : null,
-      EndDate: isEdit ? (softDetails && moment(softDetails.EndDate).format("yyyy-MM-DD")) || null : null,
+      StartDate: isEdit
+        ? (softDetails && moment(softDetails.StartDate).format("yyyy-MM-DD")) ||
+          null
+        : null,
+      EndDate: isEdit
+        ? (softDetails && moment(softDetails.EndDate).format("yyyy-MM-DD")) ||
+          null
+        : null,
       Category: isEdit
         ? softDetails &&
-          getSoftwareValue().find((item) => item.value === softDetails?.Category)
-        :'',
+          getSoftwareValue().find(
+            (item) => item.value === softDetails?.Category
+          )
+        : "",
       LicenseFile: isEdit ? softDetails && softDetails?.LicenseFile : "",
       Description: isEdit ? softDetails && softDetails?.Description : "",
       NumberOfUsers: isEdit ? softDetails && softDetails?.NumberOfUsers : "",
@@ -130,14 +136,11 @@ const ManageSoftware = () => {
   });
 
 
-   console.log(getSoftwareValue()[0].label , 'fn');
-
   //  Add Software Api Function
 
   const addSoftwareFunction = async (data) => {
     data["Category"] = softwareId?.value;
     data["LicenseFile"] = selectFile;
-  
 
     try {
       setLoading(true);
@@ -164,7 +167,7 @@ const ManageSoftware = () => {
     setLoader(true);
     try {
       const response = await API.getSoftwareList(token);
-      console.log(response);
+      console.log(response ,'ff');
       if (response?.success) {
         setSoftwareList(response?.softwareList);
       }
@@ -190,27 +193,20 @@ const ManageSoftware = () => {
     }
   };
 
-  
-
-
   useEffect(() => {
     getSoftwareListFunction();
   }, []);
 
   // Update Sote Api function
 
+
   const updateSoftwareFunction = async (data) => {
-    const newClassId =
-    softwareId?.value !== undefined
-      ? softwareId.value
-      : typeof data?.Category === 'object'
-      ? data?.Category.value
-      : data?.Category;
-    console.log(data?.Category.value)
+    console.log(data, 'ff')
+    const newClassId = softwareId?.value !== undefined ? softwareId.value : typeof data?.Category === "object" ? data?.Category.value : data?.Category;
+         
     data["Category"] = newClassId;
     data["LicenseFile"] = selectFile;
     let id = softId;
-
 
     try {
       setLoading(true);
@@ -267,27 +263,23 @@ const ManageSoftware = () => {
   }));
 
   const handleClassIdChange = (selectedOption) => {
-    console.log('Selected Option:', selectedOption);
-  
+    console.log("Selected Option:", selectedOption);
+
     if (selectedOption) {
       setSoftwareId(selectedOption);
       validation.setFieldValue("Category", selectedOption);
     } else {
-      setSoftwareId('');
-      validation.setFieldValue("Category", '');
+      setSoftwareId("");
+      validation.setFieldValue("Category", "");
     }
-    
   };
-  
 
   const toggleModal = (state) => {
-    console.log(state , 'state');
+    console.log(state, "state");
     if (state === "edit") {
       setIsEdit(true);
-     
     } else {
       setIsEdit(false);
- 
     }
 
     validation.resetForm();
@@ -314,7 +306,9 @@ const ManageSoftware = () => {
     // validation.resetForm();
   };
 
-
+  const handleSelectedFie = (file) => {
+  setSelectFile(file)
+  }
 
   const handleEditClick = (arg, data) => {
     toggleModal("edit");
@@ -386,8 +380,10 @@ const ManageSoftware = () => {
         accessor: "Category",
         Cell: (cellProps) => {
           const categoryValue = cellProps?.row?.original?.Category;
-          const categoryLabel = getSoftwareValue().find((item) => item.value === categoryValue)?.label;
-      
+          const categoryLabel = getSoftwareValue().find(
+            (item) => item.value === categoryValue
+          )?.label;
+
           return <span>{categoryLabel}</span>;
         },
       },
@@ -588,6 +584,7 @@ const ManageSoftware = () => {
         selectedFile={setSelectFile}
         loading={loading}
         onSoftwareClick={handleClassIdChange}
+        softwareDetails={softDetails}
         toggled={() => {
           setIsEditModalOpen(false);
         }}
