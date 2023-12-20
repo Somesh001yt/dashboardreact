@@ -8,5 +8,6 @@
   "addSubUser" : "Add Students",
   "addTitle" : "Class Name",
   "placeholder": "Enter Class Name",
-  "sublistName" : "Student Name"
+  "sublistName" : "Student Name",
+  "urls" : "Manage urls"
 }

@@ -16,7 +16,64 @@ const Navbar = (props) => {
   const { t, i18n } = useTranslation();
   const UserData = JSON.parse(userDataString);
 
- 
+  useEffect(() => {
+    var matchingMenuItem = null;
+    var ul = document.getElementById("navigation");
+    var items = ul.getElementsByTagName("a");
+    removeActivation(items);
+    for (var i = 0; i < items.length; ++i) {
+      if (window.location.pathname === items[i].pathname) {
+        matchingMenuItem = items[i];
+        break;
+      }
+    }
+    if (matchingMenuItem) {
+      activateParentDropdown(matchingMenuItem);
+    }
+  });
+
+  const removeActivation = items => {
+    for (var i = 0; i < items.length; ++i) {
+      var item = items[i];
+      const parent = items[i].parentElement;
+      if (item && item.classList.contains("active")) {
+        item.classList.remove("active");
+      }
+      if (parent) {
+        if (parent.classList.contains("active")) {
+          parent.classList.remove("active");
+        }
+      }
+    }
+  };
+
+  function activateParentDropdown(item) {
+    item.classList.add("active");
+    const parent = item.parentElement;
+    if (parent) {
+      parent.classList.add("active"); // li
+      const parent2 = parent.parentElement;
+      parent2.classList.add("active"); // li
+      const parent3 = parent2.parentElement;
+      if (parent3) {
+        parent3.classList.add("active"); // li
+        const parent4 = parent3.parentElement;
+        if (parent4) {
+          parent4.classList.add("active"); // li
+          const parent5 = parent4.parentElement;
+          if (parent5) {
+            parent5.classList.add("active"); // li
+            const parent6 = parent5.parentElement;
+            if (parent6) {
+              parent6.classList.add("active"); // li
+            }
+          }
+        }
+      }
+    }
+    return false;
+  }
+
 
 
   return (
@@ -35,7 +92,7 @@ const Navbar = (props) => {
               <ul className="navbar-nav" style={{display: "flex" , alignItems:'center'}}>
                 <li className="nav-item ">
                   <Link
-                    className="nav-link "
+                    className="nav-link"
                     // onClick={e => {
                     //   e.preventDefault();
                     //   setdashboard(!dashboard);
@@ -75,6 +132,16 @@ const Navbar = (props) => {
                   >
                    <i className="bx bx bx-globe " style={{position:'relative' , top:"2px" , marginRight: '8px'}}></i>
                   {t('software')}
+                  </Link>
+                </li>
+                <li className="nav-item dropdown">
+                  <Link
+                    to="/manage-urls"
+                    className="nav-link dropdown-toggle arrow-none "
+                    style={{ textTransform: "capitalize" }}
+                  >
+                   <i className="bx bx-link " style={{position:'relative' , top:"2px" , marginRight: '8px'}}></i>
+                  {t('urls')}
                   </Link>
                 </li>
               </ul>

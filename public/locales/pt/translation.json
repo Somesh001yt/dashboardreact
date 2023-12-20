@@ -8,6 +8,7 @@
     "addSubUser" : "Add Child",
     "addTitle" : "User Name",
     "placeholder": "Enter User Name",
-    "sublistName" : "Child Name"
+    "sublistName" : "Child Name",
+    "urls" : "Manage urls"
   }
   

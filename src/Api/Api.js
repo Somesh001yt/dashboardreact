@@ -430,6 +430,57 @@ export const API = {
     }catch(error){
       console.log(error)
     }
-  }
+  },
+
+
+   async getSoftwareCategoryList (token ){
+    try{
+    const response = await instance.get('softwareCategoryList', 
+    {
+      headers: {
+        "x-access-token": token,
+      },
+    }
+    )
+    console.log(response)
+    return response?.data
+    }catch (error){
+      console.log(error)
+    }
+   },
+
+   async addBlogUrl ( params , token){
+    try{
+     const response = await instance.post("addUrl", 
+     {...params},
+     {
+      headers:{
+        "x-access-token ": token
+      }
+     }
+     )
+     console.log(response)
+     return response?.data
+    }catch (error){
+      console.log(error)
+    }
+   },
+
+
+   async getBlogUrl (token) {
+    try {
+     const response = await instance.get("blogUrlList",
+     {
+      headers: {
+        "x-access-token" : token
+      }
+     }
+     ) 
+     console.log(response);
+     return response?.data
+    }catch (error){
+      console.log(error)
+    }
+   }
 
 };

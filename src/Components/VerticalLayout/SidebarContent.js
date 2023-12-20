@@ -189,6 +189,13 @@ const SidebarContent = (props) => {
                 {t('software')}               </span>
               </Link>
             </li>
+            <li >
+              <Link to="/manage-urls">
+                <i className="bx bx-link"></i>
+                <span style={{  fontSize: "12px" }}>
+                {t('urls')}               </span>
+              </Link>
+            </li>
           </ul>
         </div>
       </SimpleBar>

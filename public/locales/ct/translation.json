@@ -8,6 +8,7 @@
     "addSubUser" : "Add Employee",
     "addTitle" : "Department Name",
     "placeholder": "Enter Department Name",
-    "sublistName" : "Employee Name"
+    "sublistName" : "Employee Name",
+    "urls" : "Manage urls"
   }
   

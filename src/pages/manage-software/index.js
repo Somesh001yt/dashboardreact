@@ -48,22 +48,10 @@ import EditModal from "../../Components/softwareEditModal.js";
 import { API } from "../../Api/Api.js";
 import moment from "moment";
 
-const softwareData = [
-  {
-    id: 1,
-    softwareName: "Google",
-    startDate: "	2023-11-08",
-    endDate: "	2024-12-08",
-    description: "This is a software",
-    users: 10,
-  },
-];
-
 const ManageSoftware = () => {
   const [modal, setModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(true);
-  const [software, setSoftware] = useState(softwareData);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [softwareList, setSoftwareList] = useState([]);
   const [selectFile, setSelectFile] = useState(null);
@@ -75,20 +63,17 @@ const ManageSoftware = () => {
   const [softDetails, setSoftDetails] = useState({});
   const [loader, setLoader] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [softwareCategory, setSoftwareCategory] = useState([]);
 
-  const softwareOption = [
-    { id: "1", title: "apple" },
-    { id: "2", title: "microsoft" },
-    { id: "3", title: "safari" },
-    { id: "4", title: "indigo" },
-  ];
+  useEffect(() => {
+    getSoftwareCategoryApi();
+  }, []);
 
-  const getSoftwareValue = () => {
-    return softwareOption?.map((item) => ({
-      label: item.title,
-      value: item.id,
-    }));
-  };
+  // useEffect(()=>{
+  //   getSoftwareValue()
+  // },[getSoftwareValue])
+
+  console.log(softDetails);
 
   const validation = useFormik({
     enableReinitialize: true,
@@ -105,9 +90,7 @@ const ManageSoftware = () => {
         : null,
       Category: isEdit
         ? softDetails &&
-          getSoftwareValue().find(
-            (item) => item.value === softDetails?.Category
-          )
+        softwareCategory?.find((item) => item.value == softDetails?.Category)
         : "",
       LicenseFile: isEdit ? softDetails && softDetails?.LicenseFile : "",
       Description: isEdit ? softDetails && softDetails?.Description : "",
@@ -134,7 +117,6 @@ const ManageSoftware = () => {
       addOrEdit(values);
     },
   });
-
 
   //  Add Software Api Function
 
@@ -167,7 +149,7 @@ const ManageSoftware = () => {
     setLoader(true);
     try {
       const response = await API.getSoftwareList(token);
-      console.log(response ,'ff');
+      console.log(response, "ff");
       if (response?.success) {
         setSoftwareList(response?.softwareList);
       }
@@ -197,13 +179,17 @@ const ManageSoftware = () => {
     getSoftwareListFunction();
   }, []);
 
-  // Update Sote Api function
-
+  // Update SoftwareList Api function
 
   const updateSoftwareFunction = async (data) => {
-    console.log(data, 'ff')
-    const newClassId = softwareId?.value !== undefined ? softwareId.value : typeof data?.Category === "object" ? data?.Category.value : data?.Category;
-         
+    console.log(data, "ff");
+    const newClassId =
+      softwareId?.value !== undefined
+        ? softwareId.value
+        : typeof data?.Category === "object"
+        ? data?.Category.value
+        : data?.Category;
+
     data["Category"] = newClassId;
     data["LicenseFile"] = selectFile;
     let id = softId;
@@ -248,6 +234,29 @@ const ManageSoftware = () => {
     }
   };
 
+  /// Get Software Category list api function
+
+  const getSoftwareCategoryApi = async () => {
+    try {
+      const response = await API.getSoftwareCategoryList(token);
+      console.log(response, "resp");
+
+      let data = response?.softwareCategoryList;
+
+      let result = data?.map((item) => {
+        return {
+          ...item , 
+          value: item.Id,
+          label: item.Name,
+        }
+      }); 
+
+      setSoftwareCategory(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const addOrEdit = (data) => {
     console.log(isEdit);
     if (isEdit) {
@@ -257,9 +266,9 @@ const ManageSoftware = () => {
     }
   };
 
-  const softwareOptions = softwareOption?.map((item) => ({
-    label: item?.title,
-    value: item?.id,
+  const softwareOptions = softwareCategory?.map((item) => ({
+    value: item?.Id,
+    label: item?.Name,
   }));
 
   const handleClassIdChange = (selectedOption) => {
@@ -307,8 +316,8 @@ const ManageSoftware = () => {
   };
 
   const handleSelectedFie = (file) => {
-  setSelectFile(file)
-  }
+    setSelectFile(file);
+  };
 
   const handleEditClick = (arg, data) => {
     toggleModal("edit");
@@ -379,11 +388,12 @@ const ManageSoftware = () => {
         Header: "Category",
         accessor: "Category",
         Cell: (cellProps) => {
-          const categoryValue = cellProps?.row?.original?.Category;
-          const categoryLabel = getSoftwareValue().find(
+          const categoryValue = parseInt(cellProps?.row?.original?.Category);
+          console.log(cellProps);
+          const categoryLabel = softwareCategory?.find(
             (item) => item.value === categoryValue
           )?.label;
-
+          console.log(categoryLabel, "cat");
           return <span>{categoryLabel}</span>;
         },
       },
@@ -449,7 +459,7 @@ const ManageSoftware = () => {
         },
       },
     ],
-    []
+    [softwareCategory]
   );
 
   return (
@@ -473,13 +483,6 @@ const ManageSoftware = () => {
                         Software List
                       </h5>
                       <div className="flex-shrink-0">
-                        <Link
-                          to="#!"
-                          onClick={() => handleModal()}
-                          className="btn btn-primary me-4"
-                        >
-                          Add Category
-                        </Link>
                         <Link
                           to="#!"
                           onClick={() => handleAddUser()}
@@ -519,60 +522,6 @@ const ManageSoftware = () => {
                 </Card>
               </Col>
             </Row>
-            <Modal isOpen={modal} toggle={handleModal}>
-              <ModalHeader toggle={handleModal} tag="h4">
-                Add Category
-              </ModalHeader>
-              <ModalBody>
-                <Form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                  }}
-                >
-                  <Row>
-                    <Col className="col-12">
-                      <div className="mb-3">
-                        <Label className="form-label"> Add Category</Label>
-                        <Input
-                          name="category"
-                          type="text"
-                          placeholder="Add Category Here"
-                          validate={{
-                            required: { value: true },
-                          }}
-                          // onChange={validation.handleChange}
-                          // onBlur={validation.handleBlur}
-                          // value={validation?.values?.title || null}
-                          // invalid={
-                          //   validation.touched.title && validation.errors.title
-                          //     ? true
-                          //     : false
-                          // }
-                        />
-                        {/* {validation.touched.title && validation.errors.title ? (
-                          <FormFeedback type="invalid">
-                            {validation?.errors?.title}
-                          </FormFeedback>
-                        ) : null} */}
-                      </div>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <div className="text-end">
-                        <button
-                          type="submit"
-                          className="btn btn-primary save-user"
-                          // disabled={loading}
-                        >
-                          Save
-                        </button>
-                      </div>
-                    </Col>
-                  </Row>
-                </Form>
-              </ModalBody>
-            </Modal>
           </div>
         </div>
       </div>
