@@ -36,8 +36,10 @@ function GlobalFilter({
           value={value || ""}
           placeholder={`${count} records...`}
           onChange={(e) => {
-            setValue(e.target.value);
-            onChange(e.target.value);
+            const replacedValue = e.target.value.replace(/\s/g, '');
+            setValue(replacedValue);
+            onChange(replacedValue);
+      
           }}
         />
       </Col>
@@ -127,7 +129,7 @@ const TableContainer = ({
               value={pageSize}
               onChange={onChangeInSelect}
             >
-              {[10, 20, 30, 40, 50].map((pageSize) => (
+              {[5,10,15].map((pageSize) => (
                 <option key={pageSize} value={pageSize}>
                   Show {pageSize}
                 </option>

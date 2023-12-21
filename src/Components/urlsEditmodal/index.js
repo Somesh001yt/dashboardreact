@@ -25,6 +25,8 @@ const EditUrlModal = ({
   setSelectedCategory,
   specificUserOption,
   handleSpecificUser,
+  userValues,
+  detailLoader
 }) => {
 
     const resetSelectedCategory = () => {
@@ -34,6 +36,7 @@ const EditUrlModal = ({
     useEffect(()=>{
         if(!isOpen){
          resetSelectedCategory();
+        
         }
     },[isOpen ,resetSelectedCategory])
 
@@ -45,9 +48,9 @@ const EditUrlModal = ({
         {isEdit ? "Edit " : "Add "}
       </ModalHeader>
       <ModalBody>
-        {/* {loading ? (
+         {detailLoader ? (
           <Spinner style={{ margin: "60% 200px", color: "#00395C" }} />
-        ) : ( */}
+        ) : ( 
         <Form
           validationSchema={validation.validationSchema}
           onSubmit={(e) => {
@@ -149,7 +152,7 @@ const EditUrlModal = ({
                   placeholder="Select Here"
                 />
               </div>
-               {selectedCategory && selectedCategory.value === "3" && (
+              {(isEdit && userValues  ) || (!isEdit && selectedCategory && selectedCategory?.value === "3") ? (
                 <div className="mb-3">
                   <label className="control-label">Users</label>
                   <Select
@@ -159,7 +162,7 @@ const EditUrlModal = ({
                     isMulti
                     onChange={handleSpecificUser}
                     options={specificUserOption}
-                    value={specificUserOption?.value}
+                    value={isEdit ?  userValues : specificUserOption?.value}
                     invalid={
                       validation.touched.child_id && validation.errors.child_id
                         ? true
@@ -168,7 +171,7 @@ const EditUrlModal = ({
                     placeholder="Select User"
                   />
                 </div>
-              )} 
+          ) : null}
             </Col>
           </Row>
 
@@ -186,7 +189,7 @@ const EditUrlModal = ({
             </Col>
           </Row>
         </Form>
-        {/* )} */}
+        )} 
       </ModalBody>
     </Modal>
   );

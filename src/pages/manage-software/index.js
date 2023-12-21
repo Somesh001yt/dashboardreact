@@ -63,6 +63,7 @@ const ManageSoftware = () => {
   const [softDetails, setSoftDetails] = useState({});
   const [loader, setLoader] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [deleteLoader, setDeleteLoader] = useState(false);
   const [softwareCategory, setSoftwareCategory] = useState([]);
 
   useEffect(() => {
@@ -217,7 +218,7 @@ const ManageSoftware = () => {
 
   const deleteSoftwareFunction = async () => {
     try {
-      setLoading(true);
+      setDeleteLoader(true);
       const response = await API.deleteSoftware(token, job?.SoftwareID);
       console.log(response);
       if (response.success) {
@@ -230,7 +231,7 @@ const ManageSoftware = () => {
     } catch (error) {
       toast.error("Network Error");
     } finally {
-      setLoading(false);
+      setDeleteLoader(false);
     }
   };
 
@@ -466,7 +467,7 @@ const ManageSoftware = () => {
     <React.Fragment>
       <DeleteModal
         show={deleteModal}
-        loading={loading}
+        loading={deleteLoader}
         onDeleteClick={handleDeletejob}
         onCloseClick={() => setDeleteModal(false)}
       />

@@ -53,10 +53,15 @@ const ManageBlockUrls = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [subUserList, setSubUserList] = useState([]);
   const [loader , setLoader] = useState(false)
+  const [loading , setLoading] = useState(false)
   const [urlId , setUrlId] = useState()
   const [userId , setUserId] = useState([])
   const [deleteModal , setDeleteModal] = useState(false)
+  const [blogDetailModal , setBlogDetailModal] = useState(false)
   const [job, setJob] = useState(null);
+  const [urlDetails , setUrlDetails] = useState([])
+  const [specifDetails , setSpecifiDetails] = useState([])
+  const [blogId , setBlogId] = useState()
 
   const urlOption = [
     { id: "1", title: "public" },
@@ -66,7 +71,10 @@ const ManageBlockUrls = () => {
   ];
 
 
-
+  const urlsOptions = urlOption?.map((item) => ({
+    value: item?.id,
+    label: item?.title,
+}));
 
 //   const getSoftwareValue = () => {
 //     return softwareOption?.map((item) => ({
@@ -79,16 +87,31 @@ const getSpecificUser = subUserList?.map((item)=> ({
     label : item?.username 
  }))
 
+ 
+   useEffect(()=>{
+
+   },[subUserList])
+
+
 
   const validation = useFormik({
     enableReinitialize: true,
 
     initialValues: {
-      Name: "",
-      URL: "",
-      Date: "",
-      Authorized: "",  // Set it to the desired number
+      Name: isEdit ? urlDetails && urlDetails?.Name : '',
+      URL: isEdit ? urlDetails && urlDetails?.URL : '',
+      Date: isEdit
+      ? (urlDetails && moment(urlDetails.Date).format("yyyy-MM-DD")) ||
+        null
+      : null,
+      Authorized:  isEdit
+      ? urlDetails &&
+      urlsOptions?.find((item) => item.value == urlDetails?.Authorized)
+      : "", 
+      child_id: ''
+
   },
+
   
     validationSchema: Yup.object({
         Name: Yup.string()
@@ -102,7 +125,7 @@ const getSpecificUser = subUserList?.map((item)=> ({
     }),
     onSubmit: (values) => {
     console.log(values , 'val')
-    addBlogUrlFunction(values)
+    addOrEdit(values)
    
     },
   });
@@ -141,10 +164,7 @@ const getSpecificUser = subUserList?.map((item)=> ({
     if (data['Authorized'] === '3') {
        let str = ''
        userId?.map((me , i)=>{
-          // str = str + me?.value + (",")
-          console.log(me?.value, 'sss')
           str = str + me?.value + (i === userId.length - 1 ? '' : ',');
-          console.log(str, 'sss')
          })
 
       data['child_id'] = str;
@@ -167,10 +187,49 @@ const getSpecificUser = subUserList?.map((item)=> ({
       console.log(error);
     }
   };
-  
 
+  // Update Blog Url List Function
 
- 
+  const updateBlogUrlFunction = async (data) => {
+    let id = blogId
+
+    const newAuthorized =
+    urlId?.value !== undefined
+      ? urlId.value
+      : typeof data?.Authorized === "object"
+      ? data?.Authorized.value
+      : data?.Authorized;
+
+  data["Authorized"] = newAuthorized;
+
+  if (data['Authorized'] === '3') {
+    
+     const childIds = specifDetails?.map((me) => me?.value);
+     console.log(childIds, 'dsd')
+    data['child_id'] = childIds.join(',');
+  } else {
+    data['child_id'] = null;
+  }
+
+    try {
+      setLoading(true);
+      const response = await API.updateBlogUrl(data, token, id);
+      console.log(response);
+      if (response?.success) {
+        toast.success(response?.message);
+        setIsEditModalOpen(false);
+        getBlogUrlFunction();
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Network Error");
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
 
   const getSubUserListApi = async () => {
     setLoader(true)
@@ -195,6 +254,79 @@ const getSpecificUser = subUserList?.map((item)=> ({
   },[])
 
 
+  // get blog list detail
+
+
+const getBlogListDetailsFunction = async (id) => {
+  try {
+    setBlogDetailModal(true)
+ const response = await API.getBlogListDetails(token, id )
+ console.log(response?.blogDetails)
+ const data = response?.blogDetails?.child_id 
+
+ setUrlDetails(response?.blogDetails)
+ setSpecifiDetailsFunc(data)
+
+
+  }catch (error){
+    console.log(error)
+  }finally{
+    setBlogDetailModal(false)
+  }
+}
+
+const setSpecifiDetailsFunc = (data) =>{
+  console.log(data)
+  let userObj = data.split(',').map((id) => {
+    console.log(id)
+    const user = getSpecificUser.find((item) => item.value == id);
+    console.log(user)
+     return user ? { value: user.value, label: user.label } : null;
+ 
+  })
+
+  console.log(userObj,'xs')
+  setSpecifiDetails(userObj)
+}
+
+
+
+console.log(specifDetails , 'ss')
+
+
+  // delete blog url api function
+
+
+  const deleteBlogUrlFunction = async () => {
+    try {
+      setLoading(true);
+      const response = await API.deleteBlogUrl(token, job?.Id);
+      console.log(response);
+      if (response.success) {
+        toast.success(response?.message);
+        setDeleteModal(false);
+        getBlogUrlFunction();
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Network Error");
+    } finally {
+      setLoading(false);
+    }
+  }
+ 
+
+
+
+  const addOrEdit = (data) => {
+    console.log(isEdit);
+    if (isEdit) {
+      updateBlogUrlFunction(data);
+    } else {
+      addBlogUrlFunction(data);
+    }
+  };
 
 
   const toggleModal = (state) => {
@@ -216,14 +348,13 @@ const getSpecificUser = subUserList?.map((item)=> ({
 
   const handleEditClick = (arg, data) => {
     toggleModal("edit");
-   
+    console.log(data?.original?.Id)
+    getBlogListDetailsFunction(data?.original?.Id)
+    setBlogId(data?.original?.Id)
     setIsEditModalOpen(true);
   };
 
-  const urlsOptions = urlOption?.map((item) => ({
-      value: item?.id,
-      label: item?.title,
-  }));
+ 
  
   const handleUrlChange = (selectedOption) => {
     console.log('sel', selectedOption)
@@ -236,42 +367,42 @@ const getSpecificUser = subUserList?.map((item)=> ({
 
       if (selectedOption) {
         setUrlId(selectedOption);
-        // validation.setFieldValue("Category", selectedOption);
+        validation.setFieldValue("Authorized", selectedOption);
       } else {
         setUrlId("");
-        // validation.setFieldValue("Category", "");
+       validation.setFieldValue("Authorized", "");
       }
   }
 
   const onClickDelete = (job) => {
-    console.log(job);
+    console.log(job , 'ss');
     setJob(job);
     setDeleteModal(true);
   };
 
   const handleDeletejob = () => {
-    // deleteSoftwareFunction();
-    if (job && job.id) {
+    deleteBlogUrlFunction()
+    if (job && job.id) { 
       setDeleteModal(false);
     }
   };
 
+ 
 
   const handleSpecificUser = (selectedUser) => {
+    console.log(selectedUser)
+  
+    // setUserId(newUserValues);
+  //  specifDetails(selectedCategory)
 
-    setUserId(selectedUser)
-
-    // let str = ""
-
-    // selectedUser?.map((me , i)=>{
-    //   str = str + me?.value + (",")
-    // })
-
-    // console.log(str,"jnh")
-
+  setSpecifiDetails(selectedUser);
+    console.log(selectedUser , 'ds')
+    console.log(specifDetails ,'ds')
   };
   
   
+
+ console.log(userId, 'sek')
   
 
   console.log(userId)
@@ -378,7 +509,7 @@ const getSpecificUser = subUserList?.map((item)=> ({
     <React.Fragment>
       <DeleteModal
          show={deleteModal}
-        // loading={loading}
+        loading={loading}
          onDeleteClick={handleDeletejob}
          onCloseClick={() => setDeleteModal(false)}
       />
@@ -445,6 +576,8 @@ const getSpecificUser = subUserList?.map((item)=> ({
         setSelectedCategory={setSelectedCategory}
         selectedUser={selectedUser}
         handleSpecificUser={handleSpecificUser}
+        userValues={specifDetails}
+        detailLoader={blogDetailModal}
       />
     </React.Fragment>
   );
