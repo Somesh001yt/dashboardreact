@@ -288,16 +288,6 @@ const setSpecifiDetailsFunc = (data) => {
   console.log(subUserData,"xxx");
   const specificUsers = subUserData;
   console.log(specificUsers, 'xxx');
-  // let userdata = specificUsers?.map((item) => { 
-  //        console.log(typeof item.value,"xxx");
-  //   if (data?.includes(item?.value)) {  
-  //        console.log("gone a loop xxx ",item.value);
-  //   return  {
-  //   value : item?.value,
-  //   label: item?.label
-  //   }
-  //   }
-  // });
 
   let userObj = data.split(',').map((id) => {
     console.log(id)
@@ -417,9 +407,7 @@ console.log(specifDetails , 'ss')
 
   const handleSpecificUser = (selectedUser) => {
     console.log(selectedUser, 'sd')
-  
-    // setUserId(newUserValues);
-  //  specifDetails(selectedCategory)
+    clg
   setSpecifiDetails(selectedUser);
   console.log(specifDetails , 'ds')
   setShowDropdown( selectedCategory?.value === "3");
