@@ -62,6 +62,9 @@ const ManageBlockUrls = () => {
   const [urlDetails , setUrlDetails] = useState([])
   const [specifDetails , setSpecifiDetails] = useState([])
   const [blogId , setBlogId] = useState()
+  const [subUserData , setSubUserData] = useState([])
+  const [showDropdown, setShowDropdown] = useState(false);
+
 
   const urlOption = [
     { id: "1", title: "public" },
@@ -82,16 +85,6 @@ const ManageBlockUrls = () => {
 //       value: item.id,
 //     }));
 //   };
-const getSpecificUser = subUserList?.map((item)=> ({
-    value :  item?.id,
-    label : item?.username 
- }))
-
- 
-   useEffect(()=>{
-
-   },[subUserList])
-
 
 
   const validation = useFormik({
@@ -229,17 +222,27 @@ const getSpecificUser = subUserList?.map((item)=> ({
       setLoading(false);
     }
   }
+  
+  useEffect(()=>{ 
+    console.log('xxx') 
+    getSubUserListApi()
+    
+  },[])
 
-
-  const getSubUserListApi = async () => {
+ 
+  const getSubUserListApi = async () => { 
+    
     setLoader(true)
     try {
       const response = await API.getUserList(token);
-      console.log(response)
+      console.log(response,"df")
       if (response?.success) {
         setSubUserList(response?.data);
+        setSubUserData(transformUserData(response?.data));
+        console.log(subUserData,"tx");
         setLoader(false)
       }
+     
     } catch (error) {
       console.log(error);
       
@@ -248,13 +251,16 @@ const getSpecificUser = subUserList?.map((item)=> ({
     }
   };
 
+  const transformUserData = (data) => {
+    return data?.map((item) => ({
+      value: item?.id,
+      label: item?.username,
+    })) || [];
+  };
+  
+  console.log(subUserData, 'xxx')
+  
 
-  useEffect(()=>{
-    getSubUserListApi()
-  },[])
-
-
-  // get blog list detail
 
 
 const getBlogListDetailsFunction = async (id) => {
@@ -275,19 +281,36 @@ const getBlogListDetailsFunction = async (id) => {
   }
 }
 
-const setSpecifiDetailsFunc = (data) =>{
-  console.log(data)
+
+
+const setSpecifiDetailsFunc = (data) => {
+  console.log(data,"df"); 
+  console.log(subUserData,"xxx");
+  const specificUsers = subUserData;
+  console.log(specificUsers, 'xxx');
+  // let userdata = specificUsers?.map((item) => { 
+  //        console.log(typeof item.value,"xxx");
+  //   if (data?.includes(item?.value)) {  
+  //        console.log("gone a loop xxx ",item.value);
+  //   return  {
+  //   value : item?.value,
+  //   label: item?.label
+  //   }
+  //   }
+  // });
+
   let userObj = data.split(',').map((id) => {
     console.log(id)
-    const user = getSpecificUser.find((item) => item.value == id);
+    const user = specificUsers.find((item) => item.value == id);
     console.log(user)
      return user ? { value: user.value, label: user.label } : null;
  
   })
 
-  console.log(userObj,'xs')
-  setSpecifiDetails(userObj)
-}
+
+  console.log(userObj,'xxx')
+   setSpecifiDetails(userObj);
+};
 
 
 
@@ -346,7 +369,8 @@ console.log(specifDetails , 'ss')
     setIsEditModalOpen(true);
   };
 
-  const handleEditClick = (arg, data) => {
+  const handleEditClick =  (arg, data) => { 
+     console.log(subUserData,"tx");
     toggleModal("edit");
     console.log(data?.original?.Id)
     getBlogListDetailsFunction(data?.original?.Id)
@@ -354,7 +378,7 @@ console.log(specifDetails , 'ss')
     setIsEditModalOpen(true);
   };
 
- 
+  
  
   const handleUrlChange = (selectedOption) => {
     console.log('sel', selectedOption)
@@ -364,7 +388,9 @@ console.log(specifDetails , 'ss')
     if (!isEditModalOpen) {
         setSelectedCategory(null);
       }
+      
 
+      
       if (selectedOption) {
         setUrlId(selectedOption);
         validation.setFieldValue("Authorized", selectedOption);
@@ -390,12 +416,14 @@ console.log(specifDetails , 'ss')
  
 
   const handleSpecificUser = (selectedUser) => {
-    console.log(selectedUser)
+    console.log(selectedUser, 'sd')
   
     // setUserId(newUserValues);
   //  specifDetails(selectedCategory)
-
   setSpecifiDetails(selectedUser);
+  console.log(specifDetails , 'ds')
+  setShowDropdown( selectedCategory?.value === "3");
+  console.log(specifDetails , 'ds')
     console.log(selectedUser , 'ds')
     console.log(specifDetails ,'ds')
   };
@@ -502,7 +530,7 @@ console.log(specifDetails , 'ss')
         },
       },
     ],
-    []
+    [subUserData , specifDetails ]
   );
 
   return (
@@ -570,7 +598,7 @@ console.log(specifDetails , 'ss')
           }}
           validation={validation}
         urlsOptions ={urlsOptions}
-        specificUserOption={getSpecificUser}
+        specificUserOption={subUserData}
         onUrlClick={handleUrlChange}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
@@ -578,6 +606,7 @@ console.log(specifDetails , 'ss')
         handleSpecificUser={handleSpecificUser}
         userValues={specifDetails}
         detailLoader={blogDetailModal}
+        userState = {showDropdown}
       />
     </React.Fragment>
   );

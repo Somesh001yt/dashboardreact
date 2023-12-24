@@ -31,16 +31,17 @@ const EditUrlModal = ({
 
     const resetSelectedCategory = () => {
         setSelectedCategory(null);
+        // handleSpecificUser('')
       };
 
     useEffect(()=>{
         if(!isOpen){
          resetSelectedCategory();
-        
+        handleSpecificUser('')
         }
     },[isOpen ,resetSelectedCategory])
 
-   
+   console.log(userValues)
 
   return (
     <Modal isOpen={isOpen} toggle={toggled}>
@@ -152,7 +153,8 @@ const EditUrlModal = ({
                   placeholder="Select Here"
                 />
               </div>
-              {(isEdit && userValues  ) || (!isEdit && selectedCategory && selectedCategory?.value === "3") ? (
+              {console.log(userValues , 'ds')}
+              {( userValues &&  userValues.length > 0 || selectedCategory && selectedCategory?.value === "3")|| (!isEdit && selectedCategory && selectedCategory?.value === "3") ? (
                 <div className="mb-3">
                   <label className="control-label">Users</label>
                   <Select
